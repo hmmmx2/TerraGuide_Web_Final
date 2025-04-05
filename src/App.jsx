@@ -1,16 +1,18 @@
-import Firstheader from "./Firstheader";
+import Firstheader from "./components/Firstheader";
+import Footer1 from "./components/Footer1";
 
 
 function App() {
-  return(
-    <body>
+  return (
+    <div>
       <header>
-        <Firstheader></Firstheader>
+        <Firstheader />
       </header>
       <footer>
-        
+        <Footer1 />
       </footer>
-    </body>
+    </div>
   );
 }
-export default App
+
+export default App;
