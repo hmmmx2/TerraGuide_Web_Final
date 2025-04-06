@@ -909,3 +909,21 @@ footer {
   padding: 0.45rem 1.2rem;
   }
 }
+/*======================BackButton=======================*/
+.back-button {
+  display: inline-block;
+  padding: 10px 30px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #4B614C;
+  background-color: #EFF5E9;
+  border: 2px solid #4B614C;
+  border-radius: 999px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.back-button:hover {
+  background-color: #dfeeda;
+}
