@@ -1,19 +1,17 @@
-import Firstheader from "./components/Firstheader";
-import Footer1 from "./components/Footer1";
-import Register from "./components/register";
-
+import { HashRouter as Router, Routes, Route } from "react-router-dom";
+import Reg from "./Pages/Reg";
+import  Signup from "./Pages/Signup";
+import Blogmenu from "./Pages/blogmenu";
 
 function App() {
   return (
-    <div>
-      <header class="header">
-        <Firstheader />
-      </header>
-      <Register></Register>
-      <footer>
-        <Footer1 />
-      </footer>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Reg />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/blogmenu" element={<Blogmenu/>} />
+      </Routes>
+    </Router>
   );
 }
 

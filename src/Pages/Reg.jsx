@@ -1,9 +1,16 @@
+import Firstheader from "../components/Firstheader";
+import Footer1 from "../components/Footer1";
 import "../styles.css";
-import registrationImage from "../assets/registrationv2-img.png"; // Adjust this path if needed
+import registrationImage from "../assets/registrationv2-img.png";
 
-function Register() {
+export default function Reg() {
   return (
-    <div>
+    <>
+      <header>
+        <Firstheader></Firstheader>
+      </header>
+
+      <div>
       <div className="text-box-registration">
         <h1 className="text-title-registration">REGISTRATION FORM</h1>
       </div>
@@ -138,7 +145,12 @@ function Register() {
         </div>
       </div>
     </div>
+
+      <>
+        <Footer1></Footer1>
+      </>
+      
+    </>
+    
   );
 }
-
-export default Register;
