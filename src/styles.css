@@ -9,9 +9,9 @@
   .smg1blogsh1 {
     padding: 100px;
     position: relative;
-    min-height: 400px; /* Adjust as needed */
-    max-width: 890px; /* Adjust as needed */
-    margin: 0 auto; /* Center the boxes */
+    min-height: 400px;
+    max-width: 890px;
+    margin: 0 auto;
     display: flex;
   }
 
