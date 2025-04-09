@@ -6,6 +6,15 @@
     box-sizing:border-box;
   }
   
+  .smg1blogsh1 {
+    padding: 100px;
+    position: relative;
+    min-height: 400px; /* Adjust as needed */
+    max-width: 890px; /* Adjust as needed */
+    margin: 0 auto; /* Center the boxes */
+    display: flex;
+  }
+
   /*--------------------Body-------------------*/
   body{
     padding-top:6vw;
