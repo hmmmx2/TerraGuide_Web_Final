@@ -3,8 +3,9 @@ import "../styles.css";
 
 export default function Blogmenu() {
   return (
-    <div>
-      <BackButton />
-    </div>
+    <>
+
+      
+    </>
   );
 }
