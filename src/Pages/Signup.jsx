@@ -2,6 +2,7 @@ import Firstheader from "../components/Firstheader";
 import Footer1 from "../components/Footer1";
 import "../styles.css";
 import LoginImage from "../assets/login-img.png";
+import Top from "../components/Top";
 
 export default function Reg() {
   const handleSubmit = (e) => {
@@ -11,9 +12,7 @@ export default function Reg() {
 
   return (
     <>
-      <header>
-        <Firstheader />
-      </header>
+      <Top/>
 
       <div className="text-box-registration">
         <h1 className="text-title-registration">LOGIN</h1>

@@ -10,7 +10,9 @@ export default function Blogmenu() {
       <Firstheader></Firstheader>
     </header>
       
-      
+    <footer>
+        <Footer1 />
+      </footer>
     </>
   );
     

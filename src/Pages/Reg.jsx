@@ -1,14 +1,12 @@
-import Firstheader from "../components/Firstheader";
 import Footer1 from "../components/Footer1";
+import Top from "../components/Top";
 import "../styles.css";
 import registrationImage from "../assets/registrationv2-img.png";
 
 export default function Reg() {
   return (
     <>
-      <header>
-        <Firstheader></Firstheader>
-      </header>
+      <Top/>
 
       <div>
       <div className="text-box-registration">
