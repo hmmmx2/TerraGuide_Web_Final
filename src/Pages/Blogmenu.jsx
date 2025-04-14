@@ -1,18 +1,16 @@
 import BackButton from '../components/BackButton';
-import Firstheader from '../components/Firstheader';
 import Footer1 from '../components/Footer1';
 import "../styles.css";
 import Blogs1Image from "../assets/smg1.png";
 import Blogs2Image from "../assets/smg2.png";
+import Top from '../components/Top';
 
 
 
 export default function Blogmenu() {
   return (
     <>
-    <header>
-      <Firstheader></Firstheader>
-    </header>
+      <Top/>
 
 
     <div className="b-containerBM">
