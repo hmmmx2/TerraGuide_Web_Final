@@ -367,6 +367,244 @@
 
 
 
+/*--------------------Profile Index------------------*/
+  
+  .guide-profile-containerJZ {
+    width: 100%;
+    max-width: 100%;
+    margin: 80px auto 40px;
+    padding: 30px;
+    background-color: #F6EFDC;
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    box-shadow: none;
+    border-radius: 0;
+  }
+  
+  .guide-avatar-containerJZ {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-bottom: 20px;
+  }
+
+
+  .guide-avatarJZ {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: none;
+  }
+  
+  .guide-nameJZ {
+    text-align: left;
+    color: #4E6E4E;
+    font-size: 1.5rem;
+    margin: 15px 0 30px;
+    align-self: flex-start;
+  }
+  
+  .guide-description-sectionJZ {
+    width: 100%;
+    margin-bottom: 30px;
+    align-self: flex-start;
+  }
+  
+  .guide-description-section h3 {
+    color: #4E6E4E;
+    margin-bottom: 15px;
+    font-size: 1rem;
+    font-weight: normal;
+  }
+  
+  .guide-descriptionJZ {
+    color: #333;
+    line-height: 1.6;
+    text-align: justify;
+    padding: 0 0 15px;
+    min-height: 100px;
+  }
+  
+  .guide-description[contenteditable="true"]:focus {
+    outline: 1px solid #6D7E5E;
+    padding: 10px;
+    border-radius: 5px;
+  }
+  
+  .separator-lineJZ {
+    height: 1px;
+    background-color: #6D7E5E;
+    margin: 20px 0;
+    width: 100%;
+  }
+  
+  .guide-actionsJZ {
+    display: flex;
+    justify-content: flex-start;
+    margin-top: auto;
+    padding-top: 40px;
+    padding-bottom: 40px;
+    width: 100%;
+  }
+  
+  .back-buttonJZ {
+    display: inline-block;
+    padding: 8px 30px;
+    background-color: transparent;
+    color: #4E6E4E;
+    text-decoration: none;
+    border-radius: 20px;
+    font-weight: normal;
+    transition: background-color 0.3s;
+    border: 1px solid #4E6E4E;
+    cursor: pointer;
+  }
+  
+  .back-button:hover {
+    background-color: #F6EFDC;
+    border-color: #6D7E5E;
+  }
+
+
+/*--------------------End of Profile Index------------------*/
+
+
+
+  /*--------------------Blog menu-------------------*/
+
+
+.b-containerBM {
+    max-width: 1000px; 
+    margin: auto;
+    margin-top: 6%;
+    margin-bottom: 2vw;
+    padding:25px 25px;
+  }
+  
+  .b-container h3 {
+    display: flex;
+    justify-content: space-between; 
+    align-items: center; 
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    padding-bottom: 5px; 
+    border-bottom: 2px solid #999; 
+  }
+  
+  .blog-gridBM {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); 
+    gap: 20px;
+    justify-content: center; 
+    margin-top: 20px;
+  }
+  
+  .b-cardBM {
+    background-color: #4E6B50;
+    border-radius: 10px;
+    padding: 15px;
+    width: 300px;
+    height: 320px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    text-align: left;
+    color: white;
+    position: relative;
+  }
+  
+  .b-image-containerBM {
+    width: 100%;
+    height: 140px;
+    overflow: hidden;
+    border-radius: 8px;
+  }
+  
+  .b-card-imageBM {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .b-contentBM{
+    padding: 10px;
+  }
+  
+  .b-card-titleBM {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-top: 10px;
+  }
+  
+  .b-card-descriptionBM {
+    font-size: 0.9rem;
+    color: white;
+    margin-top: 8px;
+  }
+  
+  .coming-soon-cardBM {
+    background-color: #4E6B50;
+    border-radius: 10px;
+    padding: 20px;
+    width: 300px;
+    height: 320px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    text-align: center;
+    color: white;
+    position: relative;
+  }
+  
+  .coming-soon-boxBM {
+    background-color: #6D7E5E;
+    padding: 15px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    width: 100%;
+    height: 35%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .coming-soon-titleBM {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .coming-soon-textBM {
+    font-size: 0.9rem;
+    color: white;
+  }
+  
+  .b-card-linkBM {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    transition: transform 0.2s;
+  }
+  
+  .hiddenBM {
+    display: none;
+  }
+  
+
+
+  /*--------------------End of Blog menu-------------------*/
+
+
+
 
   /*--------------------Body-------------------*/
   body{

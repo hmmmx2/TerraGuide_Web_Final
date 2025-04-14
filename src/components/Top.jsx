@@ -36,7 +36,7 @@ function Top() {
           </a>
           
           <div className="nav-links">
-            <a href="#">Home</a>
+            <a href="#/Index">Home</a>
             <a href="#">About Us</a>
             <div className="dropdown">
               <a href="#">My Courses</a>
@@ -46,14 +46,14 @@ function Top() {
               </div>
             </div>
             <a href="#">Dext AI</a>
-            <a href="#">Blogs</a>
+            <a href="#/Blogmenu">Blogs</a>
             <a href="#">Park Guide</a>
           </div>
           
           <div className="auth-buttons">
-            <a href="#" className="sign-in">Sign In</a>
+            <a href="#/" className="sign-in">Sign In</a>
             <div className="separator"></div>
-            <a href="#" className="log-in">Log In</a>
+            <a href="#/signup" className="log-in">Log In</a>
           </div>
         </div>
       </nav>
