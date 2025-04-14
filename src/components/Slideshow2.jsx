@@ -6,9 +6,9 @@ import Slideshow2Image3 from "../assets/smg3.jpg";
 
 export default function Slideshow2() {
   const slides = [
-    { image: Slideshow2Image1, caption: "Content for Slide 1" },
-    { image: Slideshow2Image2, caption: "Content for Slide 2" },
-    { image: Slideshow2Image3, caption: "Content for Slide 3" },
+    { image: Slideshow2Image1, caption: "The History of Semenggoh Nature Reserve" },
+    { image: Slideshow2Image2, caption: "Species of Orangutan" },
+    { image: Slideshow2Image3, caption: "Species of Birds in Semenggoh" },
   ];
 
   const [currentSlide, setCurrentSlide] = useState(0);

@@ -8,17 +8,26 @@ export default function Index() {
   return (
     <>
       <Top />
-      <Slideshow />
+
+
+      
+  <Slideshow />
 
 
 
 
 
 
-      <div style={{ marginTop: "500px" }}>
+      <div style={{ marginTop: "900px" }}>
+      <div className="table-sectionFB">
+    <div className="table-title-containerFB">
+      <h1 className="table-titleFB">Featured Blogs</h1>
+      <a href="Blogs2.jsx" className="see-all-btn2FB">All blogs</a>
+
+    </div>
+  </div>
         <Slideshow2 />
       </div>
-
 
 
 

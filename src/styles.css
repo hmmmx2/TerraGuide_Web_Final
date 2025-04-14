@@ -194,6 +194,104 @@
   /*--------------------End of Slideshow 1 Index------------------*/
 
 
+  /*--------------------Map Box Index-----------------------------*/
+
+  .slideshow-map-wrapperMB {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 20px; /* Space between slideshow and map box */
+    position: relative;
+    padding-top: 50px;
+    margin-bottom: 100px;
+  }
+  
+  .green-box-map-aeron {
+    width: 640px; 
+    height: 400px; 
+    background-color: #4E6E4E; 
+    border-radius: 12px; 
+    padding: 15px; 
+    color: white; 
+    font-size: 1rem; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    justify-content: space-between; 
+    text-align: center;
+    /* Removed position:absolute and top/right */
+  }  
+
+
+
+  /*--------------------Featured Blogs---------------------*/
+
+  .table-sectionFB {
+    width: 1250px;
+    max-width: 1500px;
+    margin: -369px auto 60px; /* Move it UP by reducing top margin */
+    padding: 0 20px;
+    position: relative;
+    z-index: 10; /* Ensures it stays above the slideshow */
+  }
+  
+  
+  /* move position of Featured Blogs */
+  .table-titleFB {
+    color: #000000;
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 0px; /* distance between h1 and line and image */
+    position: relative;
+    display: inline-block;
+    right: 250px;
+  }
+   
+  /* line postion width css */
+  .table-title-container::after {
+    content: "";
+    position: absolute;
+    left: -240px;
+    bottom: -10px;
+    width: 100%;
+    height: 2px; 
+    background-color: #999; 
+    margin: 0 auto; 
+  }
+  
+  .table-containerFB {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  
+  
+  .table-title-containerFB {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 30px;
+  }
+  
+  /*position of All Blogs */
+  .see-all-btn2FB {
+    background-color: transparent;
+    color: #4E6E4E;
+    text-decoration: none;
+    font-size: 1.2rem;
+    padding: 8px 15px;
+    transition: all 0.3s ease;
+    margin-right: -270px;
+  }
+  
+  .see-all-btn2:hover {
+    background-color: #4E6E4E;
+    color: #F6EFDC;
+  }
+  
+  
 
   
   /*--------------------Slideshow 2 Index------------------*/
@@ -219,7 +317,7 @@
     }
   
   
-    .green-box-SS2 {
+     .green-box-SS2 {
       width: 1700px;
       height: 200px;
       background-color: #4E6E4E;
@@ -229,6 +327,7 @@
       font-size: 1rem;
       box-shadow: 0 0 10px rgba(0,0,0,0.2);
       position: relative;
+      box-sizing: border-box;
     }
     
     .arrow-containerSS2 {
@@ -263,6 +362,7 @@
 
     
   /*--------------------End of Slideshow 2 Index------------------*/
+
 
 
 
