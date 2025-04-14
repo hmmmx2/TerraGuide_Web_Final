@@ -161,6 +161,24 @@
 
 
 
+  .dot-containerSS1 {
+    text-align: center;
+    padding-top: 10px;
+  }
+  
+  .dotSS1 {
+    cursor: pointer;
+    height: 12px;
+    width: 12px;
+    margin: 0 4px;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+  }
+  
+  .active, .dot:hover  {
+    background-color: #fff;
+  }
 
 
 
@@ -177,8 +195,74 @@
 
 
 
+  
+  /*--------------------Slideshow 2 Index------------------*/
 
 
+
+  .slideshow-container-SS2 {
+    /* Match the width of the slideshow */
+    /* Ensures it doesn't overflow on smaller screens */
+    width: 90%;
+    max-width: 1700px;
+    /* new */
+    position: relative;
+    z-index: 5; /* Lower than .table-section to keep it behind */
+    margin: 0 auto; /* Centers it on the page */
+  }
+  
+  
+  .mySlidesSS2 {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+    }
+  
+  
+    .green-box-SS2 {
+      width: 1700px;
+      height: 200px;
+      background-color: #4E6E4E;
+      border-radius: 0 0 12px 12px;
+      padding: 20px;
+      color: white;
+      font-size: 1rem;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+      position: relative;
+    }
+    
+    .arrow-containerSS2 {
+      position: absolute;
+      top: 50%;
+      width: 1700px; /* Match the width of the slideshow */
+      display: flex;
+      justify-content: space-between;
+      transform: translateY(-50%);
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+    
+    .arrowSS2 {
+      cursor: pointer;
+      font-size: 36px; /* Make arrows bigger */
+      color: white;
+      padding: 12px;
+      border-radius: 50%;
+      user-select: none;
+      transition: background 0.3s ease;
+    }
+    
+    .slide-imageSS2 {
+      width: 1700px;
+      height: 400px;
+      object-fit: cover;
+      border-radius: 12px 12px 0 0;
+    }
+
+
+
+    
+  /*--------------------End of Slideshow 2 Index------------------*/
 
 
 

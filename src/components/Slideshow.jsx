@@ -77,7 +77,7 @@ export default function Slideshow() {
             {slidesData.map((_, i) => (
               <span
                 key={i}
-                className={`dot ${i === slideIndex ? "active" : ""}`}
+                className={`dotSS1 ${i === slideIndex ? "active" : ""}`}
                 onClick={() => setSlideIndex(i)}
               ></span>
             ))}
