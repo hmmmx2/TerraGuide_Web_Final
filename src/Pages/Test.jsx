@@ -7,7 +7,7 @@ export default function Test() {
     <>
       <Top/>
       <>
-      <p>hello world</p>
+     
       </>
      <footer>
         <Footer1/>

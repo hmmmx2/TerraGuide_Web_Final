@@ -606,6 +606,480 @@
 
 
 
+
+
+   /*--------------------Timetable Index-------------------*/
+
+   .timetable-section {
+    width: 100%;
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+    position: relative;
+  }
+  
+  .timetable-title {
+    color: #000000;
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 0px;
+    position: relative;
+    display: inline-block;
+  }
+  
+  .timetable-title::after {
+    display: none;
+  }
+  
+  .timetable-header {
+    display: flex;
+    justify-content: flex-end; /* Changed from space-between to flex-end since we removed the h2 */
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .timetable-header h2 {
+    color: #F6EFDC;
+    font-size: 1.8rem;
+    font-weight: bold;
+  }
+  
+  .view-all-btn {
+    background-color: transparent;
+    color: #F6EFDC;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: color 0.3s ease;
+  }
+  
+  .view-all-btn:hover {
+    color: #fbd97a;
+    font-weight: bold;
+  }
+  
+  .timetable-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  
+  .timetable-title-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 30px;
+    position: relative;
+  }
+  
+  .timetable-title-container::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -10px;
+    width: 100%;
+    height: 3px;
+    background-color: #000000;
+  }
+  
+  .see-all-btn {
+    background-color: transparent;
+    color: #4E6E4E;
+    text-decoration: none;
+    font-size: 1rem;
+    padding: 8px 15px;
+    border: 1px solid #4E6E4E;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+  }
+  
+  .see-all-btn:hover {
+    background-color: #4E6E4E;
+    color: #F6EFDC;
+  }
+  
+  /* This is green box 3, 4, 5 start */
+  .timetable-box {
+    background-color: #4E6E4E;
+    border-radius: 12px;
+    padding: 20px;
+    color: #F6EFDC;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    position: relative;
+    min-height: 400px; /* Adjust as needed */
+    max-width: 280px; /* Adjust as needed */
+    margin: 0 auto; /* Center the boxes */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  
+  .time-badge {
+    background-color: #F6EFDC;
+    color: #4E6E4E;
+    font-weight: bold;
+    padding: 15px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 15px;
+    width: 70px;
+    height: 70px;
+    text-align: center;
+  }
+  
+  .timetable-box h3 {
+    color: #F6EFDC;
+    margin-bottom: 10px;
+    font-size: 1.2rem;
+  }
+  
+  .timetable-box p {
+    color: #F6EFDC;
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+  /* This is green box 3, 4, 5 ends */
+  
+  /* Responsive design for timetable section */
+  @media (max-width: 1024px) {
+    .timetable-container {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .timetable-container {
+      grid-template-columns: 1fr;
+    }
+    
+    .timetable-box {
+      min-height: 180px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .timetable-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
+    }
+    
+    .timetable-box {
+      min-height: 160px;
+    }
+  }
+  
+  
+  /* Timetable.html Page Styles */
+  .timetable-page-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 120px auto 40px;
+    padding: 0 20px;
+    position: relative;
+  }
+  
+  .timetable-page-title {
+    color: #000000;
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 30px;
+    display: inline-block;
+  }
+  
+
+  /*--------------------End of Timetable index-------------------*/
+
+
+ /*--------------------Park guide index-------------------*/
+
+
+ .parkguide-section {
+    width: 100%;
+    max-width: 1200px;
+    margin: 60px auto;
+    padding: 0 20px;
+    position: relative;
+  }
+  
+  .parkguide-title-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 30px;
+    position: relative;
+  }
+  
+  .parkguide-title-container::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -10px;
+    width: 100%;
+    height: 3px;
+    background-color: #000000;
+  }
+  
+  .parkguide-title {
+    color: #000000;
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 0px;
+    position: relative;
+    display: inline-block;
+  }
+  
+  .parkguide-title::after {
+    display: none;
+  }
+  
+  .parkguide-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  
+  /* Parkguide Green Box 1, 2, 3 styles */
+  .parkguide-box {
+    background-color: #4E6E4E;
+    border-radius: 12px;
+    padding: 20px;
+    color: #F6EFDC;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    position: relative;
+    min-height: 400px;
+    max-width: 280px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  
+  .guide-image {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-bottom: 20px;
+    background-color: #F6EFDC;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .guide-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .parkguide-box h3 {
+    color: #F6EFDC;
+    margin-bottom: 15px;
+    font-size: 1.3rem;
+    font-weight: bold;
+  }
+  
+  .parkguide-box p {
+    color: #F6EFDC;
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+  
+  /* Responsive design for park guides section */
+  @media (max-width: 1024px) {
+    .parkguide-container {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .parkguide-container {
+      grid-template-columns: 1fr;
+    }
+    
+    .parkguide-box {
+      min-height: 180px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .parkguide-title-container {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
+    }
+  }
+  
+  /* Parkguide.html Page Styles */
+  .parkguide-page-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 120px auto 40px;
+    padding: 0 20px;
+    position: relative;
+  }
+  
+  .parkguide-page-title {
+    color: #000000;
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 30px;
+    display: inline-block;
+  }
+  
+  /* Park Guide Profile Styles */
+  .guide-profile-container {
+    width: 100%;
+    max-width: 100%;
+    margin: 80px auto 40px;
+    padding: 30px;
+    background-color: #F6EFDC;
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    box-shadow: none;
+    border-radius: 0;
+  }
+  
+  .guide-avatar-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  
+  .guide-avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: none;
+  }
+  
+  .guide-name {
+    text-align: left;
+    color: #4E6E4E;
+    font-size: 1.5rem;
+    margin: 15px 0 30px;
+    align-self: flex-start;
+  }
+  
+  .guide-description-section {
+    width: 100%;
+    margin-bottom: 30px;
+    align-self: flex-start;
+  }
+  
+  .guide-description-section h3 {
+    color: #4E6E4E;
+    margin-bottom: 15px;
+    font-size: 1rem;
+    font-weight: normal;
+  }
+  
+  .guide-description {
+    color: #333;
+    line-height: 1.6;
+    text-align: justify;
+    padding: 0 0 15px;
+    min-height: 100px;
+  }
+  
+  .guide-description[contenteditable="true"]:focus {
+    outline: 1px solid #6D7E5E;
+    padding: 10px;
+    border-radius: 5px;
+  }
+  
+  .separator-line {
+    height: 1px;
+    background-color: #6D7E5E;
+    margin: 20px 0;
+    width: 100%;
+  }
+  
+  .guide-actions {
+    display: flex;
+    justify-content: flex-start;
+    margin-top: auto;
+    padding-top: 40px;
+    padding-bottom: 40px;
+    width: 100%;
+  }
+  
+  .back-button {
+    display: inline-block;
+    padding: 8px 30px;
+    background-color: transparent;
+    color: #4E6E4E;
+    text-decoration: none;
+    border-radius: 20px;
+    font-weight: normal;
+    transition: background-color 0.3s;
+    border: 1px solid #4E6E4E;
+    cursor: pointer;
+  }
+  
+  .back-button:hover {
+    background-color: #F6EFDC;
+    border-color: #6D7E5E;
+  }
+  
+
+
+
+
+  /*--------------------End of park guide index-------------------*/
+
+
+ /*--------------------Start of ParkGuide-------------------*/
+  .profile-header-icons {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+    margin-left: auto;
+    padding-right: 80px;
+  }
+  
+  .profile-icon-btn {
+    color: #F6EFDC;
+    font-size: 18px;
+    text-decoration: none;
+    transition: color 0.3s;
+    padding: 5px;
+  }
+  
+  .profile-icon-btn:hover {
+    color: #fbd97a;
+  }
+  
+  .profile-header-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    overflow: hidden;
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 10px;
+  }
+  
+  .profile-header-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+ /*--------------------Ebd of ParkGuide-------------------*/
+
+
   /*--------------------Body-------------------*/
   body{
     padding-top:6vw;

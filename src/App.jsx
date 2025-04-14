@@ -7,6 +7,8 @@ import Blogs2 from "./Pages/blogs2";
 import Template from "./Pages/Template";
 import Index from "./Pages/index";
 import Profile from "./Pages/Profile";
+import Timetable from "./Pages/Timetable";
+import Guide from "./Pages/Guide";
 
 function App() {
   return (
@@ -20,6 +22,8 @@ function App() {
         <Route path="/template" element={<Template/>} />
         <Route path="/index" element={<Index/>} />
         <Route path="/profile" element={<Profile/>} />
+        <Route path="/timetable" element={<Timetable/>} />
+        <Route path="/guide" element={<Guide/>} />
       </Routes>
     </Router>
   );

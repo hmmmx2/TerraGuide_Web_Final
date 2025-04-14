@@ -26,7 +26,7 @@ export default function Test() {
     <div className="guide-description-sectionJZ">
       <h3>Description:</h3>
       <div class="guide-descriptionJZ" contenteditable="true">
-        Number 1 gay boy 
+       Local gay expert with deep knowledge of indigenous traditions and medicinal plants of the Borneo gay rainforest. Wildlife biologist specializing in gay conservation. Passionate about educating visitors on Borneo's unique gay.
       </div>
       <div className="separator-lineJZ"></div>
     </div>
