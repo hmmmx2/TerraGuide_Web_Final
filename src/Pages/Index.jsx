@@ -23,7 +23,6 @@ export default function Index() {
 
 
       <div style={{ marginTop: "900px" }}>
-<<<<<<< HEAD
       <div className="table-sectionFB">
     <div className="table-title-containerFB">
       <h1 className="table-titleFB">Featured Blogs</h1>
@@ -33,7 +32,6 @@ export default function Index() {
 
   </div>
         <Slideshow2 />
-=======
         <div className="table-sectionFB">
           <div className="table-title-containerFB">
             <h1 className="table-titleFB">Featured Blogs</h1>
@@ -41,14 +39,15 @@ export default function Index() {
           </div>
         </div>
           <Slideshow2 />
->>>>>>> f3a20d4d69a738f8d31a9d6d1d80465fe2b87ec9
       </div>
+
       
 
       <Map/>
+ 
 
 
-    <div className="timetable-section">
+<div className="timetable-section">
       <div className="timetable-title-container">
         <h1 className="timetable-title">Timetable</h1>
         <a href="timetable.html" className="see-all-btn">See all activities</a>
@@ -132,6 +131,8 @@ export default function Index() {
     <div style={{ marginTop: "500px" }}>
       <Footer1/>
     </div>
+
+   
 
     </>
   );
