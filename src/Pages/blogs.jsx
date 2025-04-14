@@ -7,7 +7,7 @@ export default function Blogs() {
   return (
     <>
       <header>
-        <Firstheader />
+        <Top />
       </header>
 
       
