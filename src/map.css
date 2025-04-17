@@ -1,7 +1,7 @@
 /* src/map.css */
 .index-map-box {
   width: 500px; 
-  height:350px; 
+  height: 400px;
   background-color: #4E6E4E; 
   border-radius: 12px; 
   padding: 15px; 
@@ -27,4 +27,146 @@
   width: 100%;
   height: 85%;
   border-radius: 10px; 
+}
+
+/* Add responsive design for Map Box */
+@media (max-width: 1400px) {
+  .index-map-box {
+      width: 480px;
+      height: 380px;
+      right: 120px;
+  }
+}
+
+@media (max-width: 1200px) {
+  .index-map-box {
+      width: 450px;
+      height: 380px;
+      right: 80px;
+  }
+}
+
+@media (max-width: 1100px) {
+  .index-map-box {
+      width: 420px;
+      height: 370px;
+      right: 50px;
+  }
+}
+
+@media (max-width: 1000px) {
+  .index-map-box {
+      width: 90%;
+      max-width: 700px;
+      height: 400px;
+      position: static;
+      margin: 450px auto 0;
+      right: auto;
+      top: auto;
+  }
+}
+
+@media (max-width: 768px) {
+  .index-map-box {
+      width: 95%;
+      height: 350px;
+      padding: 12px;
+      margin-top: 400px;
+  }
+}
+
+@media (max-width: 480px) {
+  .index-map-box {
+      height: 300px;
+      font-size: 0.9rem;
+      margin-top: 350px;
+  }
+}
+
+/*--------------------Map Box Index-----------------------------*/
+.green-box-map-aeron {
+  width: 640px; 
+  height: 600px; /* Increased height to match the recommendation system */
+  background-color: #4E6E4E; 
+  border-radius: 12px; 
+  padding: 15px; 
+  color: white; 
+  font-size: 1rem; 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+  display: flex;
+  flex-direction: column;
+  align-items: center; 
+  justify-content: space-between; 
+  text-align: center;
+}
+
+/* Add responsive design for Map Box */
+@media (max-width: 1200px) {
+  .green-box-map-aeron {
+      width: 540px;
+      height: 550px; /* Adjusted for this breakpoint */
+  }
+}
+
+@media (max-width: 992px) {
+  .green-box-map-aeron {
+      width: 90%;
+      max-width: 800px;
+      height: 500px; /* Adjusted for this breakpoint */
+      margin: 30px auto 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .green-box-map-aeron {
+      width: 95%;
+      height: 450px; /* Adjusted for this breakpoint */
+      padding: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .green-box-map-aeron {
+      height: 400px; /* Adjusted for this breakpoint */
+      font-size: 0.9rem;
+  }
+}
+
+/* Map title styles */
+.parks-map-title {
+  color: white;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+/* Map container styles */
+.map-container {
+  width: 100%;
+  height: calc(100% - 60px); /* Adjust based on title and controls height */
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* Map controls */
+.map-controls {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.map-controls button {
+  background-color: #F6EFDC;
+  color: #4E6E4E;
+  border: none;
+  padding: 5px 10px;
+  margin: 0 5px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.map-controls button:hover {
+  background-color: #D4E09B;
 }

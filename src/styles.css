@@ -1255,7 +1255,8 @@
 body > ul, 
 div > ul:not(.nav-links):not(.mobile-menu ul):not(.footer-column ul):not(.dropdown-content),
 #root > div > ul {
-    display: none !important;
+    /* Commented by Desmond @ 18 April 2025 */
+    /*display: none !important;*/
 }
 
 /* Hide hamburger menu icon when not needed */
@@ -2087,4 +2088,516 @@ footer {
     .footer-row h3 {
         font-size: 14px;
     }
+}
+
+/* @media for index(slideshow, map and featured blogs) --- start */
+/*--------------------Slideshow 1 Index------------------*/
+.registration-height-containerSS1 {
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+}
+
+.registration-svg-form-indexSS1 {
+    width: 900px;
+    max-width: 1000px;
+    height: 400px;
+    max-height: 1000px;
+    background-color: #4E6E4E;
+    border-radius: 10px;
+    box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    gap: 10px;
+    position: absolute;
+    top: 110px;
+    left: 100px;
+    flex: 1;
+}
+
+/* Add responsive design for Slideshow 1 */
+@media (max-width: 1200px) {
+    .registration-svg-form-indexSS1 {
+        width: 80%;
+        left: 50%;
+        transform: translateX(-50%);
+        max-width: 800px;
+    }
+}
+
+@media (max-width: 768px) {
+    .registration-svg-form-indexSS1 {
+        width: 90%;
+        height: auto;
+        min-height: 350px;
+        top: 90px;
+    }
+    
+    .slide-leftSS1, .slide-rightSS1 {
+        padding: 0.5rem;
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .registration-svg-form-indexSS1 {
+        top: 80px;
+        min-height: 300px;
+        padding: 15px;
+    }
+    
+    .mySlidesSS1 {
+        flex-direction: column;
+    }
+    
+    .slide-leftSS1, .slide-rightSS1 {
+        flex: none;
+        width: 100%;
+    }
+}
+
+/*--------------------Slideshow 2 Index------------------*/
+.slideshow-container-SS2 {
+  width: 90%;
+  max-width: 1700px;
+  position: relative;
+  z-index: 5;
+  margin: 0 auto;
+}
+
+.green-box-SS2 {
+  width: 1700px;
+  height: 200px;
+  background-color: #4E6E4E;
+  border-radius: 0 0 12px 12px;
+  padding: 20px;
+  color: white;
+  font-size: 1rem;
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+  position: relative;
+  box-sizing: border-box;
+}
+
+.slide-imageSS2 {
+  width: 1700px;
+  height: 400px;
+  object-fit: cover;
+  border-radius: 12px 12px 0 0;
+}
+
+/* Add responsive design for Slideshow 2 */
+@media (max-width: 1700px) {
+  .green-box-SS2, .slide-imageSS2, .arrow-containerSS2 {
+      width: 100%;
+  }
+}
+
+@media (max-width: 1200px) {
+  .slide-imageSS2 {
+      height: 350px;
+  }
+  
+  .green-box-SS2 {
+      height: 180px;
+  }
+}
+
+@media (max-width: 768px) {
+  .slide-imageSS2 {
+      height: 300px;
+  }
+  
+  .green-box-SS2 {
+      height: 160px;
+      padding: 15px;
+      font-size: 0.9rem;
+  }
+  
+  .arrowSS2 {
+      font-size: 28px;
+      padding: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .slide-imageSS2 {
+      height: 220px;
+  }
+  
+  .green-box-SS2 {
+      height: 140px;
+      padding: 12px;
+      font-size: 0.85rem;
+  }
+  
+  .arrowSS2 {
+      font-size: 24px;
+      padding: 6px;
+  }
+}
+
+/*--------------------Map Box Index-----------------------------*/
+.slideshow-map-wrapperMB {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 20px;
+  position: relative;
+  padding-top: 50px;
+  margin-bottom: 100px;
+}
+
+.green-box-map-aeron {
+  width: 640px; 
+  height: 400px; 
+  background-color: #4E6E4E; 
+  border-radius: 12px; 
+  padding: 15px; 
+  color: white; 
+  font-size: 1rem; 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+  display: flex;
+  flex-direction: column;
+  align-items: center; 
+  justify-content: space-between; 
+  text-align: center;
+}
+
+/* Add responsive design for Map Box */
+@media (max-width: 1200px) {
+  .green-box-map-aeron {
+      width: 540px;
+      height: 380px;
+  }
+}
+
+@media (max-width: 992px) {
+  .slideshow-map-wrapperMB {
+      flex-direction: column;
+      align-items: center;
+  }
+  
+  .green-box-map-aeron {
+      width: 90%;
+      max-width: 600px;
+      margin-top: 30px;
+  }
+}
+
+@media (max-width: 768px) {
+  .green-box-map-aeron {
+      width: 95%;
+      height: 350px;
+      padding: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .green-box-map-aeron {
+      height: 300px;
+      font-size: 0.9rem;
+  }
+  
+  .slideshow-map-wrapperMB {
+      padding-top: 30px;
+      margin-bottom: 60px;
+  }
+}
+
+*--------------------Featured Blogs---------------------*
+.table-sectionFB {
+    width: 1250px;
+    max-width: 1500px;
+    margin: -369px auto 60px;
+    padding: 0 20px;
+    position: relative;
+    z-index: 10;
+}
+
+.table-titleFB {
+    color: #000000;
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 0px;
+    position: relative;
+    display: inline-block;
+    right: 250px;
+}
+
+/* Add responsive design for Featured Blogs */
+@media (max-width: 1400px) {
+    .table-sectionFB {
+        width: 90%;
+        max-width: 1200px;
+        margin-top: -300px;
+    }
+    
+    .table-titleFB {
+        right: 150px;
+    }
+    
+    .see-all-btn2FB {
+        margin-right: -150px;
+    }
+}
+
+@media (max-width: 1024px) {
+    .table-sectionFB {
+        width: 95%;
+        margin-top: -250px;
+    }
+    
+    .table-titleFB {
+        right: 100px;
+        font-size: 1.8rem;
+    }
+    
+    .see-all-btn2FB {
+        margin-right: -100px;
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .table-sectionFB {
+        margin-top: -200px;
+        margin-bottom: 40px;
+    }
+    
+    .table-title-containerFB {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+    
+    .table-titleFB {
+        right: 0;
+        font-size: 1.6rem;
+    }
+    
+    .see-all-btn2FB {
+        margin-right: 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .table-sectionFB {
+        width: 100%;
+        padding: 0 15px;
+        margin-top: -150px;
+    }
+    
+    .table-titleFB {
+        font-size: 1.4rem;
+    }
+}
+
+/* @media for index(slideshow, map and featured blogs) --- end */
+
+/*--------------------Featured Blogs (title and button) start---------------------*/
+.table-sectionFB {
+  width: 100%;
+  max-width: 1200px; /* Match timetable section width */
+  margin: -369px auto 60px;
+  padding: 0 20px;
+  position: relative;
+  z-index: 10;
+}
+
+.table-title-containerFB {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 30px;
+  position: relative;
+}
+
+.table-title-containerFB::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -10px;
+  width: 100%;
+  height: 3px;
+  background-color: #000000;
+}
+
+.table-titleFB {
+  color: #000000;
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 0px;
+  position: relative;
+  display: inline-block;
+  right: 0; /* Remove the right offset */
+}
+
+.see-all-btn2FB {
+  background-color: transparent;
+  color: #4E6E4E;
+  text-decoration: none;
+  font-size: 1rem;
+  padding: 8px 15px;
+  border: 1px solid #4E6E4E;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+  margin-right: 0; /* Remove the negative margin */
+}
+
+.see-all-btn2FB:hover {
+  background-color: #4E6E4E;
+  color: #F6EFDC;
+}
+
+/* Responsive design for Featured Blogs */
+@media (max-width: 1400px) {
+  .table-sectionFB {
+      width: 90%;
+      max-width: 1200px;
+      margin-top: -300px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .table-sectionFB {
+      width: 95%;
+      margin-top: -250px;
+  }
+  
+  .table-titleFB {
+      font-size: 1.8rem;
+  }
+  
+  .see-all-btn2FB {
+      font-size: 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .table-sectionFB {
+      margin-top: -200px;
+      margin-bottom: 40px;
+  }
+  
+  .table-title-containerFB {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 15px;
+  }
+  
+  .table-titleFB {
+      font-size: 1.6rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .table-sectionFB {
+      width: 100%;
+      padding: 0 15px;
+      margin-top: -150px;
+  }
+  
+  .table-titleFB {
+      font-size: 1.4rem;
+  }
+}
+/*--------------------Featured Blogs (title and button) end---------------------*/
+
+/*--------------------Slideshow 1 Index------------------*/
+.registration-height-containerSS1 {
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+}
+
+.registration-svg-form-indexSS1 {
+  width: 900px;
+  max-width: 1000px;
+  height: 400px;
+  max-height: 1000px;
+  background-color: #4E6E4E;
+  border-radius: 10px;
+  box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  gap: 10px;
+  position: absolute;
+  top: 110px;
+  left: 100px;
+  flex: 1;
+}
+
+/* Add responsive design for Slideshow 1 */
+@media (max-width: 1200px) {
+  .registration-svg-form-indexSS1 {
+      width: 80%;
+      left: 50%;
+      transform: translateX(-50%);
+      max-width: 800px;
+  }
+}
+
+@media (max-width: 768px) {
+  .registration-svg-form-indexSS1 {
+      width: 90%;
+      height: auto;
+      min-height: 350px;
+      top: 90px;
+  }
+  
+  .slide-leftSS1, .slide-rightSS1 {
+      padding: 0.5rem;
+      font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .registration-svg-form-indexSS1 {
+      top: 80px;
+      min-height: 300px;
+      padding: 15px;
+  }
+  
+  .mySlidesSS1 {
+      flex-direction: column;
+  }
+  
+  .slide-leftSS1, .slide-rightSS1 {
+      flex: none;
+      width: 100%;
+  }
+}
+
+/*--------------------Slideshow and Map Container------------------*/
+.slideshow-map-wrapperMB {
+display: flex;
+justify-content: space-between;
+align-items: flex-start;
+gap: 20px;
+position: relative;
+padding-top: 50px;
+margin-bottom: 100px;
+width: 90%;
+max-width: 1700px;
+margin: 0 auto;
+}
+
+/* Media queries for the wrapper */
+@media (max-width: 992px) {
+.slideshow-map-wrapperMB {
+    flex-direction: column;
+    align-items: center;
+}
+}
+
+@media (max-width: 480px) {
+.slideshow-map-wrapperMB {
+    padding-top: 30px;
+    margin-bottom: 60px;
+}
 }
