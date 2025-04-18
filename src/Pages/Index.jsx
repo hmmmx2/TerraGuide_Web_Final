@@ -2,6 +2,7 @@ import Top from '../components/Top';
 import Footer1 from '../components/Footer1';
 import Slideshow from '../components/Slideshow'; // import the new component
 import Slideshow2 from '../components/Slideshow2'; // import the new component
+import Screenshot from "../components/Screenshot";
 import "../styles.css";
 import Map from '../components/Map';
 import ExampleImage from "../assets/parkguide_example.jpg";
@@ -12,14 +13,15 @@ export default function Index() {
     <>
       <Top />
       <>
+      <Screenshot />
 
-
+      
       
   <Slideshow />
   <Map />
 
 
-
+ 
 
 
 
