@@ -6,6 +6,17 @@
     box-sizing:border-box;
   }
 
+  /*--------------------Screenshot------------------*/
+
+  @media print {
+    body {
+      display: none !important;
+    }
+  }
+  
+ 
+
+    /*--------------------End of Screenshot------------------*/
 
   /*--------------------Blogs------------------*/
 
