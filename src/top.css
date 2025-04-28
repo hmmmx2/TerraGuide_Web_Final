@@ -9,7 +9,8 @@
 nav {
   background-color: #4E6E4E;
   padding: 15px 5%;
-  
+  position: relative;
+  z-index: 1000;
 }
 
 .navbar-container {
@@ -28,7 +29,6 @@ nav {
   position: relative;
   height: 70px;
 }
-
 
 .nav-links {
   list-style: none;
@@ -51,13 +51,8 @@ nav {
 .auth-buttons {
   display: flex;
   gap: 20px;
-}
-
-.auth-buttons a {
-  padding: 8px 20px;
-  border-radius: 5px;
-  text-decoration: none;
-  font-weight: 500;
+  align-items: center;
+  font-family: sans-serif;
 }
 
 /* Dropdown container */
@@ -106,13 +101,6 @@ nav {
   display: inline-block;
 }
 
-.auth-buttons {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-family: sans-serif;
-}
-
 .sign-in {
   background-color: rgba(255, 255, 255, 0.1); /* subtle bg */
   color: #fefce8; /* light text */
@@ -144,8 +132,8 @@ nav {
   opacity: 0.8;
 }
 
- /* Hamburger menu styles */
- .hamburger {
+/* Hamburger menu styles */
+.hamburger {
   display: none;
   cursor: pointer;
   z-index: 100;
@@ -159,12 +147,13 @@ nav {
   transition: all 0.3s ease;
 }
 
-/* Add these to your existing CSS */
-
 /* Profile menu improvements */
 .profile-menu {
   position: relative;
   z-index: 1000; /* Ensure it's above other elements */
+  display: flex;
+  align-items: center;
+  gap: 15px;
 }
 
 /* Close dropdown when clicking outside */
@@ -243,17 +232,6 @@ nav {
   object-fit: cover;
 }
 
-/* Adjust the dropdown position */
-.dropdown-menu {
-  right: 0;
-  top: 50px;
-}
-
-/* Make sure the navbar has proper z-index */
-nav {
-  position: relative;
-  z-index: 1000;
-}
 /* Mobile styles */
 @media (max-width: 768px) {
   .hamburger {
