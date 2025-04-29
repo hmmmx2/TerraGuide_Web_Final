@@ -143,46 +143,33 @@ function Top() {
 
           <div className="auth-buttons">
             {currentUser ? (
-              <div className="profile-menu">
-                {/* Search and notification section */}
-                <div style={styles.iconBar}>
-                  <div
-                    style={{
-                      ...styles.searchContainer,
-                      ...(isActive ? styles.activeSearchContainer : {}),
-                    }}
-                    ref={searchRef}
-                  >
-                    <i
-                      className="fas fa-search"
-                      style={styles.icon}
-                      onClick={toggleSearch}
-                    ></i>
-                    <input
-                      type="text"
-                      placeholder="Search..."
-                      style={{
-                        ...styles.searchInput,
-                        ...(isActive ? styles.activeSearchInput : {}),
-                      }}
-                    />
-                  </div>
-                  <i className="fas fa-bell" style={styles.icon}></i>
+              <div class="profile-menu">
+              {/* Search and notification section */}
+              <div class="icon-bar">
+                <div class={`search-container ${isActive ? 'active-search-container' : ''}`} ref={searchRef}>
+                  <i class="fas fa-search icon" onClick={toggleSearch}></i>
+                  <input
+                    type="text"
+                    placeholder="Search..."
+                    class={`search-input ${isActive ? 'active-search-input' : ''}`}
+                  />
                 </div>
-
-                {/* Profile dropdown section */}
-                <div className="profile-circle" onClick={toggleDropdown}>
-                  <img src={user_sample} alt="Profile" />
-                </div>
-              
-                {dropdownOpen && (
-                  <div className="dropdown-menu">
-                    <Link to="/profile" className="dropdown-item" onClick={() => setDropdownOpen(false)}>Profile</Link>
-                    <Link to="/settings" className="dropdown-item" onClick={() => setDropdownOpen(false)}>Settings</Link>
-                    <button onClick={handleLogout} className="dropdown-item">Logout</button>
-                  </div>
-                )}
+                <i class="fas fa-bell icon"></i>
               </div>
+            
+              {/* Profile dropdown section */}
+              <div class="profile-circle" onClick={toggleDropdown}>
+                <img src={user_sample} alt="Profile" class="profile-pic" />
+              </div>
+            
+              {dropdownOpen && (
+                <div class="dropdown-menu">
+                  <Link to="/profile" class="dropdown-item" onClick={() => setDropdownOpen(false)}>Profile</Link>
+                  <Link to="/settings" class="dropdown-item" onClick={() => setDropdownOpen(false)}>Settings</Link>
+                  <button onClick={handleLogout} class="dropdown-item">Logout</button>
+                </div>
+              )}
+            </div>
             ) : (
               <>
                 <Link to="/signup" className="sign-in">Sign Up</Link>
