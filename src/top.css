@@ -1,407 +1,259 @@
-/* Reset and Base Styles */
+/* Reset */
 * {
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
-  outline: none;
   box-sizing: border-box;
 }
 
-/* -------------------- Navigation Base Styles -------------------- */
+/* Nav uses vw-based sizing so it scales with viewport width */
 nav {
   background-color: #4E6E4E;
-  padding: 0;
-  height: 80px;
+  height: 8vw;           /* grows as viewport widens */
+  width: 100vw;
   position: relative;
   z-index: 1000;
-  width: 100vw;
+  padding: 0 2vw;
 }
 
 .navbar-container {
   display: grid;
   grid-template-columns: auto 1fr auto;
   align-items: center;
-  padding: 0 2vw;
   column-gap: 4vw;
   height: 100%;
-  width: 100vw;
 }
 
-.logo {
-  height: 3.5vw;
-  display: flex;
-  align-items: center;
-}
-
+/* Logo */
 .logo img {
-  height: 100%;
+  height: 4vw;           /* logo scales with viewport */
 }
 
-/* Navigation Links */
+/* Nav links */
 .nav-links {
-  list-style: none;
   display: flex;
   justify-content: center;
-  gap: 2.5vw;
+  gap: 2vw;              /* gap scales too */
 }
-
 .nav-links a {
   text-decoration: none;
   color: white;
-  font-size: 1vw;
+  font-size: 1.2vw;      /* viewport-based font size */
   font-weight: 500;
-  transition: color 0.3s ease-in-out;
+  transition: color 0.3s;
 }
-
 .nav-links a:hover {
   color: #D4E09B;
 }
 
-/* Dropdown Styles */
+/* Dropdown */
 .dropdown {
   position: relative;
-  display: inline-block;
 }
-
 .dropdown > a::after {
   content: "▼";
-  font-size: 0.6vw;
-  margin-left: 5px;
-  display: inline-block;
+  font-size: 1vw;
+  margin-left: 0.5vw;
 }
-
 .dropdown-content {
   display: none;
   position: absolute;
-  background-color: white;
-  min-width: 200px;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-  border-radius: 5px;
-  z-index: 1;
+  background: white;
+  min-width: 12vw;
+  box-shadow: 0 0.5vw 1vw rgba(0,0,0,0.1);
+  border-radius: 0.5vw;
   top: 100%;
   left: 0;
+  z-index: 10;
 }
-
 .dropdown-content a {
   color: #555;
-  padding: 12px 16px;
+  padding: 1vw 1.5vw;
   text-decoration: none;
   display: block;
-  border-bottom: 1px solid #f1f1f1;
+  border-bottom: 0.1vw solid #f1f1f1;
 }
-
 .dropdown-content a:hover {
-  background-color: #f8f8f8;
+  background: #f8f8f8;
   color: #0066cc;
 }
-
 .dropdown:hover .dropdown-content {
   display: block;
 }
 
-/* Authentication Buttons */
+/* Auth buttons */
 .auth-buttons {
   display: flex;
-  gap: 20px;
   align-items: center;
-  font-size: 14px;
+  gap: 1.5vw;
 }
-
+.sign-in, .log-in {
+  font-size: 1.2vw;      /* scale with viewport */
+}
 .sign-in {
-  background-color: rgba(255, 255, 255, 0.1);
+  background: rgba(255,255,255,0.1);
   color: #fefce8;
-  padding: 8px 16px;
-  border-radius: 8px;
+  padding: 0.8vw 1.5vw;
+  border-radius: 1vw;
   text-decoration: none;
   font-weight: bold;
-  transition: background-color 0.3s ease;
+  transition: background 0.3s;
 }
-
 .sign-in:hover {
-  background-color: rgba(255, 255, 255, 0.2);
+  background: rgba(255,255,255,0.2);
 }
-
 .separator {
-  width: 1px;
-  height: 24px;
-  background-color: #fefce8;
+  width: 0.2vw;
+  height: 3vw;
+  background: #fefce8;
 }
-
 .log-in {
   color: #fefce8;
   text-decoration: none;
-  font-weight: normal;
-  transition: opacity 0.3s ease;
+  transition: opacity 0.3s;
 }
-
 .log-in:hover {
   opacity: 0.8;
 }
 
-/* Icon Bar and Search */
+/* Icon bar & search */
 .icon-bar {
   display: flex;
-  justify-content: flex-end;
-  gap: 2vw;
   align-items: center;
+  gap: 2vw;
 }
-
 .search-container {
-  position: relative;
   display: flex;
   align-items: center;
-  transition: all 0.3s ease;
+  transition: all 0.3s;
+  position: relative;
 }
-
 .search-input {
   width: 0;
   padding: 0;
   opacity: 0;
   border: none;
-  border-bottom: 2px solid #ccc;
+  border-bottom: 0.2vw solid #ccc;
   background: transparent;
   color: white;
   outline: none;
-  transition: all 0.3s ease;
+  transition: all 0.3s;
 }
-
 .active-search-input {
-  width: 150px;
-  padding: 5px;
+  width: 12vw;
+  padding: 0.8vw;
   opacity: 1;
 }
-
 .icon {
-  font-size: 24px;
+  font-size: 2vw;
   color: #f0f0e0;
   cursor: pointer;
 }
 
-/* Profile Menu */
+/* Profile menu */
 .profile-menu {
-  position: relative;
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 1.5vw;
+  position: relative;
   z-index: 1000;
 }
-
 .profile-circle {
-  cursor: pointer;
-  width: 40px;
-  height: 40px;
+  width: 4vw;
+  height: 4vw;
   border-radius: 50%;
   overflow: hidden;
-  border: 2px solid #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
+  border: 0.3vw solid #fff;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
 }
-
 .profile-circle:hover {
   transform: scale(1.05);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 0.5vw 1vw rgba(0,0,0,0.15);
 }
-
 .profile-circle img {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
-
 .dropdown-menu {
   position: absolute;
-  top: 50px;
+  top: 5vw;
   right: 0;
-  background-color: white;
-  border-radius: 4px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  min-width: 150px;
-  z-index: 1001;
-  border: 1px solid #ccc;
+  background: white;
+  border: 0.1vw solid #ccc;
+  border-radius: 0.5vw;
+  box-shadow: 0 0.5vw 1vw rgba(0,0,0,0.1);
+  min-width: 12vw;
   display: none;
 }
-
 .profile-menu:hover .dropdown-menu {
   display: block;
 }
-
 .dropdown-item {
   display: block;
-  padding: 10px 15px;
+  padding: 1vw 1.5vw;
   color: #333;
   text-decoration: none;
-  transition: background-color 0.2s ease;
-  white-space: nowrap;
+  transition: background 0.2s;
 }
-
 .dropdown-item:hover {
-  background-color: #f5f5f5;
+  background: #f5f5f5;
 }
-
 .dropdown-item button {
   width: 100%;
-  text-align: left;
   background: none;
   border: none;
-  font-size: 1em;
-  cursor: pointer;
-  font: inherit;
-  padding: 0;
   color: #333;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
 }
 
-/* Hamburger Menu Styles */
+/* Hamburger (for small screens) */
 .hamburger {
   display: none;
   cursor: pointer;
   z-index: 100;
 }
-
 .hamburger div {
-  width: 25px;
-  height: 3px;
-  background-color: white;
-  margin: 5px;
-  transition: all 0.3s ease;
+  width: 4vw;
+  height: 0.5vw;
+  background: white;
+  margin: 1vw 0;
+  transition: all 0.3s;
 }
-
 .hamburger.active div:nth-child(1) {
-  transform: rotate(-45deg) translate(-5px, 6px);
+  transform: rotate(-45deg) translate(-1vw, 1vw);
 }
-
 .hamburger.active div:nth-child(2) {
   opacity: 0;
 }
-
 .hamburger.active div:nth-child(3) {
-  transform: rotate(45deg) translate(-5px, -6px);
+  transform: rotate(45deg) translate(-1vw, -1vw);
 }
 
-/* -------------------- Responsive Design -------------------- */
-/* Large Screens */
-@media (min-width: 1600px) {
-  .navbar-container {
-    max-width: 100vw;
-  }
-}
-
-@media (min-width: 2000px) {
-  nav {
-    padding: 0;
-  }
-
-  .nav-links a {
-    font-size: 1vw;
-  }
-
-  .sign-in, .log-in {
-    font-size: 1vw;
-  }
-}
-
-/* Tablet and Medium Screens */
+/* Responsive: show hamburger */
 @media (max-width: 920px) {
-  .hamburger {
-    display: block;
-    z-index: 9999;
-    position: relative;
-  }
-
+  .hamburger { display: block; }
   .nav-links {
     position: fixed;
-    right: -100%;
-    top: 0;
-    height: 100vh;
+    top: 0; right: -100%;
     width: 70%;
-    background-color: #6D7E5E;
+    height: 100vh;
+    background: #6D7E5E;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 30px;
-    transition: right 0.5s ease;
-    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
-    z-index: 9998;
-    padding: 80px 0;
+    gap: 3vw;
+    transition: right 0.5s;
+    padding-top: 8vw;
   }
-
-  .nav-links.active {
-    right: 0;
-  }
-
+  .nav-links.active { right: 0; }
   .logo {
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
   }
-
-  .auth-buttons {
-    margin-left: auto;
-  }
-}
-
-/* Small Screens */
-@media (max-width: 480px) {
-  nav {
-    padding: 0 20px;
-    height: 60px;
-  }
-
-  .logo, .logo img {
-    height: 40px;
-  }
-
-  .nav-links a,
-  .dropdown-content a {
-    font-size: 14px;
-  }
-
-  .sign-in {
-    padding: 6px 12px;
-    font-size: 12px;
-  }
-
-  .log-in {
-    font-size: 12px;
-  }
-
-  .profile-circle {
-    width: 32px;
-    height: 32px;
-  }
-
-  .icon {
-    font-size: 20px;
-  }
-
-  .icon-bar {
-    gap: 12px;
-  }
-
-  .search-input.active-search-input {
-    width: 120px;
-  }
-}
-
-/* Extra Small Screens */
-@media (max-width: 360px) {
-  nav {
-    padding: 0 15px;
-  }
-
-  .logo, .logo img {
-    height: 35px;
-  }
-
-  .profile-circle {
-    width: 28px;
-    height: 28px;
-  }
-
-  .icon {
-    font-size: 18px;
-  }
-
-  .search-input.active-search-input {
-    width: 100px;
-  }
+  .auth-buttons { margin-left: auto; }
 }
