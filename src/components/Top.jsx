@@ -9,9 +9,11 @@ import { doSignOut } from '../supabase/auth.js';
 function Top() {
   const { currentUser } = useAuth();
   const navigate = useNavigate();
+
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [isActive, setIsActive] = useState(false);
-  const searchRef = useRef(null);
+  const [isActive, setIsActive]       = useState(false);
+  const searchRef    = useRef(null);
+  const dropdownRef  = useRef(null);
 
   // Close search when clicking outside
   useEffect(() => {
@@ -24,15 +26,28 @@ function Top() {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  // Hamburger toggle
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    function handleClickOutside(e) {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+        setDropdownOpen(false);
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  // Hamburger toggle for mobile
   useEffect(() => {
     const hamburger = document.querySelector('.hamburger');
-    const navLinks = document.querySelector('.nav-links');
+    const navLinks  = document.querySelector('.nav-links');
     if (!hamburger || !navLinks) return;
+
     function toggle() {
       hamburger.classList.toggle('active');
       navLinks.classList.toggle('active');
     }
+
     hamburger.addEventListener('click', toggle);
     return () => hamburger.removeEventListener('click', toggle);
   }, []);
@@ -54,13 +69,11 @@ function Top() {
       <nav>
         <div className="navbar-container">
           <div className="hamburger">
-            <div />
-            <div />
-            <div />
+            <div/><div/><div/>
           </div>
 
           <Link to="/index" className="logo">
-            <img src={terraguideLogo} alt="TerraGuide Logo" />
+            <img src={terraguideLogo} alt="TerraGuide Logo"/>
           </Link>
 
           <div className="nav-links">
@@ -80,34 +93,33 @@ function Top() {
 
           <div className="auth-buttons">
             {currentUser ? (
-              <div className="profile-menu">
+              <div
+                className={`profile-menu${dropdownOpen ? ' open' : ''}`}
+                ref={dropdownRef}
+              >
                 <div className="icon-bar">
                   <div
-                    className={`search-container ${
-                      isActive ? 'active-search-container' : ''
-                    }`}
+                    className={`search-container${isActive ? ' active-search-container' : ''}`}
                     ref={searchRef}
                   >
                     <i
                       className="fas fa-search icon"
-                      onClick={() => setIsActive(!isActive)}
+                      onClick={() => setIsActive(a => !a)}
                     />
                     <input
                       type="text"
                       placeholder="Search..."
-                      className={`search-input ${
-                        isActive ? 'active-search-input' : ''
-                      }`}
+                      className={`search-input${isActive ? ' active-search-input' : ''}`}
                     />
                   </div>
-                  <i className="fas fa-bell icon" />
+                  <i className="fas fa-bell icon"/>
                 </div>
 
                 <div
                   className="profile-circle"
-                  onClick={() => setDropdownOpen(!dropdownOpen)}
+                  onClick={() => setDropdownOpen(o => !o)}
                 >
-                  <img src={user_sample} alt="Profile" />
+                  <img src={user_sample} alt="Profile"/>
                 </div>
 
                 {dropdownOpen && (
@@ -126,7 +138,10 @@ function Top() {
                     >
                       Settings
                     </Link>
-                    <button onClick={handleLogout} className="dropdown-item">
+                    <button
+                      onClick={handleLogout}
+                      className="dropdown-item"
+                    >
                       Logout
                     </button>
                   </div>
@@ -134,13 +149,9 @@ function Top() {
               </div>
             ) : (
               <>
-                <Link to="/signup" className="sign-in">
-                  Sign Up
-                </Link>
-                <div className="separator" />
-                <Link to="/" className="log-in">
-                  Log In
-                </Link>
+                <Link to="/signup" className="sign-in">Sign Up</Link>
+                <div className="separator"/>
+                <Link to="/"      className="log-in">Log In</Link>
               </>
             )}
           </div>

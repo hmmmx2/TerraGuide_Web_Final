@@ -1,19 +1,17 @@
 /* Reset */
 * {
   font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
+  margin: 0; padding: 0;
   box-sizing: border-box;
 }
 
-/* Nav uses vw-based sizing so it scales with viewport width */
+/* Nav scales with viewport width */
 nav {
   background-color: #4E6E4E;
-  height: 8vw;           /* grows as viewport widens */
+  height: 8vw;
   width: 100vw;
-  position: relative;
-  z-index: 1000;
   padding: 0 2vw;
+  position: relative; z-index: 1000;
 }
 
 .navbar-container {
@@ -26,19 +24,19 @@ nav {
 
 /* Logo */
 .logo img {
-  height: 4vw;           /* logo scales with viewport */
+  height: 4vw;
 }
 
-/* Nav links */
+/* Links */
 .nav-links {
   display: flex;
   justify-content: center;
-  gap: 2vw;              /* gap scales too */
+  gap: 2vw;
 }
 .nav-links a {
-  text-decoration: none;
   color: white;
-  font-size: 1.2vw;      /* viewport-based font size */
+  text-decoration: none;
+  font-size: 1.2vw;
   font-weight: 500;
   transition: color 0.3s;
 }
@@ -46,10 +44,8 @@ nav {
   color: #D4E09B;
 }
 
-/* Dropdown */
-.dropdown {
-  position: relative;
-}
+/* My Courses dropdown (unchanged) */
+.dropdown { position: relative; }
 .dropdown > a::after {
   content: "▼";
   font-size: 1vw;
@@ -58,27 +54,26 @@ nav {
 .dropdown-content {
   display: none;
   position: absolute;
+  top: 100%; left: 0;
   background: white;
   min-width: 12vw;
   box-shadow: 0 0.5vw 1vw rgba(0,0,0,0.1);
   border-radius: 0.5vw;
-  top: 100%;
-  left: 0;
   z-index: 10;
 }
-.dropdown-content a {
-  color: #555;
-  padding: 1vw 1.5vw;
-  text-decoration: none;
+.dropdown:hover .dropdown-content {
   display: block;
+}
+.dropdown-content a {
+  display: block;
+  padding: 1vw 1.5vw;
+  color: #555;
+  text-decoration: none;
   border-bottom: 0.1vw solid #f1f1f1;
 }
 .dropdown-content a:hover {
   background: #f8f8f8;
   color: #0066cc;
-}
-.dropdown:hover .dropdown-content {
-  display: block;
 }
 
 /* Auth buttons */
@@ -88,15 +83,15 @@ nav {
   gap: 1.5vw;
 }
 .sign-in, .log-in {
-  font-size: 1.2vw;      /* scale with viewport */
+  font-size: 1.2vw;
 }
 .sign-in {
   background: rgba(255,255,255,0.1);
   color: #fefce8;
   padding: 0.8vw 1.5vw;
   border-radius: 1vw;
-  text-decoration: none;
   font-weight: bold;
+  text-decoration: none;
   transition: background 0.3s;
 }
 .sign-in:hover {
@@ -125,8 +120,8 @@ nav {
 .search-container {
   display: flex;
   align-items: center;
-  transition: all 0.3s;
   position: relative;
+  transition: all 0.3s;
 }
 .search-input {
   width: 0;
@@ -135,8 +130,8 @@ nav {
   border: none;
   border-bottom: 0.2vw solid #ccc;
   background: transparent;
-  color: white;
   outline: none;
+  color: white;
   transition: all 0.3s;
 }
 .active-search-input {
@@ -150,7 +145,7 @@ nav {
   cursor: pointer;
 }
 
-/* Profile menu */
+/* Profile dropdown — now purely via .open class */
 .profile-menu {
   display: flex;
   align-items: center;
@@ -158,24 +153,7 @@ nav {
   position: relative;
   z-index: 1000;
 }
-.profile-circle {
-  width: 4vw;
-  height: 4vw;
-  border-radius: 50%;
-  overflow: hidden;
-  border: 0.3vw solid #fff;
-  cursor: pointer;
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-.profile-circle:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0.5vw 1vw rgba(0,0,0,0.15);
-}
-.profile-circle img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
+/* Always render menu, but hide by default */
 .dropdown-menu {
   position: absolute;
   top: 5vw;
@@ -187,9 +165,28 @@ nav {
   min-width: 12vw;
   display: none;
 }
-.profile-menu:hover .dropdown-menu {
+/* When state is open, show it */
+.profile-menu.open .dropdown-menu {
   display: block;
 }
+
+.profile-circle {
+  width: 4vw; height: 4vw;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 0.3vw solid #fff;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.profile-circle:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0.5vw 1vw rgba(0,0,0,0.15);
+}
+.profile-circle img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+}
+
 .dropdown-item {
   display: block;
   padding: 1vw 1.5vw;
@@ -202,23 +199,18 @@ nav {
 }
 .dropdown-item button {
   width: 100%;
-  background: none;
-  border: none;
-  color: #333;
-  font: inherit;
-  text-align: left;
-  cursor: pointer;
+  background: none; border: none;
+  color: #333; font: inherit;
+  text-align: left; cursor: pointer;
 }
 
-/* Hamburger (for small screens) */
+/* Hamburger for mobile */
 .hamburger {
   display: none;
-  cursor: pointer;
-  z-index: 100;
+  cursor: pointer; z-index: 100;
 }
 .hamburger div {
-  width: 4vw;
-  height: 0.5vw;
+  width: 4vw; height: 0.5vw;
   background: white;
   margin: 1vw 0;
   transition: all 0.3s;
@@ -226,21 +218,18 @@ nav {
 .hamburger.active div:nth-child(1) {
   transform: rotate(-45deg) translate(-1vw, 1vw);
 }
-.hamburger.active div:nth-child(2) {
-  opacity: 0;
-}
+.hamburger.active div:nth-child(2) { opacity: 0; }
 .hamburger.active div:nth-child(3) {
   transform: rotate(45deg) translate(-1vw, -1vw);
 }
 
-/* Responsive: show hamburger */
+/* Show nav-links on hamburger click */
 @media (max-width: 920px) {
   .hamburger { display: block; }
   .nav-links {
     position: fixed;
     top: 0; right: -100%;
-    width: 70%;
-    height: 100vh;
+    width: 70%; height: 100vh;
     background: #6D7E5E;
     flex-direction: column;
     align-items: center;
