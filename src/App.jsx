@@ -1,6 +1,6 @@
 import { HashRouter as Router, Routes, Route, Navigate, Outlet } from "react-router-dom";
-// Added by Desmond @ 18 April 2025, need to include, otherwise view won't display due to Firebase
-import { AuthProvider, useAuth } from "./contexts/AuthContext";
+// Updated to use Supabase authentication instead of Firebase
+import { AuthProvider, useAuth } from "./contexts/authContext/supabaseAuthContext";
 import Register from "./Pages/Register.jsx";
 import Login from "./Pages/Login.jsx";
 import Blogmenu from "./Pages/blogmenu";

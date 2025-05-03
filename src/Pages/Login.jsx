@@ -4,9 +4,9 @@ import Footer1 from "../components/Footer1";
 import "../styles.css";
 import LoginImage from "../assets/login-img.png";
 import Top from "../components/Top";
-// Added by Desmond @ 17 April 2025 : Start
-import { doSignInWithEmailAndPassword} from "../firebase/auth";
-import { useAuth } from "../contexts/authContext";
+// Updated to use Supabase authentication
+import { doSignInWithEmailAndPassword} from "../supabase/auth";
+import { useAuth } from "../contexts/authContext/supabaseAuthContext";
 import { Navigate, useNavigate, Link } from "react-router-dom";
 
 const Login = () => {

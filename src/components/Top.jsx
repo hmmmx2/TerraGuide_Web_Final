@@ -1,10 +1,10 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { useAuth } from '../contexts/authContext';
+import { useAuth } from '../contexts/authContext/supabaseAuthContext';
 import { useNavigate, Link } from 'react-router-dom';
 import '../top.css';
 import terraguideLogo from '../assets/TerraGuide_Logo.png';
 import user_sample from '../assets/sample.png';
-import { doSignOut } from '../firebase/auth.js';
+import { doSignOut } from '../supabase/auth.js';
 
 function Top() {
   const { currentUser } = useAuth();

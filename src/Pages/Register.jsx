@@ -3,9 +3,9 @@ import Footer1 from "../components/Footer1";
 import Top from "../components/Top";
 import "../styles.css";
 import registrationImage from "../assets/registrationv2-img.png";
-// Added by Desmond @ 17 April 2025 : Start
-import { useAuth } from "../contexts/authContext";
-import { doCreateUserWithEmailAndPassword } from "../firebase/auth";
+// Updated to use Supabase authentication
+import { useAuth } from "../contexts/authContext/supabaseAuthContext";
+import { doCreateUserWithEmailAndPassword } from "../supabase/auth";
 import {Link, Navigate, useNavigate} from "react-router-dom";
 
 const Register = () => {
