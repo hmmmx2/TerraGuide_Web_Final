@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import icon1 from "../assets/icon1.svg";
 import icon2 from "../assets/icon2.svg";
 import icon3 from "../assets/icon3.svg";
+import "../slideshow.css"
 
 const slidesData = [
   {

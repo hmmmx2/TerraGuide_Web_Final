@@ -15,11 +15,16 @@ export default function Index() {
       <>
       <Screenshot />
 
+      <div className="slideshow-map-section">
+        <div className="slideshow-wrapper">
+          <Slideshow />
+        </div>
+        <div className="map-wrapper">
+          <Map />
+        </div>
+      </div>
       
-      
-  <Slideshow />
-  <Map />
-
+  
 
  
 
