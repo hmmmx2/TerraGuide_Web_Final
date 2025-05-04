@@ -57,7 +57,7 @@ function App() {
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </Router>
-        // Added AuthProvider by Desmond @ 18 April 2025
+        
       </AuthProvider>
   );
 }

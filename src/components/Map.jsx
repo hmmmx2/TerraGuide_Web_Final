@@ -1,39 +1,20 @@
-import { useEffect, useRef } from 'react';
-import '../map.css';
+import React, { useRef, useEffect } from 'react'
+import '../map.css'
 
 export default function Map() {
-  const mapRef = useRef(null);
-  const markerRef = useRef(null);
+  const mapRef = useRef(null)
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      if (window.google && mapRef.current) {
-        clearInterval(interval);
+    if (!window.google?.maps) {
+      console.error('Google Maps API not found')
+      return
+    }
+    const center = { lat: 1.4017, lng: 110.3145 }
+    const map = new window.google.maps.Map(mapRef.current, {
+      center, zoom: 15, mapTypeId: 'satellite', fullscreenControl: true,
+    })
+    new window.google.maps.Marker({ position: center, map })
+  }, [])
 
-        const defaultLocation = { lat: 1.4017, lng: 110.3145 };
-        const map = new google.maps.Map(mapRef.current, {
-          center: defaultLocation,
-          zoom: 15,
-          mapTypeId: "hybrid" 
-        });
-
-        const marker = new google.maps.Marker({
-          position: defaultLocation,
-          map: map,
-          title: "Semenggoh Nature Reserve"
-        });
-
-        markerRef.current = marker;
-      }
-    }, 100);
-
-    return () => clearInterval(interval);
-  }, []);
-
-  return (
-    <div className="index-map-box">
-      <p>The Parks Map</p>
-      <div id="map" ref={mapRef}></div>
-    </div>
-  );
+  return <div className="map-container" ref={mapRef} />
 }

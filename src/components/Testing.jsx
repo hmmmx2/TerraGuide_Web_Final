@@ -1,113 +1,87 @@
-import React, { useState, useRef, useEffect } from 'react';
+// src/components/Slideshow.jsx
+import React, { useState } from 'react'
+import icon1 from '../assets/icon1.svg'
+import icon2 from '../assets/icon2.svg'
+import icon3 from '../assets/icon3.svg'
+import '../test.css'
 
-const Testing = () => {
-  const [isActive, setIsActive] = useState(false);
-  const searchRef = useRef(null);
+const slides = [
+  {
+    title: "BOOK A PARK GUIDE",
+    lines: [
+      "Park Guide can help you explore the entire Semenggoh Nature Reserve.",
+      "Book it now!"
+    ],
+    image: icon1,
+    button: { text: "BOOK NOW", link: "/dexai" }
+  },
+  {
+    title: "FLORA & FAUNA",
+    lines: [
+      "Our AI can identify any endangered animal and plants in the National Park.",
+      "Give it a try now!"
+    ],
+    image: icon2,
+    button: { text: "GET STARTED", link: "/dexai" }
+  },
+  {
+    title: "RECOMMENDATION SYSTEM",
+    lines: [
+      "Our AI can recommend any further course after taking the Introduction to Park Guide.",
+      "Give it a try now!"
+    ],
+    image: icon3,
+    button: { text: "GET STARTED", link: "/dexai" }
+  }
+]
 
-  const toggleSearch = () => {
-    setIsActive(!isActive);
-  };
+export default function Slideshow() {
+  const [idx, setIdx] = useState(0)
+  const last = slides.length - 1
 
-  // Optional: Close search if clicked outside
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (searchRef.current && !searchRef.current.contains(event.target)) {
-        setIsActive(false);
-      }
-    };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, []);
+  const prev = () => setIdx(i => i === 0 ? last : i - 1)
+  const next = () => setIdx(i => i === last ? 0 : i + 1)
 
   return (
-    <div style={styles.body}>
-      <div style={styles.iconBar}>
-        <div
-          style={{
-            ...styles.searchContainer,
-            ...(isActive ? styles.activeSearchContainer : {}),
-          }}
-          ref={searchRef}
-        >
-          <i
-            className="fas fa-search"
-            style={styles.icon}
-            onClick={toggleSearch}
-          ></i>
-          <input
-            type="text"
-            placeholder="Search..."
-            style={{
-              ...styles.searchInput,
-              ...(isActive ? styles.activeSearchInput : {}),
-            }}
+    <div className="slideshow">
+      <button className="arrow left" onClick={prev}>&lsaquo;</button>
+
+      <div
+        className="slides"
+        style={{ transform: `translateX(-${idx * 100}%)` }}
+      >
+        {slides.map((slide, i) => (
+          <div className="slide" key={i}>
+            <div className="slide-text">
+              <h2>{slide.title}</h2>
+              {slide.lines.map((line, j) => <p key={j}>{line}</p>)}
+            </div>
+
+            <div className="slide-media">
+              <img
+                src={slide.image}
+                alt={slide.title}
+                className="slide-img"
+              />
+              <a href={slide.button.link} className="slide-btn">
+                {slide.button.text}
+              </a>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <button className="arrow right" onClick={next}>&rsaquo;</button>
+
+      <div className="dots">
+        {slides.map((_, i) => (
+          <span
+            key={i}
+            className={`dot ${i === idx ? 'active' : ''}`}
+            onClick={() => setIdx(i)}
           />
-        </div>
-        <i className="fas fa-bell" style={styles.icon}></i>
-        <img
-          src="your-image-url-here"
-          alt="Profile"
-          style={styles.profilePic}
-        />
+        ))}
       </div>
     </div>
-  );
-};
-
-const styles = {
-  body: {
-    margin: 0,
-    padding: 0,
-    backgroundColor: '#4f6b4f',
-    height: '100vh',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  iconBar: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: '20px',
-  },
-  searchContainer: {
-    position: 'relative',
-    display: 'flex',
-    alignItems: 'center',
-    transition: 'all 0.3s ease',
-  },
-  activeSearchContainer: {
-    // Optional: add if you want the container to expand too
-  },
-  searchInput: {
-    width: 0,
-    padding: 0,
-    opacity: 0,
-    border: 'none',
-    borderBottom: '2px solid #ccc',
-    background: 'transparent',
-    color: 'white',
-    outline: 'none',
-    transition: 'all 0.3s ease',
-  },
-  activeSearchInput: {
-    width: '150px',
-    padding: '5px',
-    opacity: 1,
-  },
-  icon: {
-    fontSize: '24px',
-    color: '#f0f0e0',
-    cursor: 'pointer',
-  },
-  profilePic: {
-    width: '40px',
-    height: '40px',
-    borderRadius: '50%',
-    objectFit: 'cover',
-    cursor: 'pointer',
-  },
-};
-
-export default Testing;
+  )
+}

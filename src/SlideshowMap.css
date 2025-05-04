@@ -1,0 +1,113 @@
+.hero-section {
+  display: flex;
+  justify-content: center;   /* center the cards horizontally */
+  gap: 20px;
+  margin: 2rem auto;         /* auto left/right so the whole flex row is centered */
+  max-width: calc(758px + 20px + 442px); /* optional: constrain to exact total width */
+}
+
+/* common card shell */
+.hero-card {
+  background: #3f5740;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+/* left: slide */
+.slideshow-card {
+  width: 758px;
+  height: 448px;
+  padding: 24px;
+}
+
+/* right: map */
+.map-card {
+  width: 442px;
+  height: 448px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* center the “The Parks Map” text */
+.map-title {
+  color: #fff;
+  font-size: 1.25rem;
+  margin: 0 0 12px;
+  text-align: center;        /* <-- center it */
+}
+
+/* make the map fill the rest of the card */
+.map-wrapper {
+  flex: 1;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* ----- Responsive: stack on tablet/mobile ----- */
+@media (max-width: 768px) {
+  .hero-section {
+    flex-direction: column;
+    align-items: center;
+    margin: 1rem auto;
+  }
+
+  .hero-card {
+    width: 90%;
+    max-width: 400px;
+    padding: 16px;
+    margin-bottom: 20px;
+    height: auto;       /* let text flow naturally */
+  }
+
+  .map-card {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .map-title {
+    text-align: center;
+  }
+
+  /* Force the wrapper to a fixed height */
+  .map-wrapper {
+    flex: none;         /* disable flex-grow/shrink */
+    height: 240px;      /* pick a phone-friendly height */
+    overflow: hidden;
+  }
+
+  /* And make sure the map itself fills that space */
+  .map-wrapper .map-container {
+    width: 100% !important;
+    height: 100% !important;
+  }
+}
+
+
+/* If you want a second breakpoint for very small phones */
+@media (max-width: 480px) {
+  .hero-section {
+    margin: 0.5rem auto;
+  }
+
+  .hero-card {
+    padding: 12px;
+    margin-bottom: 16px;
+  }
+
+  .slide-text h2 {
+    font-size: 1.25rem;
+  }
+
+  .slide-text p {
+    font-size: 0.9rem;
+  }
+
+  .slide-btn {
+    padding: 0.6em 1.2em;
+    font-size: 0.9rem;
+  }
+}
+

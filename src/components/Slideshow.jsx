@@ -1,90 +1,87 @@
-import React, { useEffect, useState } from "react";
-import icon1 from "../assets/icon1.svg";
-import icon2 from "../assets/icon2.svg";
-import icon3 from "../assets/icon3.svg";
-import "../slideshow.css"
+// src/components/Slideshow.jsx
+import React, { useState } from 'react'
+import icon1 from '../assets/icon1.svg'
+import icon2 from '../assets/icon2.svg'
+import icon3 from '../assets/icon3.svg'
+import '../slideshow.css'
 
-const slidesData = [
+const slides = [
   {
     title: "BOOK A PARK GUIDE",
-    text: [
+    lines: [
       "Park Guide can help you explore the entire Semenggoh Nature Reserve.",
-      "Book it Now!"
+      "Book it now!"
     ],
     image: icon1,
-    buttonText: "BOOK NOW",
-    buttonLink: "dexai.html"
+    button: { text: "BOOK NOW", link: "/dexai" }
   },
   {
     title: "FLORA & FAUNA",
-    text: [
-      "Our AI can identify any endangered animal and plants in the National Park",
+    lines: [
+      "Our AI can identify any endangered animal and plants in the National Park.",
       "Give it a try now!"
     ],
     image: icon2,
-    buttonText: "GET STARTED",
-    buttonLink: "dexai.html"
+    button: { text: "GET STARTED", link: "/dexai" }
   },
   {
     title: "RECOMMENDATION SYSTEM",
-    text: [
-      "Our AI can recommend any further course after taking the Introduction to Park Guide",
+    lines: [
+      "Our AI can recommend any further course after taking the Introduction to Park Guide.",
       "Give it a try now!"
     ],
     image: icon3,
-    buttonText: "GET STARTED",
-    buttonLink: "dexai.html"
+    button: { text: "GET STARTED", link: "/dexai" }
   }
-];
+]
 
 export default function Slideshow() {
-  const [slideIndex, setSlideIndex] = useState(0);
+  const [idx, setIdx] = useState(0)
+  const last = slides.length - 1
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setSlideIndex((prev) => (prev + 1) % slidesData.length);
-    }, 5000); // Auto-slide every 5 seconds
-    return () => clearInterval(interval);
-  }, []);
+  const prev = () => setIdx(i => i === 0 ? last : i - 1)
+  const next = () => setIdx(i => i === last ? 0 : i + 1)
 
   return (
-    <div className="registration-height-containerSS1">
-      <div className="registration-svg-form-indexSS1">
-        <div className="slideshow-containerSS1">
-          {slidesData.map((slide, i) => (
-            <div
-              className="mySlidesSS1"
-              style={{ display: i === slideIndex ? "flex" : "none" }}
-              key={i}
-            >
-              <div className="slide-leftSS1">
-                <h1>{slide.title}</h1>
-                <div className="slieshow1text">
-                  {slide.text.map((line, j) => (
-                    <p key={j}>{line}</p>
-                  ))}
-                </div>
-              </div>
-              <div className="slide-rightSS1">
-                <img src={slide.image} alt={`Slide ${i + 1} Image`} />
-                <a href={slide.buttonLink} className="slide-btnSS1">
-                  {slide.buttonText}
-                </a>
-              </div>
-            </div>
-          ))}
+    <div className="slideshow">
+      <button className="arrow left" onClick={prev}>&lsaquo;</button>
 
-          <div className="dot-containerSS1">
-            {slidesData.map((_, i) => (
-              <span
-                key={i}
-                className={`dotSS1 ${i === slideIndex ? "active" : ""}`}
-                onClick={() => setSlideIndex(i)}
-              ></span>
-            ))}
+      <div
+        className="slides"
+        style={{ transform: `translateX(-${idx * 100}%)` }}
+      >
+        {slides.map((slide, i) => (
+          <div className="slide" key={i}>
+            <div className="slide-text">
+              <h2>{slide.title}</h2>
+              {slide.lines.map((line, j) => <p key={j}>{line}</p>)}
+            </div>
+
+            <div className="slide-media">
+              <img
+                src={slide.image}
+                alt={slide.title}
+                className="slide-img"
+              />
+              <a href={slide.button.link} className="slide-btn">
+                {slide.button.text}
+              </a>
+            </div>
           </div>
-        </div>
+        ))}
+      </div>
+
+      <button className="arrow right" onClick={next}>&rsaquo;</button>
+
+      <div className="dots">
+        {slides.map((_, i) => (
+          <span
+            key={i}
+            className={`dot ${i === idx ? 'active' : ''}`}
+            onClick={() => setIdx(i)}
+          />
+        ))}
       </div>
     </div>
-  );
+  )
 }

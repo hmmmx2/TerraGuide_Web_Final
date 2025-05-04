@@ -1,0 +1,39 @@
+/* make the two cards sit side by side and stretch to same height */
+.homepage-section {
+  display: flex;
+  gap: 20px;
+  margin: 20px;    /* pushes down from the top */
+}
+/* Homepage.css */
+
+/* each “card” takes up equal height,
+   but you can tweak flex: values to change the width ratio */
+.homepage-item {
+  flex: 1;               /* both take equal width; use flex:2 on slideshow-wrapper if you want it wider */
+  background: #3f5740;   /* same dark green as slideshow */
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;         /* allow inner centering if needed */
+  align-items: center;
+  justify-content: center;
+  height: 320px;         /* pick the height that fits your design */
+}
+
+/* make sure your slideshow fills its wrapper fully */
+.slideshow-wrapper .slideshow {
+  width: 100%;
+  height: 100%;
+}
+
+/* placeholder styling for now */
+.map-placeholder .map-mock {
+  width: 100%;
+  height: 100%;
+  background: #dbe2c3;   /* light green to match your theme */
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #3f5740;
+  font-weight: bold;
+}

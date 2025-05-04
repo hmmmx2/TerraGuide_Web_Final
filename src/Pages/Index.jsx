@@ -1,6 +1,6 @@
 import Top from '../components/Top';
 import Footer1 from '../components/Footer1';
-import Slideshow from '../components/Slideshow'; // import the new component
+import SlideshowMap from '../components/SlideshowMap'; // import the new component
 import Slideshow2 from '../components/Slideshow2'; // import the new component
 import Screenshot from "../components/Screenshot";
 import "../styles.css";
@@ -15,14 +15,7 @@ export default function Index() {
       <>
       <Screenshot />
 
-      <div className="slideshow-map-section">
-        <div className="slideshow-wrapper">
-          <Slideshow />
-        </div>
-        <div className="map-wrapper">
-          <Map />
-        </div>
-      </div>
+      <SlideshowMap/>
       
   
 
