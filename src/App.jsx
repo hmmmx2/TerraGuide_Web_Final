@@ -11,6 +11,7 @@ import Index from "./Pages/index";
 import Profile from "./Pages/Profile";
 import Timetable from "./Pages/Timetable";
 import Guide from "./Pages/Guide";
+import ParkMap from "./Pages/ParkMap";
 
 // More efficient ProtectedRoute using Outlet
 function ProtectedRoutes() {
@@ -51,6 +52,7 @@ function App() {
               <Route path="/profile" element={<Profile />} />
               <Route path="/timetable" element={<Timetable />} />
               <Route path="/guide" element={<Guide />} />
+              <Route path="/parkmap" element={<ParkMap />} />
             </Route>
 
             {/* Catch-all route */}

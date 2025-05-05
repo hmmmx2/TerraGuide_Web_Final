@@ -4,7 +4,6 @@ import SlideshowMap from '../components/SlideshowMap'; // import the new compone
 import Slideshow2 from '../components/Slideshow2'; // import the new component
 import Screenshot from "../components/Screenshot";
 import "../styles.css";
-import Map from '../components/Map';
 import ExampleImage from "../assets/parkguide_example.jpg";
 
 
