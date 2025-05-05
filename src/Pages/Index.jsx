@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import Top from '../components/Top';
 import Footer1 from '../components/Footer1';
 import SlideshowMap from '../components/SlideshowMap'; // import the new component
@@ -72,7 +73,7 @@ export default function Index() {
     <div className="parkguide-section">
       <div className="parkguide-title-container">
         <h1 className="parkguide-title">Park Guides</h1>
-        <a href="parkguide.html" className="see-all-btn">See all guides</a>
+        <Link to="/guide" className="see-all-btn">See all guides</Link>
       </div>
       
       <div className="parkguide-container">
