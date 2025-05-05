@@ -1,4 +1,4 @@
-import BackButton from '../components/BackButton';
+import { Link } from 'react-router-dom';
 import Footer1 from '../components/Footer1';
 import "../styles.css";
 import Blogs1Image from "../assets/smg1.png";
@@ -17,6 +17,7 @@ export default function Blogmenu() {
     <h3>Popular Tourist Spot <span class="tgl-btnBM" onclick="toggleSpots()">See All</span></h3>
     <div className="blog-gridBM" id="pm-spots">
       <a href="blogs.html" class="b-card-linkBM">
+      <Link to="/blogs2">
         <div className="b-cardBM">
           <div className="b-image-containerBM">
 
@@ -36,6 +37,7 @@ export default function Blogmenu() {
             </div>
           </div>
         </div>
+      </Link>
       </a>
       
 

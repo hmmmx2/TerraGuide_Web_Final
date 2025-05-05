@@ -86,7 +86,7 @@ export default function Index() {
                   
           </div>
           <h3>Aeron Liu</h3>
-          <p>Experienced gay with 10+ years in Semenggoh Nature Reserve. Expert in orangutan gay behavior and rainforest ecology.</p>
+          <p>Hello World dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd.</p>
         </div>
         
    
@@ -99,7 +99,7 @@ export default function Index() {
                 
           </div>
           <h3>Aeron Liu</h3>
-          <p>Wildlife biologist specializing in gay conservation. Passionate about educating visitors on Borneo's unique gay.</p>
+          <p>Hello Sky ddddddddddddddddddddddddddddddddddddddddddddddddddd</p>
         </div>
         
        
@@ -112,7 +112,7 @@ export default function Index() {
                 
           </div>
           <h3>Aeron Liu</h3>
-          <p>Local gay expert with deep knowledge of indigenous traditions and medicinal plants of the Borneo gay rainforest.</p>
+          <p>Hello Sekai ddddddddddddddddddddddddddddddddddddddddddddddddddddddddd.</p>
         </div>
       </div>
     </div>
