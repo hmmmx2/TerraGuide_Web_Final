@@ -17,17 +17,17 @@ export default function Blogmenu() {
     <h3>Popular Tourist Spot <span class="tgl-btnBM" onclick="toggleSpots()">See All</span></h3>
     <div className="blog-gridBM" id="pm-spots">
       <a href="blogs.html" class="b-card-linkBM">
-      <Link to="/blogs2">
+      
         <div className="b-cardBM">
           <div className="b-image-containerBM">
 
-           <img
+           <Link to="/blogs"><img
                                   src={Blogs1Image}
                              
                                   alt="Login Illustration"
                                   
 
-                                />
+                                /></Link>
           </div>
           <div className="b-contentBM">
             <div className="b-card-titleBM">The History of Semenggoh...</div>
@@ -37,7 +37,7 @@ export default function Blogmenu() {
             </div>
           </div>
         </div>
-      </Link>
+      
       </a>
       
 
@@ -47,11 +47,11 @@ export default function Blogmenu() {
       <div className="b-cardBM">
         <div className="b-image-containerBM">
           <div className="b-card-imageBM">
-            <img
+          <Link to="/blogs2"><img
                                 src={Blogs2Image}
                                
                                 alt="Login Illustration"
-                              />
+                              /></Link>
                               </div>
         </div>
           <div className="b-contentBM">

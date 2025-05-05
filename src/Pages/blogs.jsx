@@ -1,4 +1,4 @@
-import Firstheader from "../components/Firstheader";
+import Top from "../components/Top";
 import Footer1 from "../components/Footer1";
 import "../styles.css";
 import blogs1 from "../assets/smg1.png";
@@ -12,7 +12,7 @@ export default function Blogs() {
 
       
   <div classname="smg1blogs">
-    <img src="{blogs1}" alt="TerraGuide Logo" />
+    <img src={blogs1} alt="TerraGuide Logo" />
   </div>
   <div classname="smg1blogsh1">
     <h1>The History of Semengguh</h1>

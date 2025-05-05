@@ -112,7 +112,7 @@ export default function Index() {
                 
           </div>
           <h3>Aeron Liu</h3>
-          <p>Hello Sekai ddddddddddddddddddddddddddddddddddddddddddddddddddddddddd.</p>
+          <p>Hello Sakai ddddddddddddddddddddddddddddddddddddddddddddddddddddddddd.</p>
         </div>
       </div>
     </div>
@@ -120,7 +120,7 @@ export default function Index() {
 </>
 
 
-    <div style={{ marginTop: "500px" }}>
+    <div style={{ marginTop: "0px" }}>
       <Footer1/>
     </div>
 
