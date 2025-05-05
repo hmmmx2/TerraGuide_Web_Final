@@ -22,7 +22,7 @@ export default function Index() {
 
 
 
-      <div style={{ marginTop: "900px" }}>
+      <div style={{ marginTop: "400px" }}>
 
       <div className="table-sectionFB">
     <div className="table-title-containerFB">
