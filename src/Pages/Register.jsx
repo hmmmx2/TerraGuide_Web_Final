@@ -6,6 +6,7 @@ import registrationImage from "../assets/registrationv2-img.png";
 // Updated to use Supabase authentication
 import { useAuth } from "../contexts/authContext/supabaseAuthContext";
 import { doCreateUserWithEmailAndPassword } from "../supabase/auth";
+import { supabase } from "../supabase/supabase"; // Add this import
 import {Link, Navigate, useNavigate} from "react-router-dom";
 
 const Register = () => {
@@ -17,8 +18,11 @@ const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [userRole, setUserRole] = useState("guide"); // Default role is visitor
   const [isRegistering, setIsRegistering] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const validatePassword = (password) => {
     const minLength = 8;
@@ -48,6 +52,22 @@ const Register = () => {
   const onSubmit = async (e) => {
     e.preventDefault();
 
+    // Validate required fields
+    if (!firstName.trim()) {
+      setErrorMessage("First name is required");
+      return;
+    }
+    
+    if (!lastName.trim()) {
+      setErrorMessage("Last name is required");
+      return;
+    }
+    
+    if (!userRole) {
+      setErrorMessage("User role is required");
+      return;
+    }
+
     // Validate password requirements
     const passwordError = validatePassword(password);
     if (passwordError) {
@@ -59,14 +79,49 @@ const Register = () => {
       setErrorMessage("Passwords don't match");
       return;
     }
+    
     setIsRegistering(true);
     setErrorMessage(""); // Clear previous errors
+    
     try {
-      await doCreateUserWithEmailAndPassword(email, password);
-      // After successful registration
-      navigate("/index");
+      // First check if the email exists
+      const { data, error } = await supabase.auth.signInWithOtp({
+        email: email,
+        options: {
+          shouldCreateUser: false // This ensures we only check if the user exists
+        }
+      });
+      
+      // If no error is thrown when shouldCreateUser is false, it means the user exists
+      if (!error) {
+        setErrorMessage("This email is already registered. Please use a different email address.");
+        setIsRegistering(false);
+        return;
+      }
+      
+      // If the error is not about user existence, it's another type of error
+      if (error && !error.message.includes("Email not confirmed")) {
+        // If the error is not about email confirmation, proceed with registration
+        // Pass the userRole, firstName and lastName to the registration function
+        await doCreateUserWithEmailAndPassword(email, password, firstName, lastName, userRole);
+        // After successful registration
+        navigate("/index");
+      } else {
+        // If the error is about email confirmation, it means the user exists but hasn't confirmed email
+        setErrorMessage("This email is already registered but not confirmed. Please check your inbox for confirmation email.");
+        setIsRegistering(false);
+        return;
+      }
     } catch (error) {
-      setErrorMessage(error.message);
+      // Handle specific error for duplicate email from Supabase
+      if (error.message.includes("already registered") || 
+          error.message.includes("already in use") || 
+          error.message.includes("User already exists") ||
+          error.code === "23505") {
+        setErrorMessage("This email is already registered. Please use a different email address.");
+      } else {
+        setErrorMessage(error.message);
+      }
     } finally {
       setIsRegistering(false);
     }
@@ -180,12 +235,30 @@ const Register = () => {
                 </div>
               </div>
 
+              {/* User Role Selection Dropdown */}
+              <div className="registration-input-container">
+                <label htmlFor="userRole" className="registration-input-label">User Role:</label>
+                <div className="registration-input-text">
+                  <span className="registration-icon"><i className="fa-solid fa-user-tag"></i></span>
+                  <select
+                    id="userRole"
+                    className="registration-input"
+                    value={userRole}
+                    onChange={(e) => setUserRole(e.target.value)}
+                    required
+                  >
+                    <option value="guide">Park Guide</option>
+                    <option value="visitor">Visitor</option>
+                  </select>
+                </div>
+              </div>
+
               <div className="registration-input-container">
                 <label htmlFor="password" className="registration-input-label">Password (25 characters max):</label>
-                <div className="registration-input-text">
+                <div className="registration-input-text" style={{ position: 'relative' }}>
                   <span className="registration-icon"><i className="fa-solid fa-key"></i></span>
                   <input
-                    type="password" // Changed by Desmond @ 17 April 2025,  from text to password
+                    type={showPassword ? "text" : "password"}
                     id="password"
                     className="registration-input"
                     // Added by Desmond @ 17 April 2025
@@ -201,15 +274,28 @@ const Register = () => {
                     // pattern="[A-Za-z\s]+"
                     // title="Only alphabetical characters allowed (A-Z or a-z)"
                   />
+                  <span 
+                    onClick={() => setShowPassword(!showPassword)}
+                    style={{ 
+                      position: 'absolute', 
+                      right: '10px', 
+                      top: '50%', 
+                      transform: 'translateY(-50%)', 
+                      cursor: 'pointer',
+                      zIndex: 10
+                    }}
+                  >
+                    <i className={`fa-solid ${showPassword ? "fa-eye-slash" : "fa-eye"}`}></i>
+                  </span>
                 </div>
               </div>
 
               <div className="registration-input-container">
                 <label htmlFor="confirmpassword" className="registration-input-label">Confirm Password:</label>
-                <div className="registration-input-text">
+                <div className="registration-input-text" style={{ position: 'relative' }}>
                   <span className="registration-icon"><i className="fa-solid fa-key"></i></span>
                   <input
-                    type="password" // Changed by Desmond @ 17 April 2025,  from text to password
+                    type={showConfirmPassword ? "text" : "password"}
                     id="confirmpassword"
                     className="registration-input"
                     // Added by Desmond @ 17 April 2025
@@ -225,6 +311,19 @@ const Register = () => {
                     // pattern="[A-Za-z\s]+"
                     // title="Only alphabetical characters allowed (A-Z or a-z)"
                   />
+                  <span 
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                    style={{ 
+                      position: 'absolute', 
+                      right: '10px', 
+                      top: '50%', 
+                      transform: 'translateY(-50%)', 
+                      cursor: 'pointer',
+                      zIndex: 10
+                    }}
+                  >
+                    <i className={`fa-solid ${showConfirmPassword ? "fa-eye-slash" : "fa-eye"}`}></i>
+                  </span>
                 </div>
               </div>
 
@@ -266,5 +365,4 @@ const Register = () => {
   );
 };
 
-// Added by Desmond @ 17 April 2025
 export default Register;
