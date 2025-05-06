@@ -17,6 +17,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [isSigningIn, setIsSigningIn] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -109,12 +110,12 @@ const Login = () => {
                   <label htmlFor="password" className="registration-input-label">
                     Password (25 characters maximum):
                   </label>
-                  <div className="registration-input-text">
-                  <span className="registration-icon">
-                    <i className="fa-solid fa-key"></i>
-                  </span>
+                  <div className="registration-input-text" style={{ position: 'relative' }}>
+                    <span className="registration-icon">
+                      <i className="fa-solid fa-key"></i>
+                    </span>
                     <input
-                        type="password"
+                        type={showPassword ? "text" : "password"}
                         name="password"
                         className="registration-input"
                         id="password"
@@ -126,6 +127,19 @@ const Login = () => {
                         maxLength="25"
                         title="Password required (max 25 characters)"
                     />
+                    <span 
+                      onClick={() => setShowPassword(!showPassword)}
+                      style={{ 
+                        position: 'absolute', 
+                        right: '10px', 
+                        top: '50%', 
+                        transform: 'translateY(-50%)', 
+                        cursor: 'pointer',
+                        zIndex: 10
+                      }}
+                    >
+                      <i className={`fa-solid ${showPassword ? "fa-eye-slash" : "fa-eye"}`}></i>
+                    </span>
                   </div>
                 </div>
 
