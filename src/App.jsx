@@ -5,12 +5,15 @@ import Register from "./Pages/Register.jsx";
 import Login from "./Pages/Login.jsx";
 import Blogmenu from "./Pages/blogmenu";
 import Test from "./Pages/Test";
+import Blogs from "./Pages/blogs";
 import Blogs2 from "./Pages/blogs2";
 import Template from "./Pages/Template";
 import Index from "./Pages/index";
 import Profile from "./Pages/Profile";
 import Timetable from "./Pages/Timetable";
 import Guide from "./Pages/Guide";
+import ParkMap from "./Pages/ParkMap";
+import SessionTimeoutManager from './components/SessionTimeoutManager';
 
 // More efficient ProtectedRoute using Outlet
 function ProtectedRoutes() {
@@ -46,18 +49,20 @@ function App() {
               <Route path="/index" element={<Index />} />
               <Route path="/blogmenu" element={<Blogmenu />} />
               <Route path="/test" element={<Test />} />
+              <Route path="/blogs" element={<Blogs />} />
               <Route path="/blogs2" element={<Blogs2 />} />
               <Route path="/template" element={<Template />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/timetable" element={<Timetable />} />
               <Route path="/guide" element={<Guide />} />
+              <Route path="/parkmap" element={<ParkMap />} />
             </Route>
 
             {/* Catch-all route */}
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
+          <SessionTimeoutManager timeoutDuration={60000} /> {/* 1 minute timeout */}
         </Router>
-        
       </AuthProvider>
   );
 }

@@ -1,10 +1,10 @@
+import { Link } from 'react-router-dom';
 import Top from '../components/Top';
 import Footer1 from '../components/Footer1';
 import SlideshowMap from '../components/SlideshowMap'; // import the new component
 import Slideshow2 from '../components/Slideshow2'; // import the new component
 import Screenshot from "../components/Screenshot";
 import "../styles.css";
-import Map from '../components/Map';
 import ExampleImage from "../assets/parkguide_example.jpg";
 
 
@@ -23,7 +23,7 @@ export default function Index() {
 
 
 
-      <div style={{ marginTop: "900px" }}>
+      <div style={{ marginTop: "400px" }}>
 
       <div className="table-sectionFB">
     <div className="table-title-containerFB">
@@ -73,7 +73,7 @@ export default function Index() {
     <div className="parkguide-section">
       <div className="parkguide-title-container">
         <h1 className="parkguide-title">Park Guides</h1>
-        <a href="parkguide.html" className="see-all-btn">See all guides</a>
+        <Link to="/guide" className="see-all-btn">See all guides</Link>
       </div>
       
       <div className="parkguide-container">
@@ -87,7 +87,7 @@ export default function Index() {
                   
           </div>
           <h3>Aeron Liu</h3>
-          <p>Experienced gay with 10+ years in Semenggoh Nature Reserve. Expert in orangutan gay behavior and rainforest ecology.</p>
+          <p>Hello World dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd.</p>
         </div>
         
    
@@ -100,7 +100,7 @@ export default function Index() {
                 
           </div>
           <h3>Aeron Liu</h3>
-          <p>Wildlife biologist specializing in gay conservation. Passionate about educating visitors on Borneo's unique gay.</p>
+          <p>Hello Sky ddddddddddddddddddddddddddddddddddddddddddddddddddd</p>
         </div>
         
        
@@ -113,7 +113,7 @@ export default function Index() {
                 
           </div>
           <h3>Aeron Liu</h3>
-          <p>Local gay expert with deep knowledge of indigenous traditions and medicinal plants of the Borneo gay rainforest.</p>
+          <p>Hello Sakai ddddddddddddddddddddddddddddddddddddddddddddddddddddddddd.</p>
         </div>
       </div>
     </div>
@@ -121,7 +121,7 @@ export default function Index() {
 </>
 
 
-    <div style={{ marginTop: "500px" }}>
+    <div style={{ marginTop: "0px" }}>
       <Footer1/>
     </div>
 

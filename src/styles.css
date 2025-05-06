@@ -6,6 +6,100 @@
     box-sizing:border-box;
   }
 
+  /*----------------Session Manager-------------*/
+  .session-warning-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .session-warning-modal {
+    background-color: #F6EFDC;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    width: 90%;
+    max-width: 450px;
+    overflow: hidden;
+    animation: modalFadeIn 0.3s ease-out;
+  }
+  
+  .session-warning-header {
+    background-color: #4E6E4E; /* Match your app's primary color */
+    color: #F6EFDC;
+    padding: 15px 20px;
+    text-align: center;
+  }
+  
+  .session-warning-header h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 600;
+  }
+  
+  .session-warning-body {
+    padding: 25px 30px;
+    text-align: center;
+    color: #333;
+  }
+  
+  .session-warning-icon {
+    font-size: 48px;
+    color: #e67e22; /* Match your app's accent color */
+    margin-bottom: 20px;
+  }
+  
+  .session-warning-body p {
+    margin: 10px 0;
+    font-size: 16px;
+    line-height: 1.5;
+  }
+  
+  .session-time-remaining {
+    font-weight: bold;
+    color: #e74c3c; /* Highlight color for urgency */
+  }
+  
+  .session-warning-footer {
+    padding: 15px 20px 25px;
+    text-align: center;
+  }
+  
+  .session-continue-btn {
+    background-color: #4E6E4E; /* Match your app's success/action color */
+    color: #F6EFDC;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 500;
+    transition: background-color 0.2s ease;
+  }
+  
+  .session-continue-btn:hover {
+    background-color: #4E6E4E;
+  }
+  
+  @keyframes modalFadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  /*---------------End of Session Manager-------------*/
+
+
   /*--------------------Screenshot------------------*/
 
   @media print {
@@ -13,10 +107,8 @@
       display: none !important;
     }
   }
-  
- 
 
-    /*--------------------End of Screenshot------------------*/
+  /*--------------------End of Screenshot------------------*/
 
   /*--------------------Blogs------------------*/
 
