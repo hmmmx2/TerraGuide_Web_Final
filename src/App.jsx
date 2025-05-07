@@ -13,6 +13,7 @@ import Profile from "./Pages/Profile";
 import Timetable from "./Pages/Timetable";
 import Guide from "./Pages/Guide";
 import ParkMap from "./Pages/ParkMap";
+import Aboutus from "./Pages/Aboutus";
 import SessionTimeoutManager from './components/SessionTimeoutManager';
 
 // More efficient ProtectedRoute using Outlet
@@ -56,6 +57,7 @@ function App() {
               <Route path="/timetable" element={<Timetable />} />
               <Route path="/guide" element={<Guide />} />
               <Route path="/parkmap" element={<ParkMap />} />
+              <Route path="/aboutus" element={<Aboutus />} />
             </Route>
 
             {/* Catch-all route */}
