@@ -40,7 +40,7 @@
 }
 
 /* make the map fill the rest of the card */
-.map-wrapper {
+.map-wrapper1 {
   flex: 1;
   border-radius: 8px;
   overflow: hidden;

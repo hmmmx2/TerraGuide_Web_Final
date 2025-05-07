@@ -19,7 +19,7 @@ export default function SlideshowMap() {
             The Parks Map
           </Link>
         </h3>
-        <div className="map-wrapper">
+        <div className="map-wrapper1">
           <Map />
         </div>
       </div>
