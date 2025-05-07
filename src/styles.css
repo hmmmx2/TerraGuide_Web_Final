@@ -2428,17 +2428,23 @@ margin: 0 auto;
   color: #F6EFDC;
   padding: 15px 20px;
   display: flex;
-  justify-content: space-between;
+  justify-content: center; /* Center the content horizontally */
   align-items: center;
+  position: relative; /* For absolute positioning of the close button */
 }
 
 .confirmation-popup-header h5 {
   margin: 0;
   font-size: 1.25rem;
   font-weight: 600;
+  text-align: center; /* Center the text */
 }
 
 .confirmation-popup-header .btn-close {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
   background-color: transparent;
   color: #F6EFDC;
   border: none;
