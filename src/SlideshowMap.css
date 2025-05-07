@@ -46,6 +46,17 @@
   overflow: hidden;
 }
 
+.map-link {
+  color: inherit;         /* same color as .map-title */
+  text-decoration: none;  /* remove underline */
+}
+
+/* Optionally, add a hover effect */
+.map-link:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
 /* ----- Responsive: stack on tablet/mobile ----- */
 @media (max-width: 768px) {
   .hero-section {

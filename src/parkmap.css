@@ -1,0 +1,54 @@
+/* --------------------------------------------------
+   Semenggoh Parks Map Section
+   -------------------------------------------------- */
+   .semenggoh-park-map-section {
+    width: 100%;
+    max-width: 1200px;
+    margin: 60px auto;
+    padding: 20px;               /* breathing room around content */
+    background-color: #f7f7f2;   /* same light tint as your blogs section */
+    border-radius: 8px;
+  }
+  
+  /* Title + line layout */
+  .title-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+  
+  /* the growing line to the left of the title */
+  .title-container::before {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: #4E6E4E;         /* match your green/nav color */
+    margin-right: 12px;
+  }
+  
+  /* the actual title on the right */
+  .semenggoh-title {
+    margin: 0;
+    font-size: 2rem;
+    color: #333;
+  }
+  
+  /* map container: keeps 16:9 ratio and is fully responsive */
+  .map-wrapper {
+    position: relative;
+    width: 100%;
+    padding-bottom: 56.25%;      /* 9/16 = 0.5625 */
+    overflow: hidden;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  
+  /* fill the wrapper with the map or image */
+  .map-wrapper > * {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+  

@@ -87,8 +87,8 @@ function Top() {
               </div>
             </div>
             <Link to="#">Dext AI</Link>
-            <Link to="/Blogmenu">Blogs</Link>
-            <Link to="#">Park Guide</Link>
+            <Link to="/blogmenu">Blogs</Link>
+            <Link to="/guide">Park Guide</Link>
           </div>
 
           <div className="auth-buttons">
