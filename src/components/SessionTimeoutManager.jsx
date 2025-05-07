@@ -24,6 +24,11 @@ const SessionTimeoutManager = ({ timeoutDuration = 60000 }) => { // 60000ms = 1 
     }
   };
 
+  // Reset timer whenever currentUser changes (login/logout)
+  useEffect(() => {
+    resetTimer();
+  }, [currentUser]);
+
   useEffect(() => {
     // Only run the timer if the user is logged in
     if (!currentUser) return;
