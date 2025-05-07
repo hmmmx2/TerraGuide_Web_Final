@@ -2392,11 +2392,125 @@ margin: 0 auto;
 }
 
 @media (max-width: 480px) {
-.slideshow-map-wrapperMB {
-    padding-top: 30px;
-    margin-bottom: 60px;
+  .slideshow-map-wrapperMB {
+      padding-top: 30px;
+      margin-bottom: 60px;
+  }
 }
+
+/* Confirmation Popup Styles */
+.confirmation-popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1050;
+  animation: fadeIn 0.3s ease-out;
 }
+
+.confirmation-popup {
+  background-color: #F6EFDC;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  width: 90%;
+  max-width: 450px;
+  overflow: hidden;
+  animation: popupFadeIn 0.3s ease-out;
+}
+
+.confirmation-popup-header {
+  background-color: #4E6E4E;
+  color: #F6EFDC;
+  padding: 15px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.confirmation-popup-header h5 {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.confirmation-popup-header .btn-close {
+  background-color: transparent;
+  color: #F6EFDC;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0;
+  opacity: 0.8;
+}
+
+.confirmation-popup-header .btn-close:hover {
+  opacity: 1;
+}
+
+.confirmation-popup-body {
+  padding: 25px 30px;
+  text-align: center;
+  color: #333;
+}
+
+.confirmation-popup-icon {
+  font-size: 48px;
+  color: #4E6E4E;
+  margin-bottom: 20px;
+}
+
+.confirmation-popup-body p {
+  margin: 10px 0;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.confirmation-popup-footer {
+  padding: 15px 20px 25px;
+  text-align: center;
+}
+
+.confirmation-popup-btn {
+  background-color: #4E6E4E;
+  color: #F6EFDC;
+  border: none;
+  padding: 12px 30px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+}
+
+.confirmation-popup-btn:hover {
+  background-color: #3d5a3d;
+}
+
+@keyframes popupFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+/* End of Confirmation Popup Styles */
 
 /* Add these Bootstrap-inspired validation styles */
 .is-invalid {

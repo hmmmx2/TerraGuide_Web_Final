@@ -6,31 +6,36 @@ import registrationImage from "../assets/registrationv2-img.png";
 // Updated to use Supabase authentication
 import { useAuth } from "../contexts/authContext/supabaseAuthContext";
 import { doCreateUserWithEmailAndPassword } from "../supabase/auth";
-import { supabase } from "../supabase/supabase"; // Add this import
-import {Link, Navigate, useNavigate} from "react-router-dom";
+import { supabase } from "../supabase/supabase";
+import { Link, Navigate, useNavigate } from "react-router-dom";
+import ConfirmationPopup from "../components/ConfirmationPopup"; // Import the popup component
 
 const Register = () => {
   const navigate = useNavigate();
   const { userLoggedIn } = useAuth();
 
+  // Existing state variables
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [userRole, setUserRole] = useState("guide"); // Default role is visitor
+  const [userRole, setUserRole] = useState("guide");
   const [isRegistering, setIsRegistering] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   
-  // Add individual field error states
+  // Field error states
   const [firstNameError, setFirstNameError] = useState("");
   const [lastNameError, setLastNameError] = useState("");
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [confirmPasswordError, setConfirmPasswordError] = useState("");
   const [userRoleError, setUserRoleError] = useState("");
+  
+  // Add state for the confirmation popup
+  const [showConfirmationPopup, setShowConfirmationPopup] = useState(false);
 
   const validatePassword = (password) => {
     const minLength = 8;
@@ -126,8 +131,9 @@ const Register = () => {
         // If the error is not about email confirmation, proceed with registration
         // Pass the userRole, firstName and lastName to the registration function
         await doCreateUserWithEmailAndPassword(email, password, firstName, lastName, userRole);
-        // After successful registration
-        navigate("/index");
+        
+        // Show confirmation popup instead of navigating immediately
+        setShowConfirmationPopup(true);
       } else {
         // If the error is about email confirmation, it means the user exists but hasn't confirmed email
         setEmailError("This email is already registered but not confirmed. Please check your inbox for confirmation email.");
@@ -149,10 +155,15 @@ const Register = () => {
     }
   };
 
+  // Function to handle popup close
+  const handleClosePopup = () => {
+    setShowConfirmationPopup(false);
+    navigate("/index"); // Navigate after closing the popup
+  };
+
   if (userLoggedIn) {
     return <Navigate to="/index" replace />;
   }
-// End
 
   return (
     <>
@@ -381,7 +392,12 @@ const Register = () => {
     </div>
 
       <>
-        <Footer1 />
+        <ConfirmationPopup 
+          show={showConfirmationPopup}
+          onClose={handleClosePopup}
+          title="Registration Successful"
+          message="A confirmation email has been sent to your email address. Please check your inbox and follow the instructions to verify your account."
+        />
       </>
 
     </>
