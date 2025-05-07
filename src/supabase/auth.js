@@ -50,6 +50,24 @@ export const doSignInWithEmailAndPassword = async (email, password) => {
     }
 };
 
+// Sign in with email OTP (magic link)
+export const doSignInWithEmailOTP = async (email) => {
+    try {
+        const { data, error } = await supabase.auth.signInWithOtp({
+            email,
+            options: {
+                emailRedirectTo: window.location.origin + '/index'
+            }
+        });
+        
+        if (error) throw error;
+        return data;
+    } catch (error) {
+        console.error("Email OTP login error:", error);
+        throw error;
+    }
+};
+
 // Send password reset email
 export const doPasswordReset = async (email) => {
     try {

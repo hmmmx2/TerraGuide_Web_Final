@@ -15,6 +15,7 @@ export function AuthProvider({ children }) {
     const [currentUser, setCurrentUser] = useState(null);
     const [userLoggedIn, setUserLoggedIn] = useState(false);
     const [loading, setLoading] = useState(true);
+    const [emailVerificationSent, setEmailVerificationSent] = useState(false);
 
     useEffect(() => {
         // Set up auth state listener
@@ -51,7 +52,9 @@ export function AuthProvider({ children }) {
     const value = {
         currentUser,
         userLoggedIn,
-        loading
+        loading,
+        emailVerificationSent,
+        setEmailVerificationSent
     };
 
     return (

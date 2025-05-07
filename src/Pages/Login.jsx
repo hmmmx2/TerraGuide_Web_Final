@@ -5,12 +5,12 @@ import "../styles.css";
 import LoginImage from "../assets/login-img.png";
 import Top from "../components/Top";
 // Updated to use Supabase authentication
-import { doSignInWithEmailAndPassword} from "../supabase/auth";
+import { doSignInWithEmailAndPassword, doSignInWithEmailOTP } from "../supabase/auth";
 import { useAuth } from "../contexts/authContext/supabaseAuthContext";
 import { Navigate, useNavigate, Link } from "react-router-dom";
 
 const Login = () => {
-  const { userLoggedIn } = useAuth();
+  const { userLoggedIn, emailVerificationSent, setEmailVerificationSent } = useAuth();
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
@@ -18,6 +18,10 @@ const Login = () => {
   const [isSigningIn, setIsSigningIn] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [useEmailOTP, setUseEmailOTP] = useState(false);
+  
+  // Use the emailVerificationSent state from context instead of local state
+  const otpSent = emailVerificationSent;
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -29,8 +33,15 @@ const Login = () => {
     setErrorMessage("");
 
     try {
-      await doSignInWithEmailAndPassword(email, password);
-      navigate("/index");
+      if (useEmailOTP) {
+        // Use email OTP login
+        await doSignInWithEmailOTP(email);
+        setEmailVerificationSent(true);
+      } else {
+        // Use traditional password login
+        await doSignInWithEmailAndPassword(email, password);
+        navigate("/index");
+      }
     } catch (error) {
       setErrorMessage(error.message);
     } finally {
@@ -106,42 +117,44 @@ const Login = () => {
                   </div>
                 </div>
 
-                <div className="registration-input-container">
-                  <label htmlFor="password" className="registration-input-label">
-                    Password (25 characters maximum):
-                  </label>
-                  <div className="registration-input-text" style={{ position: 'relative' }}>
-                    <span className="registration-icon">
-                      <i className="fa-solid fa-key"></i>
-                    </span>
-                    <input
-                        type={showPassword ? "text" : "password"}
-                        name="password"
-                        className="registration-input"
-                        id="password"
-                        // Added by Desmond @ 17 April 2025
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        // End
-                        required
-                        maxLength="25"
-                        title="Password required (max 25 characters)"
-                    />
-                    <span 
-                      onClick={() => setShowPassword(!showPassword)}
-                      style={{ 
-                        position: 'absolute', 
-                        right: '10px', 
-                        top: '50%', 
-                        transform: 'translateY(-50%)', 
-                        cursor: 'pointer',
-                        zIndex: 10
-                      }}
-                    >
-                      <i className={`fa-solid ${showPassword ? "fa-eye-slash" : "fa-eye"}`}></i>
-                    </span>
+                {!useEmailOTP && (
+                  <div className="registration-input-container">
+                    <label htmlFor="password" className="registration-input-label">
+                      Password (25 characters maximum):
+                    </label>
+                    <div className="registration-input-text" style={{ position: 'relative' }}>
+                      <span className="registration-icon">
+                        <i className="fa-solid fa-key"></i>
+                      </span>
+                      <input
+                          type={showPassword ? "text" : "password"}
+                          name="password"
+                          className="registration-input"
+                          id="password"
+                          // Added by Desmond @ 17 April 2025
+                          value={password}
+                          onChange={(e) => setPassword(e.target.value)}
+                          // End
+                          required={!useEmailOTP}
+                          maxLength="25"
+                          title="Password required (max 25 characters)"
+                      />
+                      <span 
+                        onClick={() => setShowPassword(!showPassword)}
+                        style={{ 
+                          position: 'absolute', 
+                          right: '10px', 
+                          top: '50%', 
+                          transform: 'translateY(-50%)', 
+                          cursor: 'pointer',
+                          zIndex: 10
+                        }}
+                      >
+                        <i className={`fa-solid ${showPassword ? "fa-eye-slash" : "fa-eye"}`}></i>
+                      </span>
+                    </div>
                   </div>
-                </div>
+                )}
 
                 {/* Added by Desmond @ 17 April 2025 */}
                 {errorMessage && (
@@ -149,11 +162,31 @@ const Login = () => {
                       {errorMessage}
                     </p>
                 )}
+                
+                {otpSent && (
+                    <p className="registration-passw-requirement" style={{ color: 'white' }} aria-live="assertive">
+                      A magic link has been sent to your email. Please check your inbox and click the link to log in.
+                    </p>
+                )}
+                
+                <div className="registration-input-container">
+                  <label className="registration-input-label" style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}>
+                    <input 
+                      type="checkbox" 
+                      checked={useEmailOTP} 
+                      onChange={() => setUseEmailOTP(!useEmailOTP)}
+                      style={{ marginRight: '8px' }}
+                    />
+                    Login with email verification (no password required)
+                  </label>
+                </div>
 
                 <div className="login-container">
                   {/* Changed by Desmond @ 17 April 2025, added 'disabled'. */}
                   {/* Need to change the className from register-btn back to login-button */}
-                  <button type="submit" className="register-btn" disabled={isSigningIn}>{isSigningIn ? "Logging in..." : "Log In"}</button>
+                  <button type="submit" className="register-btn" disabled={isSigningIn}>
+                    {isSigningIn ? "Processing..." : otpSent ? "Resend Email Link" : useEmailOTP ? "Send Login Link" : "Log In"}
+                  </button>
                   {/*<button className="login-button" disabled={isSigningIn}>*/}
                   {/*  {isSigningIn ? "Logging in..." : "Log In"}*/}
                   {/*</button>*/}
