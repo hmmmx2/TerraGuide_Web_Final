@@ -78,7 +78,7 @@ function Top() {
 
           <div className="nav-links">
             <Link to="/index">Home</Link>
-            <Link to="#">About Us</Link>
+            <Link to="/aboutus">About Us</Link>
             <div className="dropdown">
               <Link to="#">My Courses</Link>
               <div className="dropdown-content">
