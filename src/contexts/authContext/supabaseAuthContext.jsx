@@ -27,6 +27,8 @@ export function AuthProvider({ children }) {
                 } else {
                     setCurrentUser(null);
                     setUserLoggedIn(false);
+                    // Reset email verification state when user logs out
+                    setEmailVerificationSent(false);
                 }
                 setLoading(false);
             }
