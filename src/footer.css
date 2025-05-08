@@ -1,4 +1,42 @@
 /* ---------------------------------------------------------------------Footer Styling ---------------------------------------------------------------*/
+
+
+/*--------changes made *---------------------*/
+
+
+/* Reset body margin and padding */
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden; 
+}
+
+/* Footer Styling */
+footer {
+  background-color: #4E6E4E;
+  color: #F6EFDC;
+  padding: 3.5vw 0;
+  width: 100vw; 
+  position: relative; 
+  left: 0;
+  right: 0;
+  box-sizing: border-box; 
+}
+
+.footer-container {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding: 0 1.5vw;
+  max-width: 100%;
+  margin: 2vw auto;
+  box-sizing: border-box;
+}
+
+/* end of changes made */
+
+
 footer {
   background-color: #4E6E4E;
   color: #F6EFDC;
