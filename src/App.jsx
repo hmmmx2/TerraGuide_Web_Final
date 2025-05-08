@@ -18,19 +18,25 @@ import SessionTimeoutManager from './components/SessionTimeoutManager';
 
 // More efficient ProtectedRoute using Outlet
 function ProtectedRoutes() {
-  const { currentUser, loading } = useAuth();
+  const { currentUser, loading, userLoggedIn } = useAuth();
 
   if (loading) {
     return <div>Loading...</div>; // Show loading state while checking auth
   }
 
-  return currentUser ? <Outlet /> : <Navigate to="/" replace />;
+  // Check userLoggedIn which handles both regular users and guest mode
+  return userLoggedIn ? <Outlet /> : <Navigate to="/" replace />;
 }
 
 // Optional: PublicOnlyRoutes for login/signup
 function PublicOnlyRoutes() {
-  const { currentUser } = useAuth();
-  return !currentUser ? <Outlet /> : <Navigate to="/index" replace />;
+  const { userLoggedIn, loading } = useAuth();
+  
+  if (loading) {
+    return <div>Loading...</div>; // Show loading state while checking auth
+  }
+  
+  return !userLoggedIn ? <Outlet /> : <Navigate to="/index" replace />;
 }
 
 function App() {

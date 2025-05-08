@@ -3,7 +3,66 @@ import { supabase } from './supabase';
 // Create a new user with email and password
 export const doCreateUserWithEmailAndPassword = async (email, password, firstName, lastName, userRole) => {
   try {
-    // Supabase will automatically check for duplicate emails during sign-up
+    // For guest users, we'll skip email confirmation
+    const isGuestUser = userRole === 'guest';
+    
+    // For guest users, we need a different approach
+    if (isGuestUser) {
+      try {
+        // For guest users, we'll use a special approach to bypass email verification
+        // First, check if we can sign in directly (in case this guest email was used before)
+        const { data: existingData, error: existingError } = await supabase.auth.signInWithPassword({
+          email,
+          password
+        });
+        
+        // If we can sign in directly, return that session
+        if (!existingError && existingData?.session) {
+          console.log("Reusing existing guest account");
+          return existingData;
+        }
+        
+        // Otherwise, create a new user
+        console.log("Creating new guest account");
+        const { data, error } = await supabase.auth.signUp({
+          email,
+          password,
+          options: {
+            data: {
+              first_name: firstName,
+              last_name: lastName,
+              user_role: userRole
+            }
+          }
+        });
+        
+        if (error) {
+          console.error("Guest account creation error:", error);
+          throw error;
+        }
+        
+        // For guest accounts, we'll try to sign in immediately even without email verification
+        // This is a workaround since we can't force email confirmation through the client API
+        const { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({
+          email,
+          password
+        });
+        
+        if (signInError) {
+          // If we can't sign in, it's likely because email verification is required
+          // Let's provide a clear error message
+          console.error("Guest sign-in error:", signInError);
+          throw new Error("Guest sign-in requires email verification which isn't possible. Please try again or use regular registration.");
+        }
+        
+        return signInData;
+      } catch (error) {
+        console.error("Complete guest auth flow error:", error);
+        throw error;
+      }
+    }
+    
+    // For regular users, use the standard sign-up flow
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
@@ -12,7 +71,8 @@ export const doCreateUserWithEmailAndPassword = async (email, password, firstNam
           first_name: firstName,
           last_name: lastName,
           user_role: userRole
-        }
+        },
+        emailRedirectTo: window.location.origin + '/index'
       }
     });
     
@@ -22,10 +82,13 @@ export const doCreateUserWithEmailAndPassword = async (email, password, firstNam
     }
     
     // If the user was created successfully but needs email confirmation
-    if (data?.user && data?.session === null) {
-      // This means the user needs to confirm their email
+    // For guest users, we'll handle this differently
+    if (data?.user && data?.session === null && !isGuestUser) {
+      // This means the user needs to confirm their email (only for non-guest users)
       return { ...data, emailConfirmation: true };
     }
+    
+    // We've already handled guest users above, so this is only for regular users
     
     return data;
   } catch (error) {

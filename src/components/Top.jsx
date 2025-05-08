@@ -7,7 +7,7 @@ import user_sample from '../assets/sample.png';
 import { doSignOut } from '../supabase/auth.js';
 
 function Top() {
-  const { currentUser } = useAuth();
+  const { currentUser, userLoggedIn, isGuestMode, exitGuestMode } = useAuth();
   const navigate = useNavigate();
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -55,8 +55,15 @@ function Top() {
   const handleLogout = async () => {
     if (!window.confirm('Are you sure you want to log out?')) return;
     try {
-      await doSignOut();
-      navigate('/');
+      if (isGuestMode) {
+        // For guest mode, just clear localStorage and update state
+        exitGuestMode();
+        navigate('/');
+      } else {
+        // For regular users, sign out from Supabase
+        await doSignOut();
+        navigate('/');
+      }
       setDropdownOpen(false);
     } catch (err) {
       console.error(err);
@@ -92,7 +99,7 @@ function Top() {
           </div>
 
           <div className="auth-buttons">
-            {currentUser ? (
+            {userLoggedIn ? (
               <div
                 className={`profile-menu${dropdownOpen ? ' open' : ''}`}
                 ref={dropdownRef}
@@ -113,6 +120,19 @@ function Top() {
                     />
                   </div>
                   <i className="fas fa-bell icon"/>
+                  {isGuestMode && (
+                    <span style={{ 
+                      backgroundColor: '#FFC107', 
+                      color: '#000', 
+                      padding: '2px 8px', 
+                      borderRadius: '10px', 
+                      fontSize: '12px',
+                      marginLeft: '5px',
+                      fontWeight: 'bold'
+                    }}>
+                      GUEST
+                    </span>
+                  )}
                 </div>
 
                 <div
@@ -124,25 +144,34 @@ function Top() {
 
                 {dropdownOpen && (
                   <div className="dropdown-menu">
-                    <Link
-                      to="/profile"
-                      className="dropdown-item"
-                      onClick={() => setDropdownOpen(false)}
-                    >
-                      Profile
-                    </Link>
-                    <Link
-                      to="/settings"
-                      className="dropdown-item"
-                      onClick={() => setDropdownOpen(false)}
-                    >
-                      Settings
-                    </Link>
+                    {!isGuestMode && (
+                      <>
+                        <Link
+                          to="/profile"
+                          className="dropdown-item"
+                          onClick={() => setDropdownOpen(false)}
+                        >
+                          Profile
+                        </Link>
+                        <Link
+                          to="/settings"
+                          className="dropdown-item"
+                          onClick={() => setDropdownOpen(false)}
+                        >
+                          Settings
+                        </Link>
+                      </>
+                    )}
+                    {isGuestMode && (
+                      <div className="dropdown-item" style={{ color: '#666', fontStyle: 'italic' }}>
+                        Guest Mode Active
+                      </div>
+                    )}
                     <button
                       onClick={handleLogout}
                       className="dropdown-item"
                     >
-                      Logout
+                      {isGuestMode ? 'Exit Guest Mode' : 'Logout'}
                     </button>
                   </div>
                 )}

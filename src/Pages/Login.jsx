@@ -10,7 +10,7 @@ import { useAuth } from "../contexts/authContext/supabaseAuthContext";
 import { Navigate, useNavigate, Link } from "react-router-dom";
 
 const Login = () => {
-  const { userLoggedIn, emailVerificationSent, setEmailVerificationSent } = useAuth();
+  const { userLoggedIn, emailVerificationSent, setEmailVerificationSent, enableGuestMode } = useAuth();
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
@@ -187,19 +187,22 @@ const Login = () => {
                   <button type="submit" className="register-btn" disabled={isSigningIn}>
                     {isSigningIn ? "Processing..." : otpSent ? "Resend Email Link" : useEmailOTP ? "Send Login Link" : "Log In"}
                   </button>
-                  {/*<button className="login-button" disabled={isSigningIn}>*/}
-                  {/*  {isSigningIn ? "Logging in..." : "Log In"}*/}
-                  {/*</button>*/}
-                  {/* Commented by Desmond @ 17 April 2025 */}
-                  {/*<p className="or-text">or</p>*/}
-                  {/*<div className="social-login">*/}
-                  {/*  <a href="#" className="social-icon">*/}
-                  {/*    <img src="#" alt="Social login 1" />*/}
-                  {/*  </a>*/}
-                  {/*  <a href="#" className="social-icon">*/}
-                  {/*    <img src="#" alt="Social login 2" />*/}
-                  {/*  </a>*/}
-                  {/*</div>*/}
+                  
+                  <p className="or-text" style={{ margin: '15px 0', textAlign: 'center', color: 'white' }}>or</p>
+                  
+                  <button 
+                    type="button" 
+                    className="register-btn" 
+                    style={{ backgroundColor: '#FFC107', color: '#000' }}
+                    onClick={() => {
+                      // Use the enableGuestMode function from AuthContext
+                      // This properly sets up guest mode state in the context
+                      enableGuestMode();
+                      navigate('/index');
+                    }}
+                  >
+                    Sign in as Guest
+                  </button>
                   <div className="registration-alry-acc">
                     <p className="registration-input-label">
                       Don't have an account?{" "}

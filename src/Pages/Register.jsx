@@ -8,17 +8,18 @@ import { useAuth } from "../contexts/authContext/supabaseAuthContext";
 import { doCreateUserWithEmailAndPassword } from "../supabase/auth";
 import { supabase } from "../supabase/supabase"; // Add this import
 import {Link, Navigate, useNavigate} from "react-router-dom";
+import { v4 as uuidv4 } from 'uuid'; // Import UUID for generating unique guest IDs
 
 const Register = () => {
   const navigate = useNavigate();
-  const { userLoggedIn } = useAuth();
+  const { userLoggedIn, setEmailVerificationSent, enableGuestMode } = useAuth();
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [userRole, setUserRole] = useState("guide"); // Default role is visitor
+  // User role is now automatically set to "guide" for normal registration
   const [isRegistering, setIsRegistering] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -62,11 +63,6 @@ const Register = () => {
       setErrorMessage("Last name is required");
       return;
     }
-    
-    if (!userRole) {
-      setErrorMessage("User role is required");
-      return;
-    }
 
     // Validate password requirements
     const passwordError = validatePassword(password);
@@ -102,8 +98,8 @@ const Register = () => {
       // If the error is not about user existence, it's another type of error
       if (error && !error.message.includes("Email not confirmed")) {
         // If the error is not about email confirmation, proceed with registration
-        // Pass the userRole, firstName and lastName to the registration function
-        await doCreateUserWithEmailAndPassword(email, password, firstName, lastName, userRole);
+        // Pass "guide" as the userRole, along with firstName and lastName to the registration function
+        await doCreateUserWithEmailAndPassword(email, password, firstName, lastName, "guide");
         // After successful registration
         navigate("/index");
       } else {
@@ -122,6 +118,34 @@ const Register = () => {
       } else {
         setErrorMessage(error.message);
       }
+    } finally {
+      setIsRegistering(false);
+    }
+  };
+
+  // Function to handle guest sign-in - stateless approach without database interaction
+  const handleGuestSignIn = () => {
+    setIsRegistering(true);
+    setErrorMessage("");
+    
+    try {
+      console.log("Setting up stateless guest access");
+      
+      // Use the enableGuestMode function from AuthContext
+      // This properly sets up guest mode state in the context
+      enableGuestMode();
+      
+      // Skip email verification for guest access
+      setEmailVerificationSent(false);
+      
+      console.log("Guest access enabled - redirecting to index");
+      
+      // Navigate to index page
+      navigate('/index');
+    } catch (error) {
+      console.error("Guest access error:", error);
+      // Show a generic error message
+      setErrorMessage("Failed to enable guest access. Please try again.");
     } finally {
       setIsRegistering(false);
     }
@@ -235,23 +259,7 @@ const Register = () => {
                 </div>
               </div>
 
-              {/* User Role Selection Dropdown */}
-              <div className="registration-input-container">
-                <label htmlFor="userRole" className="registration-input-label">User Role:</label>
-                <div className="registration-input-text">
-                  <span className="registration-icon"><i className="fa-solid fa-user-tag"></i></span>
-                  <select
-                    id="userRole"
-                    className="registration-input"
-                    value={userRole}
-                    onChange={(e) => setUserRole(e.target.value)}
-                    required
-                  >
-                    <option value="guide">Park Guide</option>
-                    <option value="visitor">Visitor</option>
-                  </select>
-                </div>
-              </div>
+              {/* User Role Selection Dropdown removed - all normal registrations are now "guide" role */}
 
               <div className="registration-input-container">
                 <label htmlFor="password" className="registration-input-label">Password (25 characters max):</label>
@@ -350,6 +358,23 @@ const Register = () => {
               <div className="registration-alry-acc">
                 <p className="registration-input-label">Already have an account? <Link to="/" className="registration-custom-login-text">Login</Link></p>
               </div>
+              
+              {/* Or separator */}
+              <div style={{ display: 'flex', alignItems: 'center', margin: '20px 0' }}>
+                <div style={{ flex: 1, height: '1px', backgroundColor: '#ccc' }}></div>
+                <p style={{ margin: '0 10px', color: '#666' }}>or</p>
+                <div style={{ flex: 1, height: '1px', backgroundColor: '#ccc' }}></div>
+              </div>
+              
+              {/* Guest sign-in button */}
+              <button 
+                type="button" 
+                className="register-btn" 
+                style={{ backgroundColor: '#6c757d' }} 
+                onClick={handleGuestSignIn}
+              >
+                Sign in as Guest
+              </button>
             </form>
           </div>
         </div>
