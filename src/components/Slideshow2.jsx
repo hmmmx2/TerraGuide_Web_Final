@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import "../slideshow2.css";
 
 import Slideshow2Image1 from "../assets/smg1.png";
@@ -7,8 +8,15 @@ import Slideshow2Image3 from "../assets/smg3.jpg";
 
 export default function Slideshow2() {
   const slides = [
-    { image: Slideshow2Image1, caption: "The History of Semenggoh Nature Reserve" },
-    { image: Slideshow2Image2, caption: "Species of Orangutan" },
+    {
+      image: Slideshow2Image1,
+      caption: "The History of Semenggoh Nature Reserve",
+      link: "/blogs"             // <- click this slide to go to Blog.jsx
+    },
+    { image: Slideshow2Image2, 
+      caption: "Species of Orangutan",
+      link:"/blogs2"
+    },
     { image: Slideshow2Image3, caption: "Species of Birds in Semenggoh" },
   ];
 
@@ -17,7 +25,7 @@ export default function Slideshow2() {
   const plusSlides2 = (n) => {
     let newIndex = currentSlide + n;
     if (newIndex >= slides.length) newIndex = 0;
-    if (newIndex < 0)            newIndex = slides.length - 1;
+    if (newIndex < 0) newIndex = slides.length - 1;
     setCurrentSlide(newIndex);
   };
 
@@ -29,15 +37,23 @@ export default function Slideshow2() {
           className="mySlidesSS2"
           style={{ display: index === currentSlide ? "flex" : "none" }}
         >
-          {/* image wrapper exactly like your blog cards */}
           <div className="slide-image-containerSS2">
-            <img
-              src={slide.image}
-              className="slide-imageSS2"
-              alt={`Slide ${index + 1}`}
-            />
+            {slide.link ? (
+              <Link to={slide.link}>
+                <img
+                  src={slide.image}
+                  className="slide-imageSS2"
+                  alt={`Slide ${index + 1}`}
+                />
+              </Link>
+            ) : (
+              <img
+                src={slide.image}
+                className="slide-imageSS2"
+                alt={`Slide ${index + 1}`}
+              />
+            )}
           </div>
-
           <div className="green-box-SS2">{slide.caption}</div>
         </div>
       ))}
