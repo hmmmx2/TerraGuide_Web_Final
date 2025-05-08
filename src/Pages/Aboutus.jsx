@@ -49,7 +49,7 @@ export default function Test() {
                 alt="Angel"
               />
             </div>
-            <p className="profile-description">Hobby: sleeping & playing badminton & playing games<br/>
+            <p className="profile-description">Hobby: sleeping & playing badminton & playing games with the heart 🥀<br/>
             skill: can sleep anytime no matter how much I've sleep, coffee has zero effect on me🪄✨<br/>
             Course & major: Compsci year 2 sem 2</p>
           </div>
@@ -83,7 +83,7 @@ export default function Test() {
                 alt="JZ"
               />
             </div>
-            <p className="profile-description"> Hi my name is Wong Jun Zhen and I hope we can be friends!</p>
+            <p className="profile-description"> Hi my name is Wong Jun Zhen and I hope we can be friends! Meow! </p>
           </div>
 
           <div className="profile-item">
@@ -94,7 +94,7 @@ export default function Test() {
                 alt="Daryl"
               />
             </div>
-            <p className="profile-description">My name is Daryl Lim. Major Cybersecurity, Y2S2. </p>
+            <p className="profile-description">My name is Daryl Lim. Major Cybersecurity, Y2S2. I know I look very handsome and appealing. Can't help, born this way </p>
           </div>
 
           <div className="profile-item">
@@ -105,7 +105,7 @@ export default function Test() {
                 alt="Aeron"
               />
             </div>
-            <p className="profile-description">My name is Aeron Liu. Likes tung tung tung tung sahur. Potential sigma boy (?)</p>
+            <p className="profile-description">My name is Aeron Liu. Likes tung tung tung tung tung tung tung tung tung sahur. Potential sigma boy (?)</p>
           </div>
         </div>
       </div>

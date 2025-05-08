@@ -15,6 +15,9 @@ import Guide from "./Pages/Guide";
 import ParkMap from "./Pages/ParkMap";
 import Aboutus from "./Pages/Aboutus";
 import SessionTimeoutManager from './components/SessionTimeoutManager';
+import Course1 from './Pages/Course1';
+import MyCourses from './Pages/MyCourses';
+import Course2 from './Pages/Course2';
 
 // More efficient ProtectedRoute using Outlet
 function ProtectedRoutes() {
@@ -64,6 +67,9 @@ function App() {
               <Route path="/guide" element={<Guide />} />
               <Route path="/parkmap" element={<ParkMap />} />
               <Route path="/aboutus" element={<Aboutus />} />
+              <Route path="/course1" element={<Course1 />} />
+              <Route path="/mycourses" element={<MyCourses />} />
+              <Route path="/course2" element={<Course2 />} />
             </Route>
 
             {/* Catch-all route */}

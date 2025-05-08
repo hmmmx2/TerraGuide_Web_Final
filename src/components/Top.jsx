@@ -87,13 +87,7 @@ function Top() {
           <div className="nav-links">
             <Link to="/index">Home</Link>
             <Link to="/aboutus">About Us</Link>
-            <div className="dropdown">
-              <Link to="#">My Courses</Link>
-              <div className="dropdown-content">
-                <Link to="#">Course 1</Link>
-                <Link to="#">Course 2</Link>
-              </div>
-            </div>
+            <Link to="/mycourses">My Courses</Link>
             <Link to="#">Dext AI</Link>
             <Link to="/blogmenu">Blogs</Link>
             <Link to="/guide">Park Guide</Link>
