@@ -28,14 +28,25 @@ export default function Slideshow2() {
           className="mySlidesSS2"
           style={{ display: index === currentSlide ? "flex" : "none" }}
         >
-          <img src={slide.image} className="slide-imageSS2" alt={`Slide ${index + 1}`} />
+          {/* WRAPPER to crop the image */}
+          <div className="slide-image-containerSS2">
+            <img
+              src={slide.image}
+              className="slide-imageSS2"
+              alt={`Slide ${index + 1}`}
+            />
+          </div>
           <div className="green-box-SS2">{slide.caption}</div>
         </div>
       ))}
 
       <div className="arrow-containerSS2">
-        <span className="arrowSS2" onClick={() => plusSlides2(-1)}>&#10094;</span>
-        <span className="arrowSS2" onClick={() => plusSlides2(1)}>&#10095;</span>
+        <span className="arrowSS2" onClick={() => plusSlides2(-1)}>
+          &#10094;
+        </span>
+        <span className="arrowSS2" onClick={() => plusSlides2(1)}>
+          &#10095;
+        </span>
       </div>
     </div>
   );
