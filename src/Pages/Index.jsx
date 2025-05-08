@@ -6,7 +6,8 @@ import Slideshow2 from '../components/Slideshow2'; // import the new component
 import Screenshot from "../components/Screenshot";
 import "../styles.css";
 import ExampleImage from "../assets/parkguide_example.jpg";
-
+import ExampleImage4 from "../assets/jz.jpg";
+import ExampleImage3 from "../assets/des1.jpg";
 
 export default function Index() {
   return (
@@ -87,33 +88,33 @@ export default function Index() {
                   
           </div>
           <h3>Aeron Liu</h3>
-          <p>Hello World dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd.</p>
+          <p>Entomologist with a passion for Borneo's insect diversity. Leads specialized tours focusing on the fascinating world of tropical insects.</p>
         </div>
         
    
         <div className="parkguide-box">
           <div className="guide-image">
                  <img
-                                      src={ExampleImage}
+                                      src={ExampleImage4}
                                       alt="Login Illustration"
                                     />
                 
           </div>
-          <h3>Aeron Liu</h3>
-          <p>Hello Sky ddddddddddddddddddddddddddddddddddddddddddddddddddd</p>
+          <h3>Jun Zhen</h3>
+          <p>Botanist specializing in Borneo's unique plant species. Offers tours focused on medicinal plants and traditional uses of rainforest flora.</p>
         </div>
         
        
         <div className="parkguide-box">
           <div className="guide-image">
                  <img
-                                      src={ExampleImage}
+                                      src={ExampleImage3}
                                       alt="Login Illustration"
                                     />
                 
           </div>
-          <h3>Aeron Liu</h3>
-          <p>Hello Sakai ddddddddddddddddddddddddddddddddddddddddddddddddddddddddd.</p>
+          <h3>Desmond Li</h3>
+          <p>Former park ranger with extensive knowledge of Semenggoh's trails and wildlife habitats. Specializes in night safari experiences at 3 a.m.</p>
         </div>
       </div>
     </div>
