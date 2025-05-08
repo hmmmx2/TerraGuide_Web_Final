@@ -1,0 +1,123 @@
+/* Container & Section Title */
+.b-containerBM {
+  max-width: 1000px;
+  margin: 6% auto 2vw;
+  padding: 25px;
+}
+.b-containerBM h3 {
+  position: relative;     /* needed for the ::after underline */
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 12px;
+  padding-bottom: 6px;    /* room for the green bar */
+  border-bottom: 2px solid black;
+}
+.b-containerBM h3::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;           /* tweak to sit exactly on the gray line */
+  width: 80px;
+  height: 3px;
+  border-radius: 2px;
+}
+
+/* Grid Layout */
+.blog-gridBM {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4px;               /* very tight — change to your liking */
+  margin-top: 20px;
+  justify-items: center;
+}
+
+/* Card Link Wrapper */
+.b-card-linkBM {
+  text-decoration: none;
+  color: inherit;
+  width: 300px;           /* fixed width so grid items align */
+  transition: transform 0.2s;
+}
+.b-card-linkBM:hover {
+  transform: scale(1.02);
+}
+
+/* Common Card Styles */
+.b-cardBM,
+.coming-soon-cardBM {
+  background-color: #4E6B50;
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 320px;
+  color: #fff;
+}
+
+/* Image Container & Cropping */
+.b-image-containerBM {
+  width: 100%;
+  height: 140px;
+  overflow: hidden;
+}
+.b-image-containerBM img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;      /* fill & crop */
+  display: block;
+}
+
+/* Text Content */
+.b-contentBM {
+  padding: 10px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.b-card-titleBM {
+  font-size: 1rem;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+.b-card-descriptionBM {
+  font-size: 0.85rem;
+  line-height: 1.4;
+  flex: 1;
+}
+
+/* Coming Soon Card */
+.coming-soon-cardBM {
+  justify-content: flex-start;
+  align-items: center;
+  text-align: center;
+  padding: 20px;
+}
+.coming-soon-boxBM {
+  background-color: #6D7E5E;
+  color: #fff;
+  padding: 12px;
+  font-size: 1rem;
+  font-weight: bold;
+  width: 100%;
+  margin-bottom: 16px;
+}
+.coming-soon-titleBM {
+  font-size: 1rem;
+  margin-bottom: 8px;
+}
+.coming-soon-textBM {
+  font-size: 0.85rem;
+}
+
+/* Responsive Breakpoints */
+@media (max-width: 900px) {
+  .blog-gridBM {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 600px) {
+  .blog-gridBM {
+    grid-template-columns: 1fr;
+  }
+}

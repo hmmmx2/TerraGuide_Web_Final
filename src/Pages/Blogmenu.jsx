@@ -1,103 +1,74 @@
-import { Link } from 'react-router-dom';
-import Footer1 from '../components/Footer1';
-import "../styles.css";
+import React from "react";
+import { Link } from "react-router-dom";
+import Top from "../components/Top";
+import Footer1 from "../components/Footer1";
 import Blogs1Image from "../assets/smg1.png";
 import Blogs2Image from "../assets/smg2.png";
-import Top from '../components/Top';
-
-
+import "../blogmenu.css";  // make sure this points to your main stylesheet
 
 export default function Blogmenu() {
   return (
     <>
-      <Top/>
+      <Top />
 
+      <div className="b-containerBM">
+        <h3>Blogs</h3>
 
-    <div className="b-containerBM">
-    <h3>Popular Tourist Spot <span class="tgl-btnBM" onclick="toggleSpots()">See All</span></h3>
-    <div className="blog-gridBM" id="pm-spots">
-      <a href="blogs.html" class="b-card-linkBM">
-      
-        <div className="b-cardBM">
-          <div className="b-image-containerBM">
-
-           <Link to="/blogs"><img
-                                  src={Blogs1Image}
-                             
-                                  alt="Login Illustration"
-                                  
-
-                                /></Link>
-          </div>
-          <div className="b-contentBM">
-            <div className="b-card-titleBM">The History of Semenggoh...</div>
-            <div className="b-card-descriptionBM">
-              Semenggoh Wildlife Centre enables tourists to interact with wild orang utans and enjoy the orang
-              utans feeding time for the amazing experience.
+        <div className="blog-gridBM">
+          {/* 1st card */}
+          <Link to="/blogs" className="b-card-linkBM">
+            <div className="b-cardBM">
+              <div className="b-image-containerBM">
+                <img
+                  className="b-card-imageBM"
+                  src={Blogs1Image}
+                  alt="The History of Semenggoh"
+                />
+              </div>
+              <div className="b-contentBM">
+                <div className="b-card-titleBM">
+                  The History of Semenggoh...
+                </div>
+                <div className="b-card-descriptionBM">
+                  Semenggoh Wildlife Centre enables tourists to interact with wild orang utans and enjoy the orang utans feeding time for the amazing experience.
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-      
-      </a>
-      
+          </Link>
 
+          {/* 2nd card */}
+          <Link to="/blogs2" className="b-card-linkBM">
+            <div className="b-cardBM">
+              <div className="b-image-containerBM">
+                <img
+                  className="b-card-imageBM"
+                  src={Blogs2Image}
+                  alt="Species of Orang Utan"
+                />
+              </div>
+              <div className="b-contentBM">
+                <div className="b-card-titleBM">
+                  Species of Orang Utan
+                </div>
+                <div className="b-card-descriptionBM">
+                  Orangutans typically inhabit the majority of Sarawak's southern region. There are currently only a few orangutans in Sarawak, with the majority of them living in the Batang Ai National Park (BANP).
+                </div>
+              </div>
+            </div>
+          </Link>
 
-      
-      <a href="blogs2.html" class="b-card-linkBM">
-      <div className="b-cardBM">
-        <div className="b-image-containerBM">
-          <div className="b-card-imageBM">
-          <Link to="/blogs2"><img
-                                src={Blogs2Image}
-                               
-                                alt="Login Illustration"
-                              /></Link>
-                              </div>
-        </div>
-          <div className="b-contentBM">
-            <div className="b-card-titleBM">Species of Orang Utan</div>
-            <div className="b-card-descriptionBM">
-              Orangutans typically inhabit the majority of Sarawak's southern region.  There are currently only a few orangutans in Sarawak, with the majority of them living in the Batang Ai National Park (BANP)
+          {/* 3rd “Coming Soon” card */}
+          <div className="coming-soon-cardBM">
+            <div className="coming-soon-boxBM">Coming Soon</div>
+            <div className="coming-soon-titleBM">Coming Soon</div>
+            <div className="coming-soon-textBM">Coming Soon</div>
           </div>
         </div>
       </div>
-      </a>
 
-      <div class="coming-soon-cardBM">
-        <div class="coming-soon-boxBM">Coming Soon</div>
-        <div class="coming-soon-titleBM">Coming Soon</div>
-        <div class="coming-soon-textBM">Coming Soon</div>
-     </div>    
-     
-     <div class="coming-soon-card hiddenBM">
-      <div class="coming-soon-boxBM">Coming Soon</div>
-      <div class="coming-soon-titleBM">Coming Soon</div>
-      <div class="coming-soon-textBM">Coming Soon</div>
-      </div>  
-
-      <div class="coming-soon-card hiddenBM">
-        <div class="coming-soon-boxBM">Coming Soon</div>
-        <div class="coming-soon-titleBM">Coming Soon</div>
-        <div class="coming-soon-textBM">Coming Soon</div>
-      </div>
-
-      <div class="coming-soon-card hiddenBM">
-        <div class="coming-soon-boxBM">Coming Soon</div>
-        <div class="coming-soon-titleBM">Coming Soon</div>
-        <div class="coming-soon-textBM">Coming Soon</div>
-      </div>  
-      
-    </div>
-  </div>
-
-  
-
-    
-      
-    <footer>
+      <footer>
         <Footer1 />
       </footer>
     </>
   );
-    
 }
