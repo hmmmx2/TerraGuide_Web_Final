@@ -1,0 +1,52 @@
+.slideshow-container-SS2 {
+  position: relative;
+  max-width: 900px;      /* adjust to your layout */
+  margin: 40px auto;
+}
+
+.mySlidesSS2 {
+  display: flex;
+  flex-direction: column;
+  border-radius: 12px;    /* rounded corners */
+  overflow: hidden;       /* clip the image and caption to the border radius */
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.slide-imageSS2 {
+  width: 100%;
+  height: 560px;          /* or whatever height you want */
+  object-fit: cover;      /* crop/scale the image to fill */
+  display: block;
+}
+
+.green-box-SS2 {
+  background-color: #6D7E5E;  /* your shade of green */
+  color: #fff;
+  padding: 20px;
+  font-size: 1.1rem;
+  line-height: 1.4;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.arrow-containerSS2 {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  transform: translateY(-50%);
+  pointer-events: none;       /* let the arrows themselves handle clicks */
+}
+
+.arrowSS2 {
+  pointer-events: all;
+  background: rgba(0, 0, 0, 0.3);
+  color: #fff;
+  font-size: 2rem;
+  padding: 8px 12px;
+  cursor: pointer;
+  border-radius: 50%;
+  user-select: none;
+}
