@@ -153,40 +153,23 @@ nav {
   position: relative;
   z-index: 1000;
 }
-
 /* Always render menu, but hide by default */
 .dropdown-menu {
   position: absolute;
   top: 5vw;
   right: 0;
-  background-color: #4E6E4E;
-  border-radius: 8px;
-  box-shadow: 0 0.5vw 1vw rgba(0,0,0,0.2);
-  width: auto;
-  min-width: fit-content;
-  overflow: hidden;
-  padding: 0.5vw 0;
-  white-space: nowrap;
+  background: white;
+  border: 0.1vw solid #ccc;
+  border-radius: 0.5vw;
+  box-shadow: 0 0.5vw 1vw rgba(0,0,0,0.1);
+  min-width: 12vw;
+  display: none;
 }
-
-.dropdown-item {
+/* When state is open, show it */
+.profile-menu.open .dropdown-menu {
   display: block;
-  padding: 0.8vw 1.5vw;
-  color: #F6EFDC;
-  text-decoration: none;
-  font-size: 1vw;
-  transition: background-color 0.3s;
-  cursor: pointer;
-  width: 100%;
-  text-align: center;
-  border: none;
-  background: none;
 }
 
-.dropdown-item:hover {
-  color: #333;
-  background-color: #9BBF64;
-}
 .profile-circle {
   width: 4vw; height: 4vw;
   border-radius: 50%;
@@ -207,7 +190,7 @@ nav {
 .dropdown-item {
   display: block;
   padding: 1vw 1.5vw;
-  color: #F6EFDC;
+  color: #333;
   text-decoration: none;
   transition: background 0.2s;
 }

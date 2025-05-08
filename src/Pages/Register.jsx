@@ -9,21 +9,37 @@ import { doCreateUserWithEmailAndPassword } from "../supabase/auth";
 import { supabase } from "../supabase/supabase"; // Add this import
 import {Link, Navigate, useNavigate} from "react-router-dom";
 import { v4 as uuidv4 } from 'uuid'; // Import UUID for generating unique guest IDs
+import { supabase } from "../supabase/supabase";
+import { Link, Navigate, useNavigate } from "react-router-dom";
+import ConfirmationPopup from "../components/ConfirmationPopup"; // Import the popup component
 
 const Register = () => {
   const navigate = useNavigate();
   const { userLoggedIn, setEmailVerificationSent, enableGuestMode } = useAuth();
 
+  // Existing state variables
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   // User role is now automatically set to "guide" for normal registration
+  const [userRole, setUserRole] = useState("guide");
   const [isRegistering, setIsRegistering] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  
+  // Field error states
+  const [firstNameError, setFirstNameError] = useState("");
+  const [lastNameError, setLastNameError] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [confirmPasswordError, setConfirmPasswordError] = useState("");
+  const [userRoleError, setUserRoleError] = useState("");
+  
+  // Add state for the confirmation popup
+  const [showConfirmationPopup, setShowConfirmationPopup] = useState(false);
 
   const validatePassword = (password) => {
     const minLength = 8;
@@ -52,32 +68,51 @@ const Register = () => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
+    
+    // Reset all error states
+    setFirstNameError("");
+    setLastNameError("");
+    setEmailError("");
+    setPasswordError("");
+    setConfirmPasswordError("");
+    setUserRoleError("");
+    setErrorMessage("");
+    
+    let hasError = false;
 
     // Validate required fields
     if (!firstName.trim()) {
-      setErrorMessage("First name is required");
-      return;
+      setFirstNameError("First name is required");
+      hasError = true;
     }
     
     if (!lastName.trim()) {
-      setErrorMessage("Last name is required");
-      return;
+      setLastNameError("Last name is required");
+      hasError = true;
+    }
+    
+    if (!userRole) {
+      setUserRoleError("User role is required");
+      hasError = true;
     }
 
     // Validate password requirements
-    const passwordError = validatePassword(password);
-    if (passwordError) {
-      setErrorMessage(passwordError);
-      return;
+    const passwordValidationError = validatePassword(password);
+    if (passwordValidationError) {
+      setPasswordError(passwordValidationError);
+      hasError = true;
     }
 
     if (password !== confirmPassword) {
-      setErrorMessage("Passwords don't match");
+      setConfirmPasswordError("Passwords don't match");
+      hasError = true;
+    }
+    
+    if (hasError) {
       return;
     }
     
     setIsRegistering(true);
-    setErrorMessage(""); // Clear previous errors
     
     try {
       // First check if the email exists
@@ -90,7 +125,7 @@ const Register = () => {
       
       // If no error is thrown when shouldCreateUser is false, it means the user exists
       if (!error) {
-        setErrorMessage("This email is already registered. Please use a different email address.");
+        setEmailError("This email is already registered. Please use a different email address.");
         setIsRegistering(false);
         return;
       }
@@ -102,9 +137,14 @@ const Register = () => {
         await doCreateUserWithEmailAndPassword(email, password, firstName, lastName, "guide");
         // After successful registration
         navigate("/index");
+        // Pass the userRole, firstName and lastName to the registration function
+        await doCreateUserWithEmailAndPassword(email, password, firstName, lastName, userRole);
+        
+        // Show confirmation popup instead of navigating immediately
+        setShowConfirmationPopup(true);
       } else {
         // If the error is about email confirmation, it means the user exists but hasn't confirmed email
-        setErrorMessage("This email is already registered but not confirmed. Please check your inbox for confirmation email.");
+        setEmailError("This email is already registered but not confirmed. Please check your inbox for confirmation email.");
         setIsRegistering(false);
         return;
       }
@@ -114,7 +154,7 @@ const Register = () => {
           error.message.includes("already in use") || 
           error.message.includes("User already exists") ||
           error.code === "23505") {
-        setErrorMessage("This email is already registered. Please use a different email address.");
+        setEmailError("This email is already registered. Please use a different email address.");
       } else {
         setErrorMessage(error.message);
       }
@@ -149,12 +189,15 @@ const Register = () => {
     } finally {
       setIsRegistering(false);
     }
+  // Function to handle popup close
+  const handleClosePopup = () => {
+    setShowConfirmationPopup(false);
+    navigate("/index"); // Navigate after closing the popup
   };
 
   if (userLoggedIn) {
     return <Navigate to="/index" replace />;
   }
-// End
 
   return (
     <>
@@ -178,109 +221,127 @@ const Register = () => {
           </div>
 
           <div className="registration-form">
-            {/* Changed by Desmond @ 17 April 2025, added 'onSubmit' and error message. */}
             <form className="registration-form-body" id="registrationForm" noValidate onSubmit={onSubmit}>
-            {/* End */}
               <div className="registration-input-container">
                 <label htmlFor="firstname" className="registration-input-label">First Name:</label>
-                <div className="registration-input-text">
+                <div className={`registration-input-text ${firstNameError ? 'is-invalid' : ''}`}>
                   <span className="registration-icon"><i className="fa-solid fa-user"></i></span>
                   <input
                     type="text"
                     id="firstname"
-                    className="registration-input"
+                    className={`registration-input ${firstNameError ? 'is-invalid' : ''}`}
                     placeholder="E.g. John"
-                    // Added by Desmond @ 17 April 2025
                     value={firstName}
-                    onChange={(e) => setFirstName(e.target.value)}
-                    // End
+                    onChange={(e) => {
+                      setFirstName(e.target.value);
+                      if (firstNameError) setFirstNameError("");
+                    }}
                     required
                     maxLength="25"
                     pattern="[A-Za-z\s]+"
                     title="Only alphabetical characters allowed (A-Z or a-z)"
                   />
+                  {firstNameError && (
+                    <div className="invalid-feedback" style={{ display: 'block', color: '#dc3545', fontSize: '0.875em', marginTop: '0.25rem' }}>
+                      {firstNameError}
+                    </div>
+                  )}
                 </div>
               </div>
 
               <div className="registration-input-container">
                 <label htmlFor="lastname" className="registration-input-label">Last Name:</label>
-                <div className="registration-input-text">
+                <div className={`registration-input-text ${lastNameError ? 'is-invalid' : ''}`}>
                   <span className="registration-icon"><i className="fa-solid fa-user"></i></span>
                   <input
                     type="text"
                     id="lastname"
-                    className="registration-input"
+                    className={`registration-input ${lastNameError ? 'is-invalid' : ''}`}
                     placeholder="E.g. Smith"
-                    // Added by Desmond @ 17 April 2025
                     value={lastName}
-                    onChange={(e) => setLastName(e.target.value)}
-                    // End
+                    onChange={(e) => {
+                      setLastName(e.target.value);
+                      if (lastNameError) setLastNameError("");
+                    }}
                     required
                     maxLength="25"
                     pattern="[A-Za-z\s]+"
                     title="Only alphabetical characters allowed (A-Z or a-z)"
                   />
+                  {lastNameError && (
+                    <div className="invalid-feedback" style={{ display: 'block', color: '#dc3545', fontSize: '0.875em', marginTop: '0.25rem' }}>
+                      {lastNameError}
+                    </div>
+                  )}
                 </div>
               </div>
 
-              {/* Commented by Desmond @ 17 April 2025, input not used. */}
-              {/*<div className="registration-input-container">*/}
-              {/*  <label htmlFor="username" className="registration-input-label">Username:</label>*/}
-              {/*  <div className="registration-input-text">*/}
-              {/*    <span className="registration-icon"><i className="fa-solid fa-user"></i></span>*/}
-              {/*    <input*/}
-              {/*      type="text"*/}
-              {/*      id="username"*/}
-              {/*      className="registration-input"*/}
-              {/*      placeholder="E.g. johnsmith"*/}
-              {/*      required*/}
-              {/*      maxLength="25"*/}
-              {/*      pattern="[A-Za-z\s]+"*/}
-              {/*      title="Only alphabetical characters allowed (A-Z or a-z)"*/}
-              {/*    />*/}
-              {/*  </div>*/}
-              {/*</div>*/}
-
               <div className="registration-input-container">
                 <label htmlFor="email" className="registration-input-label">Email Address:</label>
-                <div className="registration-input-text">
+                <div className={`registration-input-text ${emailError ? 'is-invalid' : ''}`}>
                   <span className="registration-icon"><i className="fa-solid fa-envelope"></i></span>
                   <input
                     type="email"
                     id="email"
-                    className="registration-input"
+                    className={`registration-input ${emailError ? 'is-invalid' : ''}`}
                     placeholder="E.g. littlejohnsmith@gmail.com"
-                    // Added by Desmond @ 17 April 2025
                     value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    // End
+                    onChange={(e) => {
+                      setEmail(e.target.value);
+                      if (emailError) setEmailError("");
+                    }}
                     required
                   />
+                  {emailError && (
+                    <div className="invalid-feedback" style={{ display: 'block', color: '#dc3545', fontSize: '0.875em', marginTop: '0.25rem' }}>
+                      {emailError}
+                    </div>
+                  )}
                 </div>
               </div>
 
               {/* User Role Selection Dropdown removed - all normal registrations are now "guide" role */}
+              <div className="registration-input-container">
+                <label htmlFor="userRole" className="registration-input-label">User Role:</label>
+                <div className={`registration-input-text ${userRoleError ? 'is-invalid' : ''}`}>
+                  <span className="registration-icon"><i className="fa-solid fa-user-tag"></i></span>
+                  <select
+                    id="userRole"
+                    className={`registration-input ${userRoleError ? 'is-invalid' : ''}`}
+                    value={userRole}
+                    onChange={(e) => {
+                      setUserRole(e.target.value);
+                      if (userRoleError) setUserRoleError("");
+                    }}
+                    required
+                  >
+                    <option value="guide">Park Guide</option>
+                    <option value="visitor">Visitor</option>
+                  </select>
+                  {userRoleError && (
+                    <div className="invalid-feedback" style={{ display: 'block', color: '#dc3545', fontSize: '0.875em', marginTop: '0.25rem' }}>
+                      {userRoleError}
+                    </div>
+                  )}
+                </div>
+              </div>
 
               <div className="registration-input-container">
                 <label htmlFor="password" className="registration-input-label">Password (25 characters max):</label>
-                <div className="registration-input-text" style={{ position: 'relative' }}>
+                <div className={`registration-input-text ${passwordError ? 'is-invalid' : ''}`} style={{ position: 'relative' }}>
                   <span className="registration-icon"><i className="fa-solid fa-key"></i></span>
                   <input
                     type={showPassword ? "text" : "password"}
                     id="password"
-                    className="registration-input"
-                    // Added by Desmond @ 17 April 2025
+                    className={`registration-input ${passwordError ? 'is-invalid' : ''}`}
                     value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    // End
+                    onChange={(e) => {
+                      setPassword(e.target.value);
+                      if (passwordError) setPasswordError("");
+                    }}
                     required
-                    // Added by Desmond @ 17 April 2025
                     minLength="8"
-                    // End
                     maxLength="25"
-                    // Commented by Desmond @ 17 April 2025
-                    // pattern="[A-Za-z\s]+"
-                    // title="Only alphabetical characters allowed (A-Z or a-z)"
                   />
                   <span 
                     onClick={() => setShowPassword(!showPassword)}
@@ -295,29 +356,30 @@ const Register = () => {
                   >
                     <i className={`fa-solid ${showPassword ? "fa-eye-slash" : "fa-eye"}`}></i>
                   </span>
+                  {passwordError && (
+                    <div className="invalid-feedback" style={{ display: 'block', color: '#dc3545', fontSize: '0.875em', marginTop: '0.25rem' }}>
+                      {passwordError}
+                    </div>
+                  )}
                 </div>
               </div>
 
               <div className="registration-input-container">
                 <label htmlFor="confirmpassword" className="registration-input-label">Confirm Password:</label>
-                <div className="registration-input-text" style={{ position: 'relative' }}>
+                <div className={`registration-input-text ${confirmPasswordError ? 'is-invalid' : ''}`} style={{ position: 'relative' }}>
                   <span className="registration-icon"><i className="fa-solid fa-key"></i></span>
                   <input
                     type={showConfirmPassword ? "text" : "password"}
                     id="confirmpassword"
-                    className="registration-input"
-                    // Added by Desmond @ 17 April 2025
+                    className={`registration-input ${confirmPasswordError ? 'is-invalid' : ''}`}
                     value={confirmPassword}
-                    onChange={(e) => setConfirmPassword(e.target.value)}
-                    // End
+                    onChange={(e) => {
+                      setConfirmPassword(e.target.value);
+                      if (confirmPasswordError) setConfirmPasswordError("");
+                    }}
                     required
-                    // Added by Desmond @ 17 April 2025
                     minLength="8"
-                    // End
                     maxLength="25"
-                    // Commented by Desmond @ 17 April 2025
-                    // pattern="[A-Za-z\s]+"
-                    // title="Only alphabetical characters allowed (A-Z or a-z)"
                   />
                   <span 
                     onClick={() => setShowConfirmPassword(!showConfirmPassword)}
@@ -332,11 +394,16 @@ const Register = () => {
                   >
                     <i className={`fa-solid ${showConfirmPassword ? "fa-eye-slash" : "fa-eye"}`}></i>
                   </span>
+                  {confirmPasswordError && (
+                    <div className="invalid-feedback" style={{ display: 'block', color: '#dc3545', fontSize: '0.875em', marginTop: '0.25rem' }}>
+                      {confirmPasswordError}
+                    </div>
+                  )}
                 </div>
               </div>
 
               <hr className="registration-hr" />
-              {errorMessage && <p className="registration-passw-requirement">{errorMessage}</p>}
+              {errorMessage && <p className="registration-passw-requirement" style={{ color: '#dc3545' }}>{errorMessage}</p>}
               <div className="registration-passw-requirement">
                 <p>Your password should be difficult to guess and follow these guidelines:</p>
                 <ul>
@@ -344,17 +411,12 @@ const Register = () => {
                   <li>Maximum of 25 characters</li>
                   <li>Must include at least one uppercase letter</li>
                   <li>Must include at least one lowercase letter</li>
-                  {/* Added by Desmond @ 17 April 2025 : Start */}
                   <li>Must include at least one number (0-9)</li>
-                  {/* End */}
                   <li>Must include at least one symbol (e.g., !, @, #, $, etc.)</li>
-                  {/*<li>Only alphabetical characters allowed (A-Z or a-z)</li>*/}
                 </ul>
               </div>
 
-              {/* Changed by Desmond @ 17 April 2025, added 'disabled' for submit button. */}
               <button type="submit" className="register-btn" disabled={isRegistering}>{isRegistering ? "Registering..." : "Register Now"}</button>
-              {/* End */}
               <div className="registration-alry-acc">
                 <p className="registration-input-label">Already have an account? <Link to="/" className="registration-custom-login-text">Login</Link></p>
               </div>
@@ -382,11 +444,15 @@ const Register = () => {
     </div>
 
       <>
-        <Footer1 />
+        <ConfirmationPopup 
+          show={showConfirmationPopup}
+          onClose={handleClosePopup}
+          title="Registration Successful"
+          message="A confirmation email has been sent to your email address. Please check your inbox and follow the instructions to verify your account."
+        />
       </>
 
     </>
-
   );
 };
 

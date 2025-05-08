@@ -28,7 +28,7 @@ export default function Index() {
       <div className="table-sectionFB">
     <div className="table-title-containerFB">
       <h1 className="table-titleFB">Featured Blogs</h1>
-      <a href="Blogs2.jsx" className="see-all-btn2FB">All blogs</a>
+      <Link to="/blogmenu" className="see-all-btn">All Blogs</Link>
 
     </div>
 
@@ -43,7 +43,7 @@ export default function Index() {
     <div className="timetable-section">
       <div className="timetable-title-container">
         <h1 className="timetable-title">Timetable</h1>
-        <a href="timetable.html" className="see-all-btn">See all activities</a>
+        <Link to="/timetable" className="see-all-btn">See all activities</Link>
         
       </div>
       
