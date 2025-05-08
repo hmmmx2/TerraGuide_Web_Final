@@ -119,15 +119,25 @@ export const sendPasswordResetOTP = async (email) => {
 // Reset password with OTP verification
 export const resetPasswordWithOTP = async (email, otp, newPassword) => {
   try {
-    // Verify OTP
-    await verifyOTP(email, otp);
-
-    // Update password
-    const { error } = await supabase.auth.updateUser({
-      password: newPassword
+    // Call the Edge Function to reset password
+    const response = await fetch('https://wxvnjjxbvbevwmvqyack.supabase.co/functions/v1/reset-password', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        email,
+        otp,
+        newPassword
+      })
     });
 
-    if (error) throw error;
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || 'Failed to reset password');
+    }
+
     return true;
   } catch (error) {
     console.error('Error resetting password:', error);
