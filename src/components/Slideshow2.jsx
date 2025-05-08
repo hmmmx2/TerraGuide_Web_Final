@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "../slideshow2.css";
+
 import Slideshow2Image1 from "../assets/smg1.png";
 import Slideshow2Image2 from "../assets/smg2.png";
 import Slideshow2Image3 from "../assets/smg3.jpg";
@@ -16,7 +17,7 @@ export default function Slideshow2() {
   const plusSlides2 = (n) => {
     let newIndex = currentSlide + n;
     if (newIndex >= slides.length) newIndex = 0;
-    if (newIndex < 0) newIndex = slides.length - 1;
+    if (newIndex < 0)            newIndex = slides.length - 1;
     setCurrentSlide(newIndex);
   };
 
@@ -28,7 +29,7 @@ export default function Slideshow2() {
           className="mySlidesSS2"
           style={{ display: index === currentSlide ? "flex" : "none" }}
         >
-          {/* WRAPPER to crop the image */}
+          {/* image wrapper exactly like your blog cards */}
           <div className="slide-image-containerSS2">
             <img
               src={slide.image}
@@ -36,6 +37,7 @@ export default function Slideshow2() {
               alt={`Slide ${index + 1}`}
             />
           </div>
+
           <div className="green-box-SS2">{slide.caption}</div>
         </div>
       ))}
