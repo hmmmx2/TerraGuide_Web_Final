@@ -7,10 +7,8 @@ import registrationImage from "../assets/registrationv2-img.png";
 import { useAuth } from "../contexts/authContext/supabaseAuthContext";
 import { doCreateUserWithEmailAndPassword } from "../supabase/auth";
 import { supabase } from "../supabase/supabase"; // Add this import
-import {Link, Navigate, useNavigate} from "react-router-dom";
-import { v4 as uuidv4 } from 'uuid'; // Import UUID for generating unique guest IDs
-import { supabase } from "../supabase/supabase";
 import { Link, Navigate, useNavigate } from "react-router-dom";
+import { v4 as uuidv4 } from 'uuid'; // Import UUID for generating unique guest IDs
 import ConfirmationPopup from "../components/ConfirmationPopup"; // Import the popup component
 
 const Register = () => {
@@ -133,10 +131,6 @@ const Register = () => {
       // If the error is not about user existence, it's another type of error
       if (error && !error.message.includes("Email not confirmed")) {
         // If the error is not about email confirmation, proceed with registration
-        // Pass "guide" as the userRole, along with firstName and lastName to the registration function
-        await doCreateUserWithEmailAndPassword(email, password, firstName, lastName, "guide");
-        // After successful registration
-        navigate("/index");
         // Pass the userRole, firstName and lastName to the registration function
         await doCreateUserWithEmailAndPassword(email, password, firstName, lastName, userRole);
         
@@ -189,6 +183,8 @@ const Register = () => {
     } finally {
       setIsRegistering(false);
     }
+  };
+  
   // Function to handle popup close
   const handleClosePopup = () => {
     setShowConfirmationPopup(false);
