@@ -18,6 +18,7 @@ import SessionTimeoutManager from './components/SessionTimeoutManager';
 import Course1 from './Pages/Course1';
 import MyCourses from './Pages/MyCourses';
 import Course2 from './Pages/Course2';
+import Blogs3 from './Pages/Blogs3';
 
 // More efficient ProtectedRoute using Outlet
 function ProtectedRoutes() {
@@ -70,6 +71,7 @@ function App() {
               <Route path="/course1" element={<Course1 />} />
               <Route path="/mycourses" element={<MyCourses />} />
               <Route path="/course2" element={<Course2 />} />
+              <Route path="/blogs3" element={<Blogs3 />} />
             </Route>
 
             {/* Catch-all route */}

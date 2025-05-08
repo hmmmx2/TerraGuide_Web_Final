@@ -4,6 +4,7 @@ import Top from "../components/Top";
 import Footer1 from "../components/Footer1";
 import Blogs1Image from "../assets/smg1.png";
 import Blogs2Image from "../assets/smg2.png";
+import Blogs3Image from "../assets/smg3.jpg";
 import "../blogmenu.css";  // make sure this points to your main stylesheet
 
 export default function Blogmenu() {
@@ -57,7 +58,28 @@ export default function Blogmenu() {
             </div>
           </Link>
 
-          {/* 3rd “Coming Soon” card */}
+            {/* 3rd card */}
+            <Link to="/blogs3" className="b-card-linkBM">
+            <div className="b-cardBM">
+              <div className="b-image-containerBM">
+                <img
+                  className="b-card-imageBM"
+                  src={Blogs3Image}
+                  alt="Species of Orang Utan"
+                />
+              </div>
+              <div className="b-contentBM">
+                <div className="b-card-titleBM">
+                  Species of Bird in Semenggoh
+                </div>
+                <div className="b-card-descriptionBM">
+                Malaysia is home to ten species of hornbills, known for their large, distinctive beaks and cultural significance in the region. These birds are endangered and need protection.
+                </div>
+              </div>
+            </div>
+          </Link>
+
+          {/* 4th “Coming Soon” card */}
           <div className="coming-soon-cardBM">
             <div className="coming-soon-boxBM">Coming Soon</div>
             <div className="coming-soon-titleBM">Coming Soon</div>
