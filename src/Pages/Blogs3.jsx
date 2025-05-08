@@ -24,14 +24,14 @@ export default function Blogs3() {
 
         {/* Content card */}
         <section className="blog-content-card">
-          <h2>Rehabilitation History</h2>
+          <h2>History</h2>
           <p>
           Habitat loss affects survival of hornbills in the wild and their dipping numbers has led
 Malaysia to classify them as threatened species. Thus, their habitat must be protected
 thorough greater conservation efforts to prevent extinction of that species.
           </p>
 
-          <h2>Conservation &amp; Genetics</h2>
+          <h2>Ecological &amp; Role</h2>
           <p>
           Hornbills congregate in May/June and
 disperse in November, moving in a northsouth direction. Studies show that most
@@ -44,7 +44,7 @@ of hornbills and their density in order to
 conserve their habitat.
           </p>
 
-          <h2>Distribution &amp; Subspecies</h2>
+          <h2>Suitable &amp; Habitat</h2>
           <p>
           The most suitable habitat for hornbills
 is undoubtedly the primary rainforest, which
