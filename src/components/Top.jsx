@@ -4,6 +4,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import '../top.css';
 import terraguideLogo from '../assets/TerraGuide_Logo.png';
 import user_sample from '../assets/sample.png';
+import guest_avatar from '../assets/guest_user.jpeg';
 import { doSignOut } from '../supabase/auth.js';
 
 function Top() {
@@ -139,7 +140,7 @@ function Top() {
                   className="profile-circle"
                   onClick={() => setDropdownOpen(o => !o)}
                 >
-                  <img src={user_sample} alt="Profile"/>
+                  <img src={isGuestMode ? guest_avatar : user_sample} alt="Profile"/>
                 </div>
 
                 {dropdownOpen && (
