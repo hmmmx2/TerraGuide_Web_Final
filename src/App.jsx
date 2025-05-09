@@ -19,6 +19,7 @@ import Course1 from './Pages/Course1';
 import MyCourses from './Pages/MyCourses';
 import Course2 from './Pages/Course2';
 import Blogs3 from './Pages/Blogs3';
+import Ai from './Pages/Ai';
 
 // More efficient ProtectedRoute using Outlet
 function ProtectedRoutes() {
@@ -72,6 +73,7 @@ function App() {
               <Route path="/mycourses" element={<MyCourses />} />
               <Route path="/course2" element={<Course2 />} />
               <Route path="/blogs3" element={<Blogs3 />} />
+              <Route path="/ai" element={<Ai />} />
             </Route>
 
             {/* Catch-all route */}
