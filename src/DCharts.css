@@ -1,0 +1,21 @@
+.charts-wrapper {
+  display: flex;           /* lay out children in a row */
+  flex-wrap: wrap;         /* allow wrapping on very small screens */
+  gap: 1rem;               /* space between them */
+  max-width: 1200px;       /* optional max width */
+  margin: 0 auto;          /* center on page */
+  padding: 1rem;           /* optional padding */
+}
+
+.chart-item {
+  flex: 1 1 50%;           /* grow/shrink, base width 50% */
+  min-width: 300px;        /* ensures chart never gets too narrow */
+  height: 400px;           /* or whatever height you need */
+}
+
+/* Make them full-width under 600px if you like: */
+@media (max-width: 600px) {
+  .chart-item {
+    flex: 1 1 100%;
+  }
+}
