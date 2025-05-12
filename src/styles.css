@@ -101,7 +101,7 @@
 
   /*---------------About us page----------------------*/
 
-  /* About us */
+/* About us styles */
 .about-us-container {
   display: flex;
   flex-direction: column;
@@ -110,6 +110,21 @@
   max-width: 1200px;
   margin: 0 auto;
 }
+
+.inverse-profile {
+  background-color: #4E6E4E !important;
+  color: white;
+}
+
+.inverse-profile .profile-image-container {
+  border: 3px solid white !important;
+}
+
+.inverse-profile h3,
+.inverse-profile strong {
+  color: white !important;
+}
+
 
 .profile-top {
   display: flex;
@@ -136,15 +151,19 @@
   width: 30%;
   min-width: 300px;
   text-align: center;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
 .profile-image-container {
-  width: 250px;
-  height: 250px;
+  width: 200px;
+  height: 200px;
   overflow: hidden;
-  border-radius: 10px;
+  border-radius: 50%;
   margin-bottom: 15px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border: 3px solid #4E6E4E;
 }
 
 .profile-image {
@@ -154,9 +173,24 @@
 }
 
 .profile-description {
-  font-size: 16px;
-  line-height: 1.5;
-  max-width: 300px;
+  font-size: 14px;
+  line-height: 1.6;
+  text-align: left;
+  width: 100%;
+}
+
+.profile-description h3 {
+  color: #4E6E4E;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.profile-description p {
+  margin: 5px 0;
+}
+
+.profile-description strong {
+  color: #4E6E4E;
 }
 
 @media (max-width: 1000px) {
