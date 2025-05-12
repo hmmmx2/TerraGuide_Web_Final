@@ -8,10 +8,9 @@ export default function DCharts() {
     <div
       style={{
         display: 'flex',
-        justifyContent: 'space-between',  // push them to the edges
         gap: '100px',                      // still keep your 100px between them
         width: '100%',                     // span the full width of the parent
-        padding: '0 24px',                 // small gutter on left/right (adjust as you like)
+        padding: '0 100px',                 // small gutter on left/right (adjust as you like)
         boxSizing: 'border-box',           // include padding in that 100% width
         marginTop: '40px',
       }}

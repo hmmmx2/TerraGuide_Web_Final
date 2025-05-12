@@ -1,0 +1,31 @@
+/* Parent flex‐wrapper */
+.rmo-alert-container {
+  display: flex;
+  padding: 0 100px;
+  margin-top: 40px;
+  align-items: stretch;     /* Stretch children to same height */
+  box-sizing: border-box;
+}
+
+/* Each panel: equal width, column flex so children can stretch */
+.rmo-alert-panel {
+  flex: 1;                  /* both panels share width equally */
+  min-width: 0;             /* allow flex-shrink to work */
+  display: flex;
+  flex-direction: column;
+}
+
+/* Force the inner component (AlertList or RMO) to fill the panel’s height */
+.rmo-alert-panel > * {
+  flex: 1;
+}
+
+/* ==== Override RMO’s built-in .dashboard-card constraints ==== */
+.rmo-alert-panel > .dashboard-card {
+  max-width: none;          /* drop the 48rem limit */
+  margin: 0;                /* remove its auto centering */
+  width: 100%;              /* fill the panel’s width */
+  display: flex;            /* make it flex so it can stretch height */
+  flex-direction: column;
+  flex: 1;                  /* stretch to match sibling height */
+}
