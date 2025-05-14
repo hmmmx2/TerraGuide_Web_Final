@@ -107,28 +107,35 @@ export const doSignOut = async () => {
     }
 };
 
-// Create an admin user (convenience function)
-export const createAdminUser = async (email, password, firstName, lastName) => {
-  // Generate username from first and last name
-  const username = `${firstName}${lastName}`.toLowerCase();
-  
-  // Call the regular registration function with admin role
-  return doCreateUserWithEmailAndPassword(
-    email, 
-    password, 
-    firstName, 
-    lastName, 
-    'admin', 
-    username
-  );
-};
-
 // Create a default admin user with predefined values
 export const createDefaultAdmin = async () => {
   const email = 'admin@email.com';
-  const password = 'admin!'; // Should be changed after first login
+  const password = 'admin'; // Should be changed after first login
   const firstName = 'System';
   const lastName = 'Administrator';
   
   return createAdminUser(email, password, firstName, lastName);
+};
+
+// Create a specific admin account
+export const createExampleAdmin = async () => {
+  try {
+    const { data, error } = await createAdminUser(
+      'admin@example.com',
+      'admin',
+      'The',
+      'Administrator'
+    );
+    
+    if (error) {
+      console.error('Error creating admin:', error);
+      return { success: false, error };
+    } else {
+      console.log('Admin created successfully:', data);
+      return { success: true, data };
+    }
+  } catch (err) {
+    console.error('Failed to create admin:', err);
+    return { success: false, error: err };
+  }
 };
