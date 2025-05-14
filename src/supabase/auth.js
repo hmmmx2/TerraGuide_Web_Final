@@ -1,98 +1,35 @@
 import { supabase } from './supabase';
 
 // Create a new user with email and password
-export const doCreateUserWithEmailAndPassword = async (email, password, firstName, lastName, userRole) => {
+export const doCreateUserWithEmailAndPassword = async (email, password, firstName, lastName, role, username) => {
   try {
-    // For guest users, we'll skip email confirmation
-    const isGuestUser = userRole === 'guest';
-    
-    // For guest users, we need a different approach
-    if (isGuestUser) {
-      try {
-        // For guest users, we'll use a special approach to bypass email verification
-        // First, check if we can sign in directly (in case this guest email was used before)
-        const { data: existingData, error: existingError } = await supabase.auth.signInWithPassword({
-          email,
-          password
-        });
-        
-        // If we can sign in directly, return that session
-        if (!existingError && existingData?.session) {
-          console.log("Reusing existing guest account");
-          return existingData;
-        }
-        
-        // Otherwise, create a new user
-        console.log("Creating new guest account");
-        const { data, error } = await supabase.auth.signUp({
-          email,
-          password,
-          options: {
-            data: {
-              first_name: firstName,
-              last_name: lastName,
-              user_role: userRole
-            }
-          }
-        });
-        
-        if (error) {
-          console.error("Guest account creation error:", error);
-          throw error;
-        }
-        
-        // For guest accounts, we'll try to sign in immediately even without email verification
-        // This is a workaround since we can't force email confirmation through the client API
-        const { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({
-          email,
-          password
-        });
-        
-        if (signInError) {
-          // If we can't sign in, it's likely because email verification is required
-          // Let's provide a clear error message
-          console.error("Guest sign-in error:", signInError);
-          throw new Error("Guest sign-in requires email verification which isn't possible. Please try again or use regular registration.");
-        }
-        
-        return signInData;
-      } catch (error) {
-        console.error("Complete guest auth flow error:", error);
-        throw error;
-      }
-    }
-    
-    // For regular users, use the standard sign-up flow
-    const { data, error } = await supabase.auth.signUp({
+    // Create the user in Supabase Auth
+    const { data: authData, error: authError } = await supabase.auth.signUp({
       email,
       password,
       options: {
         data: {
           first_name: firstName,
           last_name: lastName,
-          user_role: userRole
+          role: role || 'parkguide',
+          username: username // Add username to user metadata
         },
-        emailRedirectTo: window.location.origin + '/index'
+        emailRedirectTo: `${window.location.origin}/#/email-verification`
       }
     });
-    
-    if (error) {
-      // If there's an error, throw it to be caught by the calling function
-      throw error;
+
+    if (authError) {
+      console.error("Auth signup error:", authError);
+      throw new Error(authError.message);
     }
-    
-    // If the user was created successfully but needs email confirmation
-    // For guest users, we'll handle this differently
-    if (data?.user && data?.session === null && !isGuestUser) {
-      // This means the user needs to confirm their email (only for non-guest users)
-      return { ...data, emailConfirmation: true };
-    }
-    
-    // We've already handled guest users above, so this is only for regular users
-    
-    return data;
+
+    // The database trigger will handle inserting records into users, park_guides, and admins tables
+    // No need to manually insert records here
+    console.log("User created in auth system, database trigger will handle table insertions");
+
+    return authData;
   } catch (error) {
-    // Rethrow the error to be handled by the calling function
+    console.error("Registration error:", error);
     throw error;
   }
 };
@@ -168,4 +105,30 @@ export const doSignOut = async () => {
         console.error("Logout error:", error);
         throw error;
     }
+};
+
+// Create an admin user (convenience function)
+export const createAdminUser = async (email, password, firstName, lastName) => {
+  // Generate username from first and last name
+  const username = `${firstName}${lastName}`.toLowerCase();
+  
+  // Call the regular registration function with admin role
+  return doCreateUserWithEmailAndPassword(
+    email, 
+    password, 
+    firstName, 
+    lastName, 
+    'admin', 
+    username
+  );
+};
+
+// Create a default admin user with predefined values
+export const createDefaultAdmin = async () => {
+  const email = 'admin@email.com';
+  const password = 'admin!'; // Should be changed after first login
+  const firstName = 'System';
+  const lastName = 'Administrator';
+  
+  return createAdminUser(email, password, firstName, lastName);
 };

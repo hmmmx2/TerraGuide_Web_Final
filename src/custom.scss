@@ -1,0 +1,25 @@
+// Override Bootstrap variables to maintain your color scheme
+$primary: #4E6E4E;  // Your primary green color
+$success: #4E6E4E;  // Using your primary color for success as well
+$secondary: #6c757d;
+$info: #0dcaf0;
+$warning: #ffc107;
+$danger: #dc3545;
+$light: #f8f9fa;
+$dark: #212529;
+
+// Import Bootstrap
+@import "bootstrap/scss/bootstrap";
+
+// Add a less white background color to the body
+body {
+  background-color: #e6e2d3; // Light earth tone
+}
+
+// Remove any custom font declarations to use Bootstrap's default font stack
+body {
+  font-family: Arial, sans-serif;
+}
+
+// You can add more custom styles here that will override Bootstrap defaults
+// while maintaining your color scheme and branding

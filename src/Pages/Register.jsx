@@ -21,8 +21,8 @@ const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  // User role is now automatically set to "guide" for normal registration
-  const [userRole, setUserRole] = useState("guide");
+  // Changed: Set default role to "parkguide" without selection option
+  const [userRole] = useState("parkguide");
   const [isRegistering, setIsRegistering] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -34,6 +34,7 @@ const Register = () => {
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [confirmPasswordError, setConfirmPasswordError] = useState("");
+  // Removed userRoleError since we no longer need it
   const [userRoleError, setUserRoleError] = useState("");
   
   // Add state for the confirmation popup
@@ -73,7 +74,6 @@ const Register = () => {
     setEmailError("");
     setPasswordError("");
     setConfirmPasswordError("");
-    setUserRoleError("");
     setErrorMessage("");
     
     let hasError = false;
@@ -86,11 +86,6 @@ const Register = () => {
     
     if (!lastName.trim()) {
       setLastNameError("Last name is required");
-      hasError = true;
-    }
-    
-    if (!userRole) {
-      setUserRoleError("User role is required");
       hasError = true;
     }
 
@@ -132,7 +127,7 @@ const Register = () => {
       if (error && !error.message.includes("Email not confirmed")) {
         // If the error is not about email confirmation, proceed with registration
         // Pass the userRole, firstName and lastName to the registration function
-        await doCreateUserWithEmailAndPassword(email, password, firstName, lastName, userRole);
+        const result = await doCreateUserWithEmailAndPassword(email, password, firstName, lastName, userRole);
         
         // Show confirmation popup instead of navigating immediately
         setShowConfirmationPopup(true);
@@ -143,6 +138,9 @@ const Register = () => {
         return;
       }
     } catch (error) {
+      // Enhanced error logging
+      console.error("Registration error details:", error);
+      
       // Handle specific error for duplicate email from Supabase
       if (error.message.includes("already registered") || 
           error.message.includes("already in use") || 
@@ -150,7 +148,8 @@ const Register = () => {
           error.code === "23505") {
         setEmailError("This email is already registered. Please use a different email address.");
       } else {
-        setErrorMessage(error.message);
+        // Show more detailed error message
+        setErrorMessage(`Database error: ${error.message || "Unknown error occurred during registration"}`);
       }
     } finally {
       setIsRegistering(false);
@@ -296,8 +295,8 @@ const Register = () => {
                 </div>
               </div>
 
-              {/* User Role Selection Dropdown removed - all normal registrations are now "guide" role */}
-              <div className="registration-input-container">
+              {/* User Role Selection Dropdown removed - all normal registrations are now "parkguide" role */}
+              {/* <div className="registration-input-container">
                 <label htmlFor="userRole" className="registration-input-label">User Role:</label>
                 <div className={`registration-input-text ${userRoleError ? 'is-invalid' : ''}`}>
                   <span className="registration-icon"><i className="fa-solid fa-user-tag"></i></span>
@@ -320,7 +319,7 @@ const Register = () => {
                     </div>
                   )}
                 </div>
-              </div>
+              </div> */}
 
               <div className="registration-input-container">
                 <label htmlFor="password" className="registration-input-label">Password (25 characters max):</label>
