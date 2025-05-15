@@ -88,7 +88,7 @@ function Top() {
             <Link to="/index">Home</Link>
             <Link to="/aboutus">About Us</Link>
             <Link to="/mycourses">My Courses</Link>
-            <Link to="/ai">Dext AI</Link>
+            <Link to="/identify">Dext AI</Link>
             <Link to="/blogmenu">Blogs</Link>
             <Link to="/guide">Park Guide</Link>
           </div>

@@ -19,7 +19,7 @@ import Course1 from './Pages/Course1';
 import MyCourses from './Pages/MyCourses';
 import Course2 from './Pages/Course2';
 import Blogs3 from './Pages/Blogs3';
-import Ai from './Pages/Ai';
+import Identify from './Pages/Identify';
 import Dashboard from './Pages/Dashboard';
 import React, { useEffect, useState } from 'react';
 import { supabase } from './supabase/supabase';
@@ -41,7 +41,7 @@ function AdminRoutes() {
   const { currentUser, loading, userLoggedIn, userRole } = useAuth();
   const [authorized, setAuthorized] = useState(false);
   const [authCheckComplete, setAuthCheckComplete] = useState(false);
-  
+
   useEffect(() => {
     const checkAdminRole = async () => {
       if (!currentUser) {
@@ -49,17 +49,17 @@ function AdminRoutes() {
         setAuthCheckComplete(true);
         return;
       }
-      
+
       try {
         // Get user role from context instead of checking metadata again
         const isAdmin = userRole === 'admin' || userRole === 'controller';
         setAuthorized(isAdmin);
-        
+
         // Log the authorization state for debugging
-        console.log('Admin authorization check:', { 
-          userRole, 
-          isAdmin, 
-          authorized: isAdmin 
+        console.log('Admin authorization check:', {
+          userRole,
+          isAdmin,
+          authorized: isAdmin
         });
       } catch (error) {
         console.error('Role check failed:', error);
@@ -68,7 +68,7 @@ function AdminRoutes() {
         setAuthCheckComplete(true);
       }
     };
-    
+
     checkAdminRole();
   }, [currentUser, userRole]);
 
@@ -101,17 +101,17 @@ function PublicOnlyRoutes() {
 // New component to conditionally redirect admin users from index to dashboard
 function IndexRedirect() {
   const { userRole, loading } = useAuth();
-  
+
   // Show loading state while checking auth
   if (loading) {
     return <div>Loading...</div>;
   }
-  
+
   // // If user is admin, redirect to dashboard
   // if (userRole === 'admin' || userRole === 'controller') {
   //   return <Navigate to="/dashboard" replace />;
   // }
-  
+
   // Otherwise, show the Index component with a key to force a fresh render
   return <Index key="index-page" />;
 }
@@ -151,7 +151,8 @@ function App() {
               <Route path="/mycourses" element={<MyCourses />} />
               <Route path="/course2" element={<Course2 />} />
               <Route path="/blogs3" element={<Blogs3 />} />
-              <Route path="/ai" element={<Ai />} />
+              <Route path="/identify" element={<Identify />} />
+              <Route path="/dashboard" element={<Dashboard />} />
             </Route>
 
             {/* Catch-all route */}
