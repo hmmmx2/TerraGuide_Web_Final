@@ -4,17 +4,19 @@ import Footer1 from "../components/Footer1";
 import "../styles.css";
 import UploadIcon from "../assets/upload.svg";
 
-
 export default function Identify() {
   const [selectedFile, setSelectedFile] = useState(null);
+  const [previewURL, setPreviewURL] = useState(null);
+  const [predictionResult, setPredictionResult] = useState(null);
   const [dragActive, setDragActive] = useState(false);
   const inputRef = useRef(null);
-  
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file && (file.type === "image/png" || file.type === "image/jpeg" || file.type === "image/jpg")) {
       setSelectedFile(file);
+      setPreviewURL(URL.createObjectURL(file));
+      setPredictionResult(null);
     } else {
       alert("Only PNG, JPG, or JPEG files are allowed.");
     }
@@ -40,6 +42,8 @@ export default function Identify() {
     const file = e.dataTransfer.files[0];
     if (file && (file.type === "image/png" || file.type === "image/jpeg" || file.type === "image/jpg")) {
       setSelectedFile(file);
+      setPreviewURL(URL.createObjectURL(file));
+      setPredictionResult(null);
     } else {
       alert("Only PNG, JPG, or JPEG files are allowed.");
     }
@@ -49,13 +53,29 @@ export default function Identify() {
     inputRef.current.click();
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!selectedFile) {
       alert("Please upload a file first.");
       return;
     }
-    // You can use FormData here to send the file to a backend API
-    alert(`Submitted file: ${selectedFile.name}`);
+
+    const formData = new FormData();
+    formData.append("file", selectedFile);
+
+    try {
+      const response = await fetch("http://localhost:8000/", {
+        method: "POST",
+        body: formData
+      });
+
+      if (!response.ok) throw new Error("Prediction failed");
+
+      const data = await response.json();
+      setPredictionResult(data);
+    } catch (error) {
+      console.error("Upload error:", error);
+      alert("Something went wrong. Please try again.");
+    }
   };
 
   return (
@@ -96,7 +116,7 @@ export default function Identify() {
               </div>
 
               {selectedFile && (
-                <p style={{ marginTop: "1rem", color: "#4E6E4E" }}>
+                <p style={{ marginTop: "10px", color: "#4E6E4E" }}>
                   <strong>Selected File:</strong> {selectedFile.name}
                 </p>
               )}
@@ -108,35 +128,28 @@ export default function Identify() {
           </div>
         </section>
 
-        {/* Output Section... */}
         <section>
           <div className="text-box-output-image">
             <h2 className="text-title-output-image">Output Images</h2>
           </div>
-
-          <div className="cs-identify-container">
-            <div className="cs-identify-plant">
-              <div className="cs-identify-grid-container">
-                <div className="cs-identify-grid-item">
-                  <figure>
-                    <a href="https://powo.science.kew.org/taxon/urn:lsid:ipni.org:names:462286-1">
-                      <img className="cs-plant-picture-1" src="/species.png" alt="Plant species" />
-                    </a>
-                    <figcaption className="cs-caption"><strong>Species</strong></figcaption>
-                  </figure>
+          <div className="cs-output">
+            <div className="cs-predict-output">
+              {previewURL && (
+                <div className="cs-output-image">
+                  <img src={previewURL} alt="Uploaded preview" className="cs-images" />
                 </div>
+              )}
+
+              {predictionResult && (
                 <div className="cs-identify-grid-item">
-                  <strong>File Name: example.png</strong>
                   <dl>
-                    <dt className="cs-definition-list"><strong>Datetime:</strong></dt>
-                    <dd>15/05/2025</dd>
-                    <dt className="cs-definition-list"><strong>Normal Name:</strong></dt>
-                    <dd>Aeron Liu</dd>
-                    <dt className="cs-definition-list"><strong>Scientific Name:</strong></dt>
-                    <dd>ᚨᛖᚱᛟᚾ ᛚᛁᚢ</dd>
+                    <dt><strong>Predicted Class:</strong></dt>
+                    <dd>{predictionResult.predicted_class}</dd>
+                    <dt className="cs-definition-list"><strong>Confidence:</strong></dt>
+                    <dd>{(predictionResult.confidence * 100).toFixed(2)}%</dd>
                   </dl>
                 </div>
-              </div>
+              )}
             </div>
           </div>
         </section>

@@ -1,107 +1,113 @@
-*{
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    outline: none;
-    box-sizing:border-box;
+* {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  outline: none;
+  box-sizing: border-box;
+}
+
+/*----------------Session Manager-------------*/
+.session-warning-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.session-warning-modal {
+  background-color: #F6EFDC;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  width: 90%;
+  max-width: 450px;
+  overflow: hidden;
+  animation: modalFadeIn 0.3s ease-out;
+}
+
+.session-warning-header {
+  background-color: #4E6E4E;
+  /* Match your app's primary color */
+  color: #F6EFDC;
+  padding: 15px 20px;
+  text-align: center;
+}
+
+.session-warning-header h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.session-warning-body {
+  padding: 25px 30px;
+  text-align: center;
+  color: #333;
+}
+
+.session-warning-icon {
+  font-size: 48px;
+  color: #e67e22;
+  /* Match your app's accent color */
+  margin-bottom: 20px;
+}
+
+.session-warning-body p {
+  margin: 10px 0;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.session-time-remaining {
+  font-weight: bold;
+  color: #e74c3c;
+  /* Highlight color for urgency */
+}
+
+.session-warning-footer {
+  padding: 15px 20px 25px;
+  text-align: center;
+}
+
+.session-continue-btn {
+  background-color: #4E6E4E;
+  /* Match your app's success/action color */
+  color: #F6EFDC;
+  border: none;
+  padding: 12px 30px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+}
+
+.session-continue-btn:hover {
+  background-color: #4E6E4E;
+}
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
   }
 
-  /*----------------Session Manager-------------*/
-  .session-warning-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.6);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
-  
-  .session-warning-modal {
-    background-color: #F6EFDC;
-    border-radius: 8px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-    width: 90%;
-    max-width: 450px;
-    overflow: hidden;
-    animation: modalFadeIn 0.3s ease-out;
-  }
-  
-  .session-warning-header {
-    background-color: #4E6E4E; /* Match your app's primary color */
-    color: #F6EFDC;
-    padding: 15px 20px;
-    text-align: center;
-  }
-  
-  .session-warning-header h2 {
-    margin: 0;
-    font-size: 1.5rem;
-    font-weight: 600;
-  }
-  
-  .session-warning-body {
-    padding: 25px 30px;
-    text-align: center;
-    color: #333;
-  }
-  
-  .session-warning-icon {
-    font-size: 48px;
-    color: #e67e22; /* Match your app's accent color */
-    margin-bottom: 20px;
-  }
-  
-  .session-warning-body p {
-    margin: 10px 0;
-    font-size: 16px;
-    line-height: 1.5;
-  }
-  
-  .session-time-remaining {
-    font-weight: bold;
-    color: #e74c3c; /* Highlight color for urgency */
-  }
-  
-  .session-warning-footer {
-    padding: 15px 20px 25px;
-    text-align: center;
-  }
-  
-  .session-continue-btn {
-    background-color: #4E6E4E; /* Match your app's success/action color */
-    color: #F6EFDC;
-    border: none;
-    padding: 12px 30px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-    font-weight: 500;
-    transition: background-color 0.2s ease;
-  }
-  
-  .session-continue-btn:hover {
-    background-color: #4E6E4E;
-  }
-  
-  @keyframes modalFadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(-20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-  /*---------------End of Session Manager-------------*/
+}
+
+/*---------------End of Session Manager-------------*/
 
 
-  /*---------------Start of Identify------------------*/
-  /* Identify Plants Page Styles */
+/*---------------Start of Identify------------------*/
+/* Identify Plants Page Styles */
 
 .dropzone-active {
   background-color: #e6f0e0;
@@ -272,32 +278,60 @@
 }
 
 .cs-identify-grid-item {
-  margin-top: 2rem;
+  margin-bottom: 1rem;
   color: #4E6E4E;
+}
+
+/* Predict output */
+.cs-output {
+  display: flex;
+  justify-content: center;
+}
+
+.cs-predict-output {
+  display: grid;
+  justify-content: center;
+  margin-top: 3vw;
+  width: 43rem;
+  border-radius: 1rem;
+  background-color: #F6EFDC;
+}
+
+.cs-output-image {
+  margin-top: 14px;
+  margin-bottom: 14px;
+}
+
+.cs-images {
+  width: 300px;
+  height: 300px;
+  border-radius: 8px;
+  margin-top: 14px;
 }
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
+
   .cs-upload-guide,
   .text-box-identify-plant,
   .text-box-output-image {
     width: 90vw;
   }
-  
+
   .dropzone {
     width: 80vw;
   }
-  
+
   .cs-identify-grid-container {
     grid-template-columns: 1fr;
   }
-  
+
   .cs-plant-picture-1 {
     width: 40vw;
     height: auto;
     margin: 0 auto;
   }
-  
+
   .text-title-identify-plant,
   .text-title-output-image {
     font-size: 1.2rem;
@@ -306,7 +340,7 @@
 
 /*----------------end of Identify---------------------*/
 
-  /*---------------About us page----------------------*/
+/*---------------About us page----------------------*/
 
 /* About us styles */
 .about-us-container {
@@ -361,7 +395,7 @@
   background-color: #f9f9f9;
   border-radius: 10px;
   padding: 20px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .profile-image-container {
@@ -405,6 +439,7 @@
     flex-direction: column;
     align-items: center;
   }
+
   .profile-item {
     width: 80%;
   }
@@ -415,7 +450,7 @@
 
 
 
-  /*--------------------Course1------------------*/
+/*--------------------Course1------------------*/
 
 
 /* Exam styles */
@@ -432,7 +467,8 @@
   margin-bottom: 10px;
 }
 
-.exam-course, .exam-duration {
+.exam-course,
+.exam-duration {
   text-align: center;
   color: #7f8c8d;
   margin-bottom: 30px;
@@ -551,90 +587,103 @@
 
 
 
-  /*--------------------Screenshot------------------*/
+/*--------------------Screenshot------------------*/
 
-  @media print {
-    body {
-      display: none !important;
-    }
+@media print {
+  body {
+    display: none !important;
   }
+}
 
-  /*--------------------End of Screenshot------------------*/
+/*--------------------End of Screenshot------------------*/
 
-  /*--------------------Blogs------------------*/
+/*--------------------Blogs------------------*/
 
-  .blogsimage {
-    padding: 100px 0; /* Remove horizontal padding (left/right) */
-    position: relative;
-    min-height: 200px;
-    width: 100%; /* Make container full width */
-    margin: 0 auto;
-    display: flex;
-    justify-content: center; /* Center horizontally */
-    overflow: hidden; /* Hide any overflowing parts */
+.blogsimage {
+  padding: 100px 0;
+  /* Remove horizontal padding (left/right) */
+  position: relative;
+  min-height: 200px;
+  width: 100%;
+  /* Make container full width */
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  /* Center horizontally */
+  overflow: hidden;
+  /* Hide any overflowing parts */
 }
 
 .registration-svg-image69 {
-    width: 40%; /* Image will stretch to full container width */
-    height: auto; /* Maintain aspect ratio */
-    object-fit: cover; /* Ensures image covers area without distortion */
-    max-width: 100%; /* Prevent exceeding container */
+  width: 40%;
+  /* Image will stretch to full container width */
+  height: auto;
+  /* Maintain aspect ratio */
+  object-fit: cover;
+  /* Ensures image covers area without distortion */
+  max-width: 100%;
+  /* Prevent exceeding container */
 }
 
 
 
-  .blogsparagraph1{
-    text-align: left; 
-    display: flex;
-    flex-direction: column; 
-    align-items: center;
-    text-indent: 50px;
-    padding: 30px;
-    font-size: 20px;
-    font-family: 'Times New Roman', Times, serif;
-  }
-  
-  
-  .blogsparagraph2{
-    text-align: left; 
-    display: flex;
-    flex-direction: column; 
-    align-items: center;
-    text-indent: 50px;
-    padding: 20px;
-    font-size: 20px;
-    font-family: 'Times New Roman', Times, serif;
-  }
-  
-  .blogsparagraph3{
-    text-align: left; 
-    display: flex;
-    flex-direction: column; 
-    align-items: center;
-    text-indent: 50px;
-    padding: 20px;
-    font-size: 20px;
-    font-family: 'Times New Roman', Times, serif;
-  }
+.blogsparagraph1 {
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-indent: 50px;
+  padding: 30px;
+  font-size: 20px;
+  font-family: 'Times New Roman', Times, serif;
+}
+
+
+.blogsparagraph2 {
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-indent: 50px;
+  padding: 20px;
+  font-size: 20px;
+  font-family: 'Times New Roman', Times, serif;
+}
+
+.blogsparagraph3 {
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-indent: 50px;
+  padding: 20px;
+  font-size: 20px;
+  font-family: 'Times New Roman', Times, serif;
+}
 
 
 /*-------------------- End of Blogs------------------*/
 
 
- /*--------------------Slideshow 1 Index------------------*/
-  
- .slideshow-map-section {
+/*--------------------Slideshow 1 Index------------------*/
+
+.slideshow-map-section {
   display: flex;
-  align-items: stretch;      /* ← 讓左右兩塊等高並且頂端對齊 */
-  gap: 2rem;                 /* 區塊之間的水平間距 */
-  margin: 2rem auto;         /* 上下留白、自動置中 */
-  max-width: 1400px;         /* 可選：限制最寬度 */
-  padding: 1rem;             /* 內距 */
+  align-items: stretch;
+  /* ← 讓左右兩塊等高並且頂端對齊 */
+  gap: 2rem;
+  /* 區塊之間的水平間距 */
+  margin: 2rem auto;
+  /* 上下留白、自動置中 */
+  max-width: 1400px;
+  /* 可選：限制最寬度 */
+  padding: 1rem;
+  /* 內距 */
   box-sizing: border-box;
 }
 
 
-  .registration-svg-form-indexSS1,
+.registration-svg-form-indexSS1,
 .index-map-box {
   position: static !important;
   top: auto !important;
@@ -642,860 +691,871 @@
   right: auto !important;
   margin: 0 !important;
 }
-  .slideshow-section {
-    flex: 2;  
-  }
-  .map-section {
-    flex: 0;  
-  }
 
-  @media (max-width: 991px) {
-    .slideshow-map-container {
-      flex-direction: column;   
-      align-items: stretch;     
-    }
+.slideshow-section {
+  flex: 2;
+}
 
-  }
+.map-section {
+  flex: 0;
+}
 
-
-  /*--------------------End of Slideshow 1 Index------------------*/
-
-
-  /*--------------------Map Box Index-----------------------------*/
-
-  .slideshow-map-wrapperMB {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    gap: 20px; /* Space between slideshow and map box */
-    position: relative;
-    padding-top: 50px;
-    margin-bottom: 100px;
-  }
-  
-  .green-box-map-aeron {
-    width: 640px; 
-    height: 400px; 
-    background-color: #4E6E4E; 
-    border-radius: 12px; 
-    padding: 15px; 
-    color: white; 
-    font-size: 1rem; 
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
-    display: flex;
+@media (max-width: 991px) {
+  .slideshow-map-container {
     flex-direction: column;
-    align-items: center; 
-    justify-content: space-between; 
-    text-align: center;
-    /* Removed position:absolute and top/right */
-  }  
-
-
-
-  /*--------------------Featured Blogs---------------------*/
-
-  .table-sectionFB {
-    width: 1250px;
-    max-width: 1500px;
-    margin: -369px auto 60px; /* Move it UP by reducing top margin */
-    padding: 0 20px;
-    position: relative;
-    z-index: 10; /* Ensures it stays above the slideshow */
+    align-items: stretch;
   }
-  
-  
-  /* move position of Featured Blogs */
-  .table-titleFB {
-    color: #000000;
-    font-size: 2rem;
-    font-weight: bold;
-    margin-bottom: 0px; /* distance between h1 and line and image */
-    position: relative;
-    display: inline-block;
-    right: 250px;
-  }
-   
-  /* line postion width css */
-  .table-title-container::after {
-    content: "";
-    position: absolute;
-    left: -240px;
-    bottom: -10px;
-    width: 100%;
-    height: 2px; 
-    background-color: #999; 
-    margin: 0 auto; 
-  }
-  
-  .table-containerFB {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-  }
-  
-  
-  .table-title-containerFB {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    margin-bottom: 30px;
-  }
-  
-  /*position of All Blogs */
-  .see-all-btn2FB {
-    background-color: transparent;
-    color: #4E6E4E;
-    text-decoration: none;
-    font-size: 1.2rem;
-    padding: 8px 15px;
-    transition: all 0.3s ease;
-    margin-right: -270px;
-  }
-  
-  .see-all-btn2:hover {
-    background-color: #4E6E4E;
-    color: #F6EFDC;
-  }
-  
-  
 
-  
-  /*--------------------Slideshow 2 Index------------------*/
+}
+
+
+/*--------------------End of Slideshow 1 Index------------------*/
+
+
+/*--------------------Map Box Index-----------------------------*/
+
+.slideshow-map-wrapperMB {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 20px;
+  /* Space between slideshow and map box */
+  position: relative;
+  padding-top: 50px;
+  margin-bottom: 100px;
+}
+
+.green-box-map-aeron {
+  width: 640px;
+  height: 400px;
+  background-color: #4E6E4E;
+  border-radius: 12px;
+  padding: 15px;
+  color: white;
+  font-size: 1rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  text-align: center;
+  /* Removed position:absolute and top/right */
+}
 
 
 
-    
-  /*--------------------End of Slideshow 2 Index------------------*/
+/*--------------------Featured Blogs---------------------*/
+
+.table-sectionFB {
+  width: 1250px;
+  max-width: 1500px;
+  margin: -369px auto 60px;
+  /* Move it UP by reducing top margin */
+  padding: 0 20px;
+  position: relative;
+  z-index: 10;
+  /* Ensures it stays above the slideshow */
+}
+
+
+/* move position of Featured Blogs */
+.table-titleFB {
+  color: #000000;
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 0px;
+  /* distance between h1 and line and image */
+  position: relative;
+  display: inline-block;
+  right: 250px;
+}
+
+/* line postion width css */
+.table-title-container::after {
+  content: "";
+  position: absolute;
+  left: -240px;
+  bottom: -10px;
+  width: 100%;
+  height: 2px;
+  background-color: #999;
+  margin: 0 auto;
+}
+
+.table-containerFB {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+
+.table-title-containerFB {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 30px;
+}
+
+/*position of All Blogs */
+.see-all-btn2FB {
+  background-color: transparent;
+  color: #4E6E4E;
+  text-decoration: none;
+  font-size: 1.2rem;
+  padding: 8px 15px;
+  transition: all 0.3s ease;
+  margin-right: -270px;
+}
+
+.see-all-btn2:hover {
+  background-color: #4E6E4E;
+  color: #F6EFDC;
+}
+
+
+
+
+/*--------------------Slideshow 2 Index------------------*/
+
+
+
+
+/*--------------------End of Slideshow 2 Index------------------*/
 
 
 
 
 
 /*--------------------Profile Index------------------*/
-  
-  .guide-profile-containerJZ {
-    width: 100%;
-    max-width: 100%;
-    margin: 80px auto 40px;
-    padding: 30px;
-    background-color: #F6EFDC;
-    position: relative;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    box-shadow: none;
-    border-radius: 0;
-  }
-  
-  .guide-avatar-containerJZ {
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    margin-bottom: 20px;
-  }
+
+.guide-profile-containerJZ {
+  width: 100%;
+  max-width: 100%;
+  margin: 80px auto 40px;
+  padding: 30px;
+  background-color: #F6EFDC;
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  box-shadow: none;
+  border-radius: 0;
+}
+
+.guide-avatar-containerJZ {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-bottom: 20px;
+}
 
 
-  .guide-avatarJZ {
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: none;
-  }
-  
-  .guide-nameJZ {
-    text-align: left;
-    color: #4E6E4E;
-    font-size: 1.5rem;
-    margin: 15px 0 30px;
-    align-self: flex-start;
-  }
-  
-  .guide-description-sectionJZ {
-    width: 100%;
-    margin-bottom: 30px;
-    align-self: flex-start;
-  }
-  
-  .guide-description-section h3 {
-    color: #4E6E4E;
-    margin-bottom: 15px;
-    font-size: 1rem;
-    font-weight: normal;
-  }
-  
-  .guide-descriptionJZ {
-    color: #333;
-    line-height: 1.6;
-    text-align: justify;
-    padding: 0 0 15px;
-    min-height: 100px;
-  }
-  
-  .guide-description[contenteditable="true"]:focus {
-    outline: 1px solid #6D7E5E;
-    padding: 10px;
-    border-radius: 5px;
-  }
-  
-  .separator-lineJZ {
-    height: 1px;
-    background-color: #6D7E5E;
-    margin: 20px 0;
-    width: 100%;
-  }
-  
-  .guide-actionsJZ {
-    display: flex;
-    justify-content: flex-start;
-    margin-top: auto;
-    padding-top: 40px;
-    padding-bottom: 40px;
-    width: 100%;
-  }
-  
-  .back-buttonJZ {
-    display: inline-block;
-    padding: 8px 30px;
-    background-color: transparent;
-    color: #4E6E4E;
-    text-decoration: none;
-    border-radius: 20px;
-    font-weight: normal;
-    transition: background-color 0.3s;
-    border: 1px solid #4E6E4E;
-    cursor: pointer;
-  }
-  
-  .back-button:hover {
-    background-color: #F6EFDC;
-    border-color: #6D7E5E;
-  }
+.guide-avatarJZ {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: none;
+}
+
+.guide-nameJZ {
+  text-align: left;
+  color: #4E6E4E;
+  font-size: 1.5rem;
+  margin: 15px 0 30px;
+  align-self: flex-start;
+}
+
+.guide-description-sectionJZ {
+  width: 100%;
+  margin-bottom: 30px;
+  align-self: flex-start;
+}
+
+.guide-description-section h3 {
+  color: #4E6E4E;
+  margin-bottom: 15px;
+  font-size: 1rem;
+  font-weight: normal;
+}
+
+.guide-descriptionJZ {
+  color: #333;
+  line-height: 1.6;
+  text-align: justify;
+  padding: 0 0 15px;
+  min-height: 100px;
+}
+
+.guide-description[contenteditable="true"]:focus {
+  outline: 1px solid #6D7E5E;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.separator-lineJZ {
+  height: 1px;
+  background-color: #6D7E5E;
+  margin: 20px 0;
+  width: 100%;
+}
+
+.guide-actionsJZ {
+  display: flex;
+  justify-content: flex-start;
+  margin-top: auto;
+  padding-top: 40px;
+  padding-bottom: 40px;
+  width: 100%;
+}
+
+.back-buttonJZ {
+  display: inline-block;
+  padding: 8px 30px;
+  background-color: transparent;
+  color: #4E6E4E;
+  text-decoration: none;
+  border-radius: 20px;
+  font-weight: normal;
+  transition: background-color 0.3s;
+  border: 1px solid #4E6E4E;
+  cursor: pointer;
+}
+
+.back-button:hover {
+  background-color: #F6EFDC;
+  border-color: #6D7E5E;
+}
 
 
 /*--------------------End of Profile Index------------------*/
 
 
 
-  /*--------------------Blog menu-------------------*/
+/*--------------------Blog menu-------------------*/
 
 
 .b-containerBM {
-    max-width: 1000px; 
-    margin: auto;
-    margin-top: 6%;
-    margin-bottom: 2vw;
-    padding:25px 25px;
-  }
-  
-  .b-container h3 {
-    display: flex;
-    justify-content: space-between; 
-    align-items: center; 
-    font-size: 18px;
-    font-weight: bold;
-    margin-bottom: 5px;
-    padding-bottom: 5px; 
-    border-bottom: 2px solid #999; 
-  }
-  
-  .blog-gridBM {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr); 
-    gap: 20px;
-    justify-content: center; 
-    margin-top: 20px;
-  }
-  
-  .b-cardBM {
-    background-color: #4E6B50;
-    border-radius: 10px;
-    padding: 15px;
-    width: 300px;
-    height: 320px;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    text-align: left;
-    color: white;
-    position: relative;
-  }
-  
-  .b-image-containerBM {
-    width: 100%;
-    height: 140px;
-    overflow: hidden;
-    border-radius: 8px;
-  }
-  
-  .b-card-imageBM {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-  
-  .b-contentBM{
-    padding: 10px;
-  }
-  
-  .b-card-titleBM {
-    font-size: 1.2rem;
-    font-weight: bold;
-    margin-top: 10px;
-  }
-  
-  .b-card-descriptionBM {
-    font-size: 0.9rem;
-    color: white;
-    margin-top: 8px;
-  }
-  
-  .coming-soon-cardBM {
-    background-color: #4E6B50;
-    border-radius: 10px;
-    padding: 20px;
-    width: 300px;
-    height: 320px;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    text-align: center;
-    color: white;
-    position: relative;
-  }
-  
-  .coming-soon-boxBM {
-    background-color: #6D7E5E;
-    padding: 15px;
-    font-size: 1.2rem;
-    font-weight: bold;
-    width: 100%;
-    height: 35%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  
-  .coming-soon-titleBM {
-    font-size: 1.2rem;
-    font-weight: bold;
-    margin-bottom: 10px;
-  }
-  
-  .coming-soon-textBM {
-    font-size: 0.9rem;
-    color: white;
-  }
-  
-  .b-card-linkBM {
-    text-decoration: none;
-    color: inherit;
-    display: block;
-    transition: transform 0.2s;
-  }
-  
-  .hiddenBM {
-    display: none;
-  }
-  
+  max-width: 1000px;
+  margin: auto;
+  margin-top: 6%;
+  margin-bottom: 2vw;
+  padding: 25px 25px;
+}
 
+.b-container h3 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 5px;
+  padding-bottom: 5px;
+  border-bottom: 2px solid #999;
+}
 
-  /*--------------------End of Blog menu-------------------*/
+.blog-gridBM {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.b-cardBM {
+  background-color: #4E6B50;
+  border-radius: 10px;
+  padding: 15px;
+  width: 300px;
+  height: 320px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  text-align: left;
+  color: white;
+  position: relative;
+}
+
+.b-image-containerBM {
+  width: 100%;
+  height: 140px;
+  overflow: hidden;
+  border-radius: 8px;
+}
+
+.b-card-imageBM {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.b-contentBM {
+  padding: 10px;
+}
+
+.b-card-titleBM {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.b-card-descriptionBM {
+  font-size: 0.9rem;
+  color: white;
+  margin-top: 8px;
+}
+
+.coming-soon-cardBM {
+  background-color: #4E6B50;
+  border-radius: 10px;
+  padding: 20px;
+  width: 300px;
+  height: 320px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  text-align: center;
+  color: white;
+  position: relative;
+}
+
+.coming-soon-boxBM {
+  background-color: #6D7E5E;
+  padding: 15px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  width: 100%;
+  height: 35%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.coming-soon-titleBM {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.coming-soon-textBM {
+  font-size: 0.9rem;
+  color: white;
+}
+
+.b-card-linkBM {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  transition: transform 0.2s;
+}
+
+.hiddenBM {
+  display: none;
+}
 
 
 
+/*--------------------End of Blog menu-------------------*/
 
 
 
-   /*--------------------Timetable Index-------------------*/
 
-   .timetable-section {
-    width: 100%;
-    max-width: 1200px;
-    margin: 40px auto;
-    padding: 0 20px;
-    position: relative;
-  }
-  
-  .timetable-title {
-    color: #000000;
-    font-size: 2rem;
-    font-weight: bold;
-    margin-bottom: 0px;
-    position: relative;
-    display: inline-block;
-  }
-  
-  .timetable-title::after {
-    display: none;
-  }
-  
-  .timetable-header {
-    display: flex;
-    justify-content: flex-end; /* Changed from space-between to flex-end since we removed the h2 */
-    align-items: center;
-    margin-bottom: 20px;
-  }
-  
-  .timetable-header h2 {
-    color: #F6EFDC;
-    font-size: 1.8rem;
-    font-weight: bold;
-  }
-  
-  .view-all-btn {
-    background-color: transparent;
-    color: #F6EFDC;
-    text-decoration: none;
-    font-size: 1rem;
-    transition: color 0.3s ease;
-  }
-  
-  .view-all-btn:hover {
-    color: #fbd97a;
-    font-weight: bold;
-  }
-  
+
+
+/*--------------------Timetable Index-------------------*/
+
+.timetable-section {
+  width: 100%;
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 0 20px;
+  position: relative;
+}
+
+.timetable-title {
+  color: #000000;
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 0px;
+  position: relative;
+  display: inline-block;
+}
+
+.timetable-title::after {
+  display: none;
+}
+
+.timetable-header {
+  display: flex;
+  justify-content: flex-end;
+  /* Changed from space-between to flex-end since we removed the h2 */
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.timetable-header h2 {
+  color: #F6EFDC;
+  font-size: 1.8rem;
+  font-weight: bold;
+}
+
+.view-all-btn {
+  background-color: transparent;
+  color: #F6EFDC;
+  text-decoration: none;
+  font-size: 1rem;
+  transition: color 0.3s ease;
+}
+
+.view-all-btn:hover {
+  color: #fbd97a;
+  font-weight: bold;
+}
+
+.timetable-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.timetable-title-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 30px;
+  position: relative;
+}
+
+.timetable-title-container::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -10px;
+  width: 100%;
+  height: 3px;
+  background-color: #000000;
+}
+
+.see-all-btn {
+  background-color: transparent;
+  color: #4E6E4E;
+  text-decoration: none;
+  font-size: 1rem;
+  padding: 8px 15px;
+  border: 1px solid #4E6E4E;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+}
+
+.see-all-btn:hover {
+  background-color: #4E6E4E;
+  color: #F6EFDC;
+}
+
+/* This is green box 3, 4, 5 start */
+.timetable-box {
+  background-color: #4E6E4E;
+  border-radius: 12px;
+  padding: 20px;
+  color: #F6EFDC;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  position: relative;
+  min-height: 400px;
+  /* Adjust as needed */
+  max-width: 280px;
+  /* Adjust as needed */
+  margin: 0 auto;
+  /* Center the boxes */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.time-badge {
+  background-color: #F6EFDC;
+  color: #4E6E4E;
+  font-weight: bold;
+  padding: 15px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 15px;
+  width: 70px;
+  height: 70px;
+  text-align: center;
+}
+
+.timetable-box h3 {
+  color: #F6EFDC;
+  margin-bottom: 10px;
+  font-size: 1.2rem;
+}
+
+.timetable-box p {
+  color: #F6EFDC;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+/* This is green box 3, 4, 5 ends */
+
+/* Responsive design for timetable section */
+@media (max-width: 1024px) {
   .timetable-container {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
+    grid-template-columns: repeat(2, 1fr);
   }
-  
-  .timetable-title-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    margin-bottom: 30px;
-    position: relative;
+}
+
+@media (max-width: 768px) {
+  .timetable-container {
+    grid-template-columns: 1fr;
   }
-  
-  .timetable-title-container::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    bottom: -10px;
-    width: 100%;
-    height: 3px;
-    background-color: #000000;
-  }
-  
-  .see-all-btn {
-    background-color: transparent;
-    color: #4E6E4E;
-    text-decoration: none;
-    font-size: 1rem;
-    padding: 8px 15px;
-    border: 1px solid #4E6E4E;
-    border-radius: 5px;
-    transition: all 0.3s ease;
-  }
-  
-  .see-all-btn:hover {
-    background-color: #4E6E4E;
-    color: #F6EFDC;
-  }
-  
-  /* This is green box 3, 4, 5 start */
+
   .timetable-box {
-    background-color: #4E6E4E;
-    border-radius: 12px;
-    padding: 20px;
-    color: #F6EFDC;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    position: relative;
-    min-height: 400px; /* Adjust as needed */
-    max-width: 280px; /* Adjust as needed */
-    margin: 0 auto; /* Center the boxes */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
+    min-height: 180px;
   }
-  
-  .time-badge {
-    background-color: #F6EFDC;
-    color: #4E6E4E;
-    font-weight: bold;
-    padding: 15px;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 15px;
-    width: 70px;
-    height: 70px;
-    text-align: center;
-  }
-  
-  .timetable-box h3 {
-    color: #F6EFDC;
-    margin-bottom: 10px;
-    font-size: 1.2rem;
-  }
-  
-  .timetable-box p {
-    color: #F6EFDC;
-    font-size: 0.95rem;
-    line-height: 1.5;
-  }
-  /* This is green box 3, 4, 5 ends */
-  
-  /* Responsive design for timetable section */
-  @media (max-width: 1024px) {
-    .timetable-container {
-      grid-template-columns: repeat(2, 1fr);
-    }
-  }
-  
-  @media (max-width: 768px) {
-    .timetable-container {
-      grid-template-columns: 1fr;
-    }
-    
-    .timetable-box {
-      min-height: 180px;
-    }
-  }
-  
-  @media (max-width: 480px) {
-    .timetable-header {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 10px;
-    }
-    
-    .timetable-box {
-      min-height: 160px;
-    }
-  }
-  
-  
-  /* Timetable.html Page Styles */
-  .timetable-page-container {
-    width: 100%;
-    max-width: 1200px;
-    margin: 120px auto 40px;
-    padding: 0 20px;
-    position: relative;
-  }
-  
-  .timetable-page-title {
-    color: #000000;
-    font-size: 2.5rem;
-    font-weight: bold;
-    margin-bottom: 30px;
-    display: inline-block;
-  }
-  
+}
 
-  /*--------------------End of Timetable index-------------------*/
-
-
- /*--------------------Park guide index-------------------*/
-
-
- .parkguide-section {
-    width: 100%;
-    max-width: 1200px;
-    margin: 60px auto;
-    padding: 0 20px;
-    position: relative;
-  }
-  
-  .parkguide-title-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    margin-bottom: 30px;
-    position: relative;
-  }
-  
-  .parkguide-title-container::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    bottom: -10px;
-    width: 100%;
-    height: 3px;
-    background-color: #000000;
-  }
-  
-  .parkguide-title {
-    color: #000000;
-    font-size: 2rem;
-    font-weight: bold;
-    margin-bottom: 0px;
-    position: relative;
-    display: inline-block;
-  }
-  
-  .parkguide-title::after {
-    display: none;
-  }
-  
-  .parkguide-container {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-  }
-  
-  /* Parkguide Green Box 1, 2, 3 styles */
-  .parkguide-box {
-    background-color: #4E6E4E;
-    border-radius: 12px;
-    padding: 20px;
-    color: #F6EFDC;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    position: relative;
-    min-height: 400px;
-    max-width: 280px;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-  }
-  
-  .guide-image {
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    overflow: hidden;
-    margin-bottom: 20px;
-    background-color: #F6EFDC;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .guide-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-  
-  .parkguide-box h3 {
-    color: #F6EFDC;
-    margin-bottom: 15px;
-    font-size: 1.3rem;
-    font-weight: bold;
-  }
-  
-  .parkguide-box p {
-    color: #F6EFDC;
-    font-size: 0.95rem;
-    line-height: 1.5;
-  }
-  
-  /* Responsive design for park guides section */
-  @media (max-width: 1024px) {
-    .parkguide-container {
-      grid-template-columns: repeat(2, 1fr);
-    }
-  }
-  
-  @media (max-width: 768px) {
-    .parkguide-container {
-      grid-template-columns: 1fr;
-    }
-    
-    .parkguide-box {
-      min-height: 180px;
-    }
-  }
-  
-  @media (max-width: 480px) {
-    .parkguide-title-container {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 10px;
-    }
-  }
-  
-  /* Parkguide.html Page Styles */
-  .parkguide-page-container {
-    width: 100%;
-    max-width: 1200px;
-    margin: 120px auto 40px;
-    padding: 0 20px;
-    position: relative;
-  }
-  
-  .parkguide-page-title {
-    color: #000000;
-    font-size: 2.5rem;
-    font-weight: bold;
-    margin-bottom: 30px;
-    display: inline-block;
-  }
-  
-  /* Park Guide Profile Styles */
-  .guide-profile-container {
-    width: 100%;
-    max-width: 100%;
-    margin: 80px auto 40px;
-    padding: 30px;
-    background-color: #F6EFDC;
-    position: relative;
-    min-height: 100vh;
-    display: flex;
+@media (max-width: 480px) {
+  .timetable-header {
     flex-direction: column;
     align-items: flex-start;
-    box-shadow: none;
-    border-radius: 0;
+    gap: 10px;
   }
-  
-  .guide-avatar-container {
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    margin-bottom: 20px;
+
+  .timetable-box {
+    min-height: 160px;
   }
-  
-  .guide-avatar {
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: none;
+}
+
+
+/* Timetable.html Page Styles */
+.timetable-page-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 120px auto 40px;
+  padding: 0 20px;
+  position: relative;
+}
+
+.timetable-page-title {
+  color: #000000;
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 30px;
+  display: inline-block;
+}
+
+
+/*--------------------End of Timetable index-------------------*/
+
+
+/*--------------------Park guide index-------------------*/
+
+
+.parkguide-section {
+  width: 100%;
+  max-width: 1200px;
+  margin: 60px auto;
+  padding: 0 20px;
+  position: relative;
+}
+
+.parkguide-title-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 30px;
+  position: relative;
+}
+
+.parkguide-title-container::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -10px;
+  width: 100%;
+  height: 3px;
+  background-color: #000000;
+}
+
+.parkguide-title {
+  color: #000000;
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 0px;
+  position: relative;
+  display: inline-block;
+}
+
+.parkguide-title::after {
+  display: none;
+}
+
+.parkguide-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+/* Parkguide Green Box 1, 2, 3 styles */
+.parkguide-box {
+  background-color: #4E6E4E;
+  border-radius: 12px;
+  padding: 20px;
+  color: #F6EFDC;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  position: relative;
+  min-height: 400px;
+  max-width: 280px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.guide-image {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-bottom: 20px;
+  background-color: #F6EFDC;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.guide-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.parkguide-box h3 {
+  color: #F6EFDC;
+  margin-bottom: 15px;
+  font-size: 1.3rem;
+  font-weight: bold;
+}
+
+.parkguide-box p {
+  color: #F6EFDC;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+/* Responsive design for park guides section */
+@media (max-width: 1024px) {
+  .parkguide-container {
+    grid-template-columns: repeat(2, 1fr);
   }
-  
-  .guide-name {
-    text-align: left;
-    color: #4E6E4E;
-    font-size: 1.5rem;
-    margin: 15px 0 30px;
-    align-self: flex-start;
+}
+
+@media (max-width: 768px) {
+  .parkguide-container {
+    grid-template-columns: 1fr;
   }
-  
-  .guide-description-section {
-    width: 100%;
-    margin-bottom: 30px;
-    align-self: flex-start;
+
+  .parkguide-box {
+    min-height: 180px;
   }
-  
-  .guide-description-section h3 {
-    color: #4E6E4E;
-    margin-bottom: 15px;
-    font-size: 1rem;
-    font-weight: normal;
+}
+
+@media (max-width: 480px) {
+  .parkguide-title-container {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
   }
-  
-  .guide-description {
-    color: #333;
-    line-height: 1.6;
-    text-align: justify;
-    padding: 0 0 15px;
-    min-height: 100px;
-  }
-  
-  .guide-description[contenteditable="true"]:focus {
-    outline: 1px solid #6D7E5E;
-    padding: 10px;
-    border-radius: 5px;
-  }
-  
-  .separator-line {
-    height: 1px;
-    background-color: #6D7E5E;
-    margin: 20px 0;
-    width: 100%;
-  }
-  
-  .guide-actions {
-    display: flex;
-    justify-content: flex-start;
-    margin-top: auto;
-    padding-top: 40px;
-    padding-bottom: 40px;
-    width: 100%;
-  }
-  
-  .back-button {
-    display: inline-block;
-    padding: 8px 30px;
-    background-color: transparent;
-    color: #4E6E4E;
-    text-decoration: none;
-    border-radius: 20px;
-    font-weight: normal;
-    transition: background-color 0.3s;
-    border: 1px solid #4E6E4E;
-    cursor: pointer;
-  }
-  
-  .back-button:hover {
-    background-color: #F6EFDC;
-    border-color: #6D7E5E;
-  }
-  
+}
+
+/* Parkguide.html Page Styles */
+.parkguide-page-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 120px auto 40px;
+  padding: 0 20px;
+  position: relative;
+}
+
+.parkguide-page-title {
+  color: #000000;
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 30px;
+  display: inline-block;
+}
+
+/* Park Guide Profile Styles */
+.guide-profile-container {
+  width: 100%;
+  max-width: 100%;
+  margin: 80px auto 40px;
+  padding: 30px;
+  background-color: #F6EFDC;
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  box-shadow: none;
+  border-radius: 0;
+}
+
+.guide-avatar-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.guide-avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: none;
+}
+
+.guide-name {
+  text-align: left;
+  color: #4E6E4E;
+  font-size: 1.5rem;
+  margin: 15px 0 30px;
+  align-self: flex-start;
+}
+
+.guide-description-section {
+  width: 100%;
+  margin-bottom: 30px;
+  align-self: flex-start;
+}
+
+.guide-description-section h3 {
+  color: #4E6E4E;
+  margin-bottom: 15px;
+  font-size: 1rem;
+  font-weight: normal;
+}
+
+.guide-description {
+  color: #333;
+  line-height: 1.6;
+  text-align: justify;
+  padding: 0 0 15px;
+  min-height: 100px;
+}
+
+.guide-description[contenteditable="true"]:focus {
+  outline: 1px solid #6D7E5E;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.separator-line {
+  height: 1px;
+  background-color: #6D7E5E;
+  margin: 20px 0;
+  width: 100%;
+}
+
+.guide-actions {
+  display: flex;
+  justify-content: flex-start;
+  margin-top: auto;
+  padding-top: 40px;
+  padding-bottom: 40px;
+  width: 100%;
+}
+
+.back-button {
+  display: inline-block;
+  padding: 8px 30px;
+  background-color: transparent;
+  color: #4E6E4E;
+  text-decoration: none;
+  border-radius: 20px;
+  font-weight: normal;
+  transition: background-color 0.3s;
+  border: 1px solid #4E6E4E;
+  cursor: pointer;
+}
+
+.back-button:hover {
+  background-color: #F6EFDC;
+  border-color: #6D7E5E;
+}
 
 
 
 
-  /*--------------------End of park guide index-------------------*/
+
+/*--------------------End of park guide index-------------------*/
 
 
- /*--------------------Start of ParkGuide-------------------*/
-  .profile-header-icons {
-    display: flex;
-    align-items: center;
-    gap: 25px;
-    margin-left: auto;
-    padding-right: 80px;
-  }
-  
-  .profile-icon-btn {
-    color: #F6EFDC;
-    font-size: 18px;
-    text-decoration: none;
-    transition: color 0.3s;
-    padding: 5px;
-  }
-  
-  .profile-icon-btn:hover {
-    color: #fbd97a;
-  }
-  
-  .profile-header-avatar {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    overflow: hidden;
-    display: inline-block;
-    vertical-align: middle;
-    margin-left: 10px;
-  }
-  
-  .profile-header-avatar img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-  
- /*--------------------Ebd of ParkGuide-------------------*/
+/*--------------------Start of ParkGuide-------------------*/
+.profile-header-icons {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+  margin-left: auto;
+  padding-right: 80px;
+}
+
+.profile-icon-btn {
+  color: #F6EFDC;
+  font-size: 18px;
+  text-decoration: none;
+  transition: color 0.3s;
+  padding: 5px;
+}
+
+.profile-icon-btn:hover {
+  color: #fbd97a;
+}
+
+.profile-header-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  overflow: hidden;
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 10px;
+}
+
+.profile-header-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/*--------------------Ebd of ParkGuide-------------------*/
 
 
-  /*--------------------Body-------------------*/
-  body{
-    padding-top:6vw;
-    background-color:  #E6ECD6;
-    flex-direction:column;
-    align-items: center;
-    margin:0;
-    padding:0;
-  }
+/*--------------------Body-------------------*/
+body {
+  padding-top: 6vw;
+  background-color: #E6ECD6;
+  flex-direction: column;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+}
 
-  /*header{
+/*header{
     position: fixed;
     top: 0;
     left: 0;
@@ -1505,701 +1565,751 @@
     transition:all 0.3s ease-out 0s;
   }*/
 
-  /*-----------------Firstheader------------*/
-  #navbar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background-color: #4E6E4E; 
-    padding: 15px 40px;
-    position: fixed;
-    width: 100%;
-    top: 0;
-    left: 0;
-    z-index: 1000;
+/*-----------------Firstheader------------*/
+#navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #4E6E4E;
+  padding: 15px 40px;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  z-index: 1000;
 }
 
 /* Logo Container */
 .nav-logo {
-    display: flex;
-    align-items: center;  
-    justify-content: center;  
-    height: 100%; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
 }
 
 /* Logo */
 .nav-logo img {
-    height: 70px; /* Adjust as needed */
+  height: 70px;
+  /* Adjust as needed */
 }
 
 /* Navigation Links */
 .nav-links {
-    list-style: none;
-    display: flex;
-    gap: 20px;
+  list-style: none;
+  display: flex;
+  gap: 20px;
 }
 
 .nav-links li {
-    display: inline-block;
+  display: inline-block;
 }
 
 .nav-links a {
-    text-decoration: none;
-    color: white;
-    font-size: 16px;
-    font-weight: 500;
-    transition: color 0.3s ease-in-out;
+  text-decoration: none;
+  color: white;
+  font-size: 16px;
+  font-weight: 500;
+  transition: color 0.3s ease-in-out;
 }
 
 .nav-links a:hover {
-    color: #D4E09B; /* Light green hover effect */
+  color: #D4E09B;
+  /* Light green hover effect */
 }
 
 /* Dropdown Container */
 .navbar-dropdown {
-    position: relative;
-    display: inline-block;
+  position: relative;
+  display: inline-block;
 }
 
 /* Main Button */
 .navbar-dropbtn {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
 }
 
 .navbar-dropbtn a {
-    text-decoration: none;
-    color: white;
-    font-size: 16px;
-    font-weight: 500;
-    transition: color 0.3s ease-in-out;
+  text-decoration: none;
+  color: white;
+  font-size: 16px;
+  font-weight: 500;
+  transition: color 0.3s ease-in-out;
 }
 
 .navbar-dropbtn i {
-    color: white;
+  color: white;
 }
 
 /* Dropdown Menu */
 .navbar-dropdown .dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #4E6E4E;
-    min-width: 150px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-    z-index: 10;
-    border-radius: 5px;
-    overflow: hidden;
+  display: none;
+  position: absolute;
+  background-color: #4E6E4E;
+  min-width: 150px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 10;
+  border-radius: 5px;
+  overflow: hidden;
 }
 
 .navbar-dropdown .dropdown-content a {
-    color: white;
-    padding: 10px 15px;
-    text-decoration: none;
-    display: block;
-    font-size: 14px;
-    transition: background 0.3s ease;
+  color: white;
+  padding: 10px 15px;
+  text-decoration: none;
+  display: block;
+  font-size: 14px;
+  transition: background 0.3s ease;
 }
 
 .navbar-dropdown .dropdown-content a:hover {
-    background-color: #9BBF64; /* Hover effect */
+  background-color: #9BBF64;
+  /* Hover effect */
 }
 
 /* Show Dropdown on Hover */
 .navbar-dropdown:hover .dropdown-content {
-    display: block;
+  display: block;
 }
 
 /* Sign Up & Log In Buttons */
-.action_btn1, .action_btn2 {
-    text-decoration: none;
-    padding: 8px 15px;
-    border-radius: 5px;
-    font-size: 14px;
-    font-weight: bold;
-    margin-left: 10px;
+.action_btn1,
+.action_btn2 {
+  text-decoration: none;
+  padding: 8px 15px;
+  border-radius: 5px;
+  font-size: 14px;
+  font-weight: bold;
+  margin-left: 10px;
 }
 
 .action_btn1 {
-    background-color: #9BBF64;
-    color: white;
+  background-color: #9BBF64;
+  color: white;
 }
 
 .action_btn2 {
-    background-color: transparent;
-    color: white;
-    border: 1px solid white;
+  background-color: transparent;
+  color: white;
+  border: 1px solid white;
 }
 
-.action_btn1:hover, .action_btn2:hover {
-    opacity: 0.8;
+.action_btn1:hover,
+.action_btn2:hover {
+  opacity: 0.8;
 }
 
 /* Mobile menu toggle button */
 .mobile-menu-toggle {
-    display: none;
-    background: none;
-    border: none;
-    color: white;
-    font-size: 24px;
-    cursor: pointer;
+  display: none;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
 }
 
 /* Hide the mobile menu by default */
 .mobile-menu {
-    display: none;
+  display: none;
 }
 
 /* Hide any duplicate navigation elements */
-#root > ul {
-    display: none !important;
+#root>ul {
+  display: none !important;
 }
 
 /* Additional selectors to hide duplicate navigation elements */
-body > ul, 
-div > ul:not(.nav-links):not(.mobile-menu ul):not(.footer-column ul):not(.dropdown-content),
-#root > div > ul {
-    /* Commented by Desmond @ 18 April 2025 */
-    /*display: none !important;*/
+body>ul,
+div>ul:not(.nav-links):not(.mobile-menu ul):not(.footer-column ul):not(.dropdown-content),
+#root>div>ul {
+  /* Commented by Desmond @ 18 April 2025 */
+  /*display: none !important;*/
 }
 
 /* Hide hamburger menu icon when not needed */
-.fa-bars, .fa-times {
-    display: none !important;
+.fa-bars,
+.fa-times {
+  display: none !important;
 }
 
 /* -------------------- Header Responsive Design -------------------- */
 /* For large tablets and small desktops */
 @media (max-width: 1024px) {
-    /* Adjust navbar padding for medium screens */
-    #navbar {
-        padding: 12px 30px;
-    }
-    
-    /* Slightly reduce logo size */
-    .nav-logo img {
-        height: 60px;
-    }
-    
-    /* Adjust navigation links spacing */
-    .nav-links {
-        gap: 15px;
-    }
-    
-    /* Hide any duplicate navigation */
-    #root > ul, 
-    body > ul {
-        display: none !important;
-    }
+
+  /* Adjust navbar padding for medium screens */
+  #navbar {
+    padding: 12px 30px;
+  }
+
+  /* Slightly reduce logo size */
+  .nav-logo img {
+    height: 60px;
+  }
+
+  /* Adjust navigation links spacing */
+  .nav-links {
+    gap: 15px;
+  }
+
+  /* Hide any duplicate navigation */
+  #root>ul,
+  body>ul {
+    display: none !important;
+  }
 }
 
 /* For tablets and large mobile devices */
 @media (max-width: 768px) {
-    /* Adjust navbar layout */
-    #navbar {
-        padding: 10px 20px;
-    }
-    
-    /* Show mobile menu toggle */
-    .mobile-menu-toggle {
-        display: block;
-    }
-    
-    /* Hide desktop navigation */
-    .nav-links {
-        display: none;
-    }
-    
-    /* Show mobile menu when active */
-    .mobile-menu.active {
-        display: block;
-        position: absolute;
-        top: 100%;
-        left: 0;
-        width: 100%;
-        background-color: #4E6E4E;
-        padding: 10px 0;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    }
-    
-    .mobile-menu ul {
-        list-style: none;
-        padding: 0;
-    }
-    
-    .mobile-menu li {
-        padding: 10px 20px;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    }
-    
-    .mobile-menu a {
-        color: white;
-        text-decoration: none;
-        font-size: 16px;
-        display: block;
-    }
-    
-    /* Hide any duplicate navigation */
-    #root > ul,
-    body > ul {
-        display: none !important;
-    }
+
+  /* Adjust navbar layout */
+  #navbar {
+    padding: 10px 20px;
+  }
+
+  /* Show mobile menu toggle */
+  .mobile-menu-toggle {
+    display: block;
+  }
+
+  /* Hide desktop navigation */
+  .nav-links {
+    display: none;
+  }
+
+  /* Show mobile menu when active */
+  .mobile-menu.active {
+    display: block;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: #4E6E4E;
+    padding: 10px 0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  .mobile-menu ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .mobile-menu li {
+    padding: 10px 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .mobile-menu a {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    display: block;
+  }
+
+  /* Hide any duplicate navigation */
+  #root>ul,
+  body>ul {
+    display: none !important;
+  }
 }
 
 /* For small mobile devices */
 @media (max-width: 480px) {
-    /* Further reduce padding */
-    #navbar {
-        padding: 8px 15px;
-    }
-    
-    /* Make logo smaller */
-    .nav-logo img {
-        height: 40px;
-    }
-    
-    /* Adjust action buttons */
-    .action_btn1, .action_btn2 {
-        font-size: 12px;
-        padding: 6px 10px;
-        margin-left: 5px;
-    }
-    
-    /* Hide any duplicate navigation */
-    #root > ul,
-    body > ul {
-        display: none !important;
-    }
+
+  /* Further reduce padding */
+  #navbar {
+    padding: 8px 15px;
+  }
+
+  /* Make logo smaller */
+  .nav-logo img {
+    height: 40px;
+  }
+
+  /* Adjust action buttons */
+  .action_btn1,
+  .action_btn2 {
+    font-size: 12px;
+    padding: 6px 10px;
+    margin-left: 5px;
+  }
+
+  /* Hide any duplicate navigation */
+  #root>ul,
+  body>ul {
+    display: none !important;
+  }
 }
 
 /*===========================================================================Registration==============================================================*/
 
-  
+
 .text-box-registration {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 50%;
-    max-width: 600px;
-    margin: auto;
-    margin-top: 120px; /* Increased from 80px to 120px to move it further down */
-    margin-bottom: 2vw;
-    background-color: #6D7E5E;
-    border-radius: 20px;
-    padding: 10px 20px;
-    position: relative;
-    z-index: 10;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50%;
+  max-width: 600px;
+  margin: auto;
+  margin-top: 120px;
+  /* Increased from 80px to 120px to move it further down */
+  margin-bottom: 2vw;
+  background-color: #6D7E5E;
+  border-radius: 20px;
+  padding: 10px 20px;
+  position: relative;
+  z-index: 10;
 }
-    
+
 .text-title-registration {
-    color: #F6EFDC; 
-    font-size: 25px; 
-    font-weight: bold;
-    padding: 5px 0; /* Added padding to ensure text is fully visible */
+  color: #F6EFDC;
+  font-size: 25px;
+  font-weight: bold;
+  padding: 5px 0;
+  /* Added padding to ensure text is fully visible */
 }
-  
+
 .registration-height-container {
-    display: flex;
-    justify-content: center;
-    padding: 0 20px; /* Added padding for mobile */
-    margin-bottom: 50px; /* Added bottom margin */
+  display: flex;
+  justify-content: center;
+  padding: 0 20px;
+  /* Added padding for mobile */
+  margin-bottom: 50px;
+  /* Added bottom margin */
 }
 
 .registration-svg-form {
-    width: 90%; /* Changed from 100% */
-    max-width: 1200px; /* Reduced from 1420px */
-    background-color: #4E6E4E;
-    border-radius: 10px;
-    box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
-    overflow: hidden;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
+  width: 90%;
+  /* Changed from 100% */
+  max-width: 1200px;
+  /* Reduced from 1420px */
+  background-color: #4E6E4E;
+  border-radius: 10px;
+  box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
 }
-    
+
 .registration-svg {
-    padding: 2.3rem 2.2rem;
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-  
-.registration-svg .registration-title {
-    color: #F6EFDC;
-}
-  
-  
-.registration-svg-container {
-    overflow: hidden;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-}
-  
-.registration-svg-image {
-    width: 90%; /* Reduced from 100% */
-    height: auto; /* Changed from 100% */
-    object-fit: contain; /* Changed from cover */
-    margin: 0; /* Removed margin-top */
-}
-  
-.registration-form {
-    background-color: #6D7E5E;
-    position: relative;
-    display: flex; /* Changed from grid */
-    align-items: center;
-    justify-content: center;
-    padding: 2rem 0; /* Added padding */
-}
-  
-.registration-form:before {
-    content: "";
-    position: absolute;
-    width: 26px;
-    height: 26px;
-    background-color: #6D7E5E;
-    border-radius: 500px;
-    top: 50%;
-    left: -13px;
-    transform: translateY(-50%); /* Center vertically */
-}
-  
-.registration-form-body {
-    width: 90%; /* Changed from 100% */
-    max-width: 450px;
-    margin: auto;
-    padding: 20px 0; /* Added padding */
-}
- 
-  
-.registration-input-label {
-    color: #F6EFDC;
-    font-size: 15px;
-    font-weight: 500; /* Added font weight */
-}
-  
-  
-.registration-form-body .registration-input-container {
-    width: 100%;
-    margin-bottom: 20px; /* Reduced from 25px */
-}
-  
-.registration-form-body .registration-input-container label {
-    display: block;
-    margin-bottom: 8px; /* Increased from 5px */
-}
-  
-.registration-form-body .registration-input-container .registration-input-text {
-    position: relative;
-    width: 100%;
-}
-  
-.registration-form-body .registration-input-container .registration-input-text .registration-input {
-    width: 100%;
-    border-radius: 7px;
-    height: 40px;
-    border: 2px solid #F6EFDC;
-    background: #F6EFDC;
-    padding: 10px 20px;
-    padding-left: 50px;
-    transition: 0.5s ease;
-    color: #4E6E4E;
-    font-size: 14px; /* Added font size */
-}
-  
-.registration-form-body .registration-input-container .registration-input-text .registration-input:focus {
-    border-color: #4E6E4E;
-    box-shadow: 0 0 5px rgba(78, 110, 78, 0.5); /* Added box shadow */
-}
-  
-.registration-form-body .registration-input-container .registration-input-text .registration-icon {
-    position: absolute;
-    top: 50%; /* Changed from fixed 12px */
-    transform: translateY(-50%); /* Center icon vertically */
-    left: 20px;
-    color: #4E6E4E;
-    font-size: 16px;
-}
-  
-.registration-icon{
-    color: #4E6E4E;
-  }
-  
-  .registration-form-body .registration-input-container .input_radio{
+  padding: 2.3rem 2.2rem;
+  position: relative;
   display: flex;
-  }
-  
-  .registration-form-body .registration-input-container .input_radio .input_radio_item{
-    background: #4E6E4E;
-    margin-right: 25px;
-    padding: 20px;
-    border-radius: 7px;
-    position: relative;
-    width: 100px;
-  }
-  
-  .registration-form-body .registration-input-container .input_radio .input_radio_item .radio_mark{
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #4E6E4E;
-    border: 2px solid transparent;
-    border-radius: 7px;
-    margin: 0;
-    cursor: pointer;
-    transition: 0.5s ease;
-  }
-  
-  .registration-form-body .registration-input-container .input_radio .input_radio_item .radio_mark .i{
-    margin-right: 5px;
-    display: inline-block;
-  }
-  
-  .registration-form-body  .registration-input-container .input_radio .input_radio_item .radio{
-    position: absolute;
-    top: 0;
-    left: 0;
-    opacity: 0;
-  }
-  
-  .registration-form-body .registration-input-container .input_radio .input_radio_item .radio:checked ~ .radio_mark{
-    color: #4E6E4E;
-    border-color: #4E6E4E;
-  }
-  
-  .register-btn{
-    width: 100%;
-    border: 0;
-    background: #4E6E4E;
-    padding: 12px; /* Increased from 10px */
-    border-radius: 7px;
-    height: 45px; /* Increased from 40px */
-    color: #F6EFDC;
-    cursor: pointer;
-    transition: 0.5s ease;
-    font-size: 16px; /* Added font size */
-    font-weight: 600; /* Added font weight */
-    margin-top: 10px; /* Added margin top */
+  justify-content: center;
+  align-items: center;
 }
-  
+
+.registration-svg .registration-title {
+  color: #F6EFDC;
+}
+
+
+.registration-svg-container {
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.registration-svg-image {
+  width: 90%;
+  /* Reduced from 100% */
+  height: auto;
+  /* Changed from 100% */
+  object-fit: contain;
+  /* Changed from cover */
+  margin: 0;
+  /* Removed margin-top */
+}
+
+.registration-form {
+  background-color: #6D7E5E;
+  position: relative;
+  display: flex;
+  /* Changed from grid */
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 0;
+  /* Added padding */
+}
+
+.registration-form:before {
+  content: "";
+  position: absolute;
+  width: 26px;
+  height: 26px;
+  background-color: #6D7E5E;
+  border-radius: 500px;
+  top: 50%;
+  left: -13px;
+  transform: translateY(-50%);
+  /* Center vertically */
+}
+
+.registration-form-body {
+  width: 90%;
+  /* Changed from 100% */
+  max-width: 450px;
+  margin: auto;
+  padding: 20px 0;
+  /* Added padding */
+}
+
+
+.registration-input-label {
+  color: #F6EFDC;
+  font-size: 15px;
+  font-weight: 500;
+  /* Added font weight */
+}
+
+
+.registration-form-body .registration-input-container {
+  width: 100%;
+  margin-bottom: 20px;
+  /* Reduced from 25px */
+}
+
+.registration-form-body .registration-input-container label {
+  display: block;
+  margin-bottom: 8px;
+  /* Increased from 5px */
+}
+
+.registration-form-body .registration-input-container .registration-input-text {
+  position: relative;
+  width: 100%;
+}
+
+.registration-form-body .registration-input-container .registration-input-text .registration-input {
+  width: 100%;
+  border-radius: 7px;
+  height: 40px;
+  border: 2px solid #F6EFDC;
+  background: #F6EFDC;
+  padding: 10px 20px;
+  padding-left: 50px;
+  transition: 0.5s ease;
+  color: #4E6E4E;
+  font-size: 14px;
+  /* Added font size */
+}
+
+.registration-form-body .registration-input-container .registration-input-text .registration-input:focus {
+  border-color: #4E6E4E;
+  box-shadow: 0 0 5px rgba(78, 110, 78, 0.5);
+  /* Added box shadow */
+}
+
+.registration-form-body .registration-input-container .registration-input-text .registration-icon {
+  position: absolute;
+  top: 50%;
+  /* Changed from fixed 12px */
+  transform: translateY(-50%);
+  /* Center icon vertically */
+  left: 20px;
+  color: #4E6E4E;
+  font-size: 16px;
+}
+
+.registration-icon {
+  color: #4E6E4E;
+}
+
+.registration-form-body .registration-input-container .input_radio {
+  display: flex;
+}
+
+.registration-form-body .registration-input-container .input_radio .input_radio_item {
+  background: #4E6E4E;
+  margin-right: 25px;
+  padding: 20px;
+  border-radius: 7px;
+  position: relative;
+  width: 100px;
+}
+
+.registration-form-body .registration-input-container .input_radio .input_radio_item .radio_mark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #4E6E4E;
+  border: 2px solid transparent;
+  border-radius: 7px;
+  margin: 0;
+  cursor: pointer;
+  transition: 0.5s ease;
+}
+
+.registration-form-body .registration-input-container .input_radio .input_radio_item .radio_mark .i {
+  margin-right: 5px;
+  display: inline-block;
+}
+
+.registration-form-body .registration-input-container .input_radio .input_radio_item .radio {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+}
+
+.registration-form-body .registration-input-container .input_radio .input_radio_item .radio:checked~.radio_mark {
+  color: #4E6E4E;
+  border-color: #4E6E4E;
+}
+
+.register-btn {
+  width: 100%;
+  border: 0;
+  background: #4E6E4E;
+  padding: 12px;
+  /* Increased from 10px */
+  border-radius: 7px;
+  height: 45px;
+  /* Increased from 40px */
+  color: #F6EFDC;
+  cursor: pointer;
+  transition: 0.5s ease;
+  font-size: 16px;
+  /* Added font size */
+  font-weight: 600;
+  /* Added font weight */
+  margin-top: 10px;
+  /* Added margin top */
+}
+
 .register-btn:hover {
-    background: #F6EFDC;
-    color: #6D7E5E;
-    font-weight: bold;
-    transform: translateY(-2px); /* Added slight lift effect */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Added shadow on hover */
+  background: #F6EFDC;
+  color: #6D7E5E;
+  font-weight: bold;
+  transform: translateY(-2px);
+  /* Added slight lift effect */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  /* Added shadow on hover */
 }
-  
+
 .registration-passw-requirement {
-    color: #F6EFDC;
-    text-align: justify;
-    margin: 15px 0; /* Added margin */
-    font-size: 14px; /* Added font size */
+  color: #F6EFDC;
+  text-align: justify;
+  margin: 15px 0;
+  /* Added margin */
+  font-size: 14px;
+  /* Added font size */
 }
-  
+
 .registration-passw-requirement ul li {
-    margin-left: 10%;
-    margin-top: 5px; /* Added margin top */
+  margin-left: 10%;
+  margin-top: 5px;
+  /* Added margin top */
 }
 
 .registration-hr {
-    height: 1.5px;
-    border-width: 0;
-    color: #F6EFDC;
-    background-color: #F6EFDC;
-    margin: 20px 0; /* Added margin */
+  height: 1.5px;
+  border-width: 0;
+  color: #F6EFDC;
+  background-color: #F6EFDC;
+  margin: 20px 0;
+  /* Added margin */
 }
 
 .registration-alry-acc {
-    text-align: center;
-    margin-top: 20px; /* Added margin top */
+  text-align: center;
+  margin-top: 20px;
+  /* Added margin top */
 }
-  
+
 .registration-custom-login-text {
-    color: #F6EFDC; 
-    font-weight: 500; /* Added font weight */
-    text-decoration: underline; /* Added underline */
+  color: #F6EFDC;
+  font-weight: 500;
+  /* Added font weight */
+  text-decoration: underline;
+  /* Added underline */
 }
-  
+
 .registration-custom-login-text:hover {
-    color: #fbd97a; 
-    font-weight: bold;
+  color: #fbd97a;
+  font-weight: bold;
 }
 
 /* registration adjustments */
-@media (max-width: 1200px) {     
-    .text-box-registration {
-        width: 60%;
-        margin-top: 120px;
-    }
-    
-    .registration-svg-form {
-        max-width: 1000px;
-    }
+@media (max-width: 1200px) {
+  .text-box-registration {
+    width: 60%;
+    margin-top: 120px;
+  }
+
+  .registration-svg-form {
+    max-width: 1000px;
+  }
 }
 
 @media (max-width: 1050px) {
-    .text-box-registration {
-        width: 80%;
-        max-width: 560px;
-        margin-top: 120px; /* Keep consistent with larger screens */
-    }
-  
-    .registration-svg-form {
-        grid-template-columns: 1fr;
-        width: 90%;
-        max-width: 700px;
-    }
-  
-    .registration-svg-image {
-        margin-bottom: 0;
-        max-width: 300px;
-    }
-  
-    .registration-svg {
-        padding: 1.5rem;
-    }
-  
-    .registration-form:before {
-        display: none; /* Hide the circle on mobile */
-    }
-    
-    .registration-form {
-        padding: 2rem 1rem;
-    }
+  .text-box-registration {
+    width: 80%;
+    max-width: 560px;
+    margin-top: 120px;
+    /* Keep consistent with larger screens */
+  }
+
+  .registration-svg-form {
+    grid-template-columns: 1fr;
+    width: 90%;
+    max-width: 700px;
+  }
+
+  .registration-svg-image {
+    margin-bottom: 0;
+    max-width: 300px;
+  }
+
+  .registration-svg {
+    padding: 1.5rem;
+  }
+
+  .registration-form:before {
+    display: none;
+    /* Hide the circle on mobile */
+  }
+
+  .registration-form {
+    padding: 2rem 1rem;
+  }
 }
 
 @media (max-width: 768px) {
-    .text-box-registration {
-        width: 85%;
-        margin-top: 130px; /* Slightly more space on smaller screens */
-    }
-    
-    .text-title-registration {
-        font-size: 22px;
-    }
-    
-    .registration-svg-form {
-        width: 95%;
-    }
-    
-    .registration-form-body {
-        width: 95%;
-    }
-    
-    .registration-input-label {
-        font-size: 14px;
-    }
+  .text-box-registration {
+    width: 85%;
+    margin-top: 130px;
+    /* Slightly more space on smaller screens */
+  }
+
+  .text-title-registration {
+    font-size: 22px;
+  }
+
+  .registration-svg-form {
+    width: 95%;
+  }
+
+  .registration-form-body {
+    width: 95%;
+  }
+
+  .registration-input-label {
+    font-size: 14px;
+  }
 }
-  
+
 @media (max-width: 480px) {
-    .text-box-registration {
-        width: 90%;
-        max-width: 360px;
-        margin-top: 140px; /* Even more space on mobile */
-        padding: 8px 15px;
-    }
-  
-    .text-title-registration {
-        font-size: 18px;
-    }
-  
-    .registration-height-container {
-        padding: 1rem;
-    }
-  
-    .registration-form-body,
-    .registration-form {
-        padding: 1.5rem 1rem;
-    }
-  
-    .registration-title {
-        font-size: 1.15rem;
-    }
-  
-    .registration-input {
-        padding: 0.45rem 1.2rem;
-    }
-  
-    .registration-send-btn {
-        padding: 0.45rem 1.2rem;
-    }
-    
-    .registration-svg-form {
-        width: 100%;
-        border-radius: 8px;
-    }
-    
-    .registration-form-body .registration-input-container .registration-input-text .registration-input {
-        font-size: 13px;
-        height: 38px;
-    }
-    
-    .registration-passw-requirement {
-        font-size: 12px;
-    }
-    
-    .register-btn {
-        height: 42px;
-        font-size: 15px;
-    }
+  .text-box-registration {
+    width: 90%;
+    max-width: 360px;
+    margin-top: 140px;
+    /* Even more space on mobile */
+    padding: 8px 15px;
+  }
+
+  .text-title-registration {
+    font-size: 18px;
+  }
+
+  .registration-height-container {
+    padding: 1rem;
+  }
+
+  .registration-form-body,
+  .registration-form {
+    padding: 1.5rem 1rem;
+  }
+
+  .registration-title {
+    font-size: 1.15rem;
+  }
+
+  .registration-input {
+    padding: 0.45rem 1.2rem;
+  }
+
+  .registration-send-btn {
+    padding: 0.45rem 1.2rem;
+  }
+
+  .registration-svg-form {
+    width: 100%;
+    border-radius: 8px;
+  }
+
+  .registration-form-body .registration-input-container .registration-input-text .registration-input {
+    font-size: 13px;
+    height: 38px;
+  }
+
+  .registration-passw-requirement {
+    font-size: 12px;
+  }
+
+  .register-btn {
+    height: 42px;
+    font-size: 15px;
+  }
 }
 
 /* For very small screens like older smartphones */
 @media (max-width: 360px) {
-    .text-box-registration {
-        margin-top: 150px;
-        width: 95%;
-    }
-    
-    .text-title-registration {
-        font-size: 16px;
-        padding: 3px 0;
-    }
-    
-    .registration-form-body .registration-input-container {
-        margin-bottom: 15px;
-    }
-    
-    .registration-form-body .registration-input-container label {
-        margin-bottom: 5px;
-    }
-    
-    .registration-form-body .registration-input-container .registration-input-text .registration-input {
-        padding-left: 40px;
-    }
-    
-    .registration-form-body .registration-input-container .registration-input-text .registration-icon {
-        left: 15px;
-    }
+  .text-box-registration {
+    margin-top: 150px;
+    width: 95%;
+  }
+
+  .text-title-registration {
+    font-size: 16px;
+    padding: 3px 0;
+  }
+
+  .registration-form-body .registration-input-container {
+    margin-bottom: 15px;
+  }
+
+  .registration-form-body .registration-input-container label {
+    margin-bottom: 5px;
+  }
+
+  .registration-form-body .registration-input-container .registration-input-text .registration-input {
+    padding-left: 40px;
+  }
+
+  .registration-form-body .registration-input-container .registration-input-text .registration-icon {
+    left: 15px;
+  }
 }
 
 /* For landscape orientation on mobile devices */
 @media (max-height: 500px) and (orientation: landscape) {
-    .text-box-registration {
-        margin-top: 100px;
-    }
-    
-    .registration-svg-form {
-        max-height: 80vh;
-        overflow-y: auto;
-    }
-    
-    .registration-svg {
-        padding: 1rem;
-    }
-    
-    .registration-svg-image {
-        max-width: 200px;
-    }
+  .text-box-registration {
+    margin-top: 100px;
+  }
+
+  .registration-svg-form {
+    max-height: 80vh;
+    overflow-y: auto;
+  }
+
+  .registration-svg {
+    padding: 1rem;
+  }
+
+  .registration-svg-image {
+    max-width: 200px;
+  }
 }
 
 
@@ -2207,69 +2317,71 @@ div > ul:not(.nav-links):not(.mobile-menu ul):not(.footer-column ul):not(.dropdo
 /* @media for index(slideshow, map and featured blogs) --- start */
 /*--------------------Slideshow 1 Index------------------*/
 .registration-height-containerSS1 {
-    display: flex;
-    gap: 20px;
-    padding: 20px;
+  display: flex;
+  gap: 20px;
+  padding: 20px;
 }
 
 .registration-svg-form-indexSS1 {
-    width: 900px;
-    max-width: 1000px;
-    height: 400px;
-    max-height: 1000px;
-    background-color: #4E6E4E;
-    border-radius: 10px;
-    box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    padding: 20px;
-    gap: 10px;
-    position: absolute;
-    top: 110px;
-    left: 100px;
-    flex: 1;
+  width: 900px;
+  max-width: 1000px;
+  height: 400px;
+  max-height: 1000px;
+  background-color: #4E6E4E;
+  border-radius: 10px;
+  box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  gap: 10px;
+  position: absolute;
+  top: 110px;
+  left: 100px;
+  flex: 1;
 }
 
 /* Add responsive design for Slideshow 1 */
 @media (max-width: 1200px) {
-    .registration-svg-form-indexSS1 {
-        width: 80%;
-        left: 50%;
-        transform: translateX(-50%);
-        max-width: 800px;
-    }
+  .registration-svg-form-indexSS1 {
+    width: 80%;
+    left: 50%;
+    transform: translateX(-50%);
+    max-width: 800px;
+  }
 }
 
 @media (max-width: 768px) {
-    .registration-svg-form-indexSS1 {
-        width: 90%;
-        height: auto;
-        min-height: 350px;
-        top: 90px;
-    }
-    
-    .slide-leftSS1, .slide-rightSS1 {
-        padding: 0.5rem;
-        font-size: 1rem;
-    }
+  .registration-svg-form-indexSS1 {
+    width: 90%;
+    height: auto;
+    min-height: 350px;
+    top: 90px;
+  }
+
+  .slide-leftSS1,
+  .slide-rightSS1 {
+    padding: 0.5rem;
+    font-size: 1rem;
+  }
 }
 
 @media (max-width: 480px) {
-    .registration-svg-form-indexSS1 {
-        top: 80px;
-        min-height: 300px;
-        padding: 15px;
-    }
-    
-    .mySlidesSS1 {
-        flex-direction: column;
-    }
-    
-    .slide-leftSS1, .slide-rightSS1 {
-        flex: none;
-        width: 100%;
-    }
+  .registration-svg-form-indexSS1 {
+    top: 80px;
+    min-height: 300px;
+    padding: 15px;
+  }
+
+  .mySlidesSS1 {
+    flex-direction: column;
+  }
+
+  .slide-leftSS1,
+  .slide-rightSS1 {
+    flex: none;
+    width: 100%;
+  }
 }
 
 /*--------------------Slideshow 2 Index------------------*/
@@ -2289,7 +2401,7 @@ div > ul:not(.nav-links):not(.mobile-menu ul):not(.footer-column ul):not(.dropdo
   padding: 20px;
   color: white;
   font-size: 1rem;
-  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   position: relative;
   box-sizing: border-box;
 }
@@ -2303,52 +2415,55 @@ div > ul:not(.nav-links):not(.mobile-menu ul):not(.footer-column ul):not(.dropdo
 
 /* Add responsive design for Slideshow 2 */
 @media (max-width: 1700px) {
-  .green-box-SS2, .slide-imageSS2, .arrow-containerSS2 {
-      width: 100%;
+
+  .green-box-SS2,
+  .slide-imageSS2,
+  .arrow-containerSS2 {
+    width: 100%;
   }
 }
 
 @media (max-width: 1200px) {
   .slide-imageSS2 {
-      height: 350px;
+    height: 350px;
   }
-  
+
   .green-box-SS2 {
-      height: 180px;
+    height: 180px;
   }
 }
 
 @media (max-width: 768px) {
   .slide-imageSS2 {
-      height: 300px;
+    height: 300px;
   }
-  
+
   .green-box-SS2 {
-      height: 160px;
-      padding: 15px;
-      font-size: 0.9rem;
+    height: 160px;
+    padding: 15px;
+    font-size: 0.9rem;
   }
-  
+
   .arrowSS2 {
-      font-size: 28px;
-      padding: 8px;
+    font-size: 28px;
+    padding: 8px;
   }
 }
 
 @media (max-width: 480px) {
   .slide-imageSS2 {
-      height: 220px;
+    height: 220px;
   }
-  
+
   .green-box-SS2 {
-      height: 140px;
-      padding: 12px;
-      font-size: 0.85rem;
+    height: 140px;
+    padding: 12px;
+    font-size: 0.85rem;
   }
-  
+
   .arrowSS2 {
-      font-size: 24px;
-      padding: 6px;
+    font-size: 24px;
+    padding: 6px;
   }
 }
 
@@ -2364,148 +2479,147 @@ div > ul:not(.nav-links):not(.mobile-menu ul):not(.footer-column ul):not(.dropdo
 }
 
 .green-box-map-aeron {
-  width: 640px; 
-  height: 400px; 
-  background-color: #4E6E4E; 
-  border-radius: 12px; 
-  padding: 15px; 
-  color: white; 
-  font-size: 1rem; 
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+  width: 640px;
+  height: 400px;
+  background-color: #4E6E4E;
+  border-radius: 12px;
+  padding: 15px;
+  color: white;
+  font-size: 1rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   display: flex;
   flex-direction: column;
-  align-items: center; 
-  justify-content: space-between; 
+  align-items: center;
+  justify-content: space-between;
   text-align: center;
 }
 
 /* Add responsive design for Map Box */
 @media (max-width: 1200px) {
   .green-box-map-aeron {
-      width: 540px;
-      height: 380px;
+    width: 540px;
+    height: 380px;
   }
 }
 
 @media (max-width: 992px) {
   .slideshow-map-wrapperMB {
-      flex-direction: column;
-      align-items: center;
+    flex-direction: column;
+    align-items: center;
   }
-  
+
   .green-box-map-aeron {
-      width: 90%;
-      max-width: 600px;
-      margin-top: 30px;
+    width: 90%;
+    max-width: 600px;
+    margin-top: 30px;
   }
 }
 
 @media (max-width: 768px) {
   .green-box-map-aeron {
-      width: 95%;
-      height: 350px;
-      padding: 12px;
+    width: 95%;
+    height: 350px;
+    padding: 12px;
   }
 }
 
 @media (max-width: 480px) {
   .green-box-map-aeron {
-      height: 300px;
-      font-size: 0.9rem;
+    height: 300px;
+    font-size: 0.9rem;
   }
-  
+
   .slideshow-map-wrapperMB {
-      padding-top: 30px;
-      margin-bottom: 60px;
+    padding-top: 30px;
+    margin-bottom: 60px;
   }
 }
 
-*--------------------Featured Blogs---------------------*
-.table-sectionFB {
-    width: 1250px;
-    max-width: 1500px;
-    margin: -369px auto 60px;
-    padding: 0 20px;
-    position: relative;
-    z-index: 10;
+*--------------------Featured Blogs---------------------* .table-sectionFB {
+  width: 1250px;
+  max-width: 1500px;
+  margin: -369px auto 60px;
+  padding: 0 20px;
+  position: relative;
+  z-index: 10;
 }
 
 .table-titleFB {
-    color: #000000;
-    font-size: 2rem;
-    font-weight: bold;
-    margin-bottom: 0px;
-    position: relative;
-    display: inline-block;
-    right: 250px;
+  color: #000000;
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 0px;
+  position: relative;
+  display: inline-block;
+  right: 250px;
 }
 
 /* Add responsive design for Featured Blogs */
 @media (max-width: 1400px) {
-    .table-sectionFB {
-        width: 90%;
-        max-width: 1200px;
-        margin-top: -300px;
-    }
-    
-    .table-titleFB {
-        right: 150px;
-    }
-    
-    .see-all-btn2FB {
-        margin-right: -150px;
-    }
+  .table-sectionFB {
+    width: 90%;
+    max-width: 1200px;
+    margin-top: -300px;
+  }
+
+  .table-titleFB {
+    right: 150px;
+  }
+
+  .see-all-btn2FB {
+    margin-right: -150px;
+  }
 }
 
 @media (max-width: 1024px) {
-    .table-sectionFB {
-        width: 95%;
-        margin-top: -250px;
-    }
-    
-    .table-titleFB {
-        right: 100px;
-        font-size: 1.8rem;
-    }
-    
-    .see-all-btn2FB {
-        margin-right: -100px;
-        font-size: 1rem;
-    }
+  .table-sectionFB {
+    width: 95%;
+    margin-top: -250px;
+  }
+
+  .table-titleFB {
+    right: 100px;
+    font-size: 1.8rem;
+  }
+
+  .see-all-btn2FB {
+    margin-right: -100px;
+    font-size: 1rem;
+  }
 }
 
 @media (max-width: 768px) {
-    .table-sectionFB {
-        margin-top: -200px;
-        margin-bottom: 40px;
-    }
-    
-    .table-title-containerFB {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 15px;
-    }
-    
-    .table-titleFB {
-        right: 0;
-        font-size: 1.6rem;
-    }
-    
-    .see-all-btn2FB {
-        margin-right: 0;
-    }
+  .table-sectionFB {
+    margin-top: -200px;
+    margin-bottom: 40px;
+  }
+
+  .table-title-containerFB {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  .table-titleFB {
+    right: 0;
+    font-size: 1.6rem;
+  }
+
+  .see-all-btn2FB {
+    margin-right: 0;
+  }
 }
 
 @media (max-width: 480px) {
-    .table-sectionFB {
-        width: 100%;
-        padding: 0 15px;
-        margin-top: -150px;
-    }
-    
-    .table-titleFB {
-        font-size: 1.4rem;
-    }
+  .table-sectionFB {
+    width: 100%;
+    padding: 0 15px;
+    margin-top: -150px;
+  }
+
+  .table-titleFB {
+    font-size: 1.4rem;
+  }
 }
 
 /* @media for index(slideshow, map and featured blogs) --- end */
@@ -2513,7 +2627,8 @@ div > ul:not(.nav-links):not(.mobile-menu ul):not(.footer-column ul):not(.dropdo
 /*--------------------Featured Blogs (title and button) start---------------------*/
 .table-sectionFB {
   width: 100%;
-  max-width: 1200px; /* Match timetable section width */
+  max-width: 1200px;
+  /* Match timetable section width */
   margin: -369px auto 60px;
   padding: 0 20px;
   position: relative;
@@ -2546,7 +2661,8 @@ div > ul:not(.nav-links):not(.mobile-menu ul):not(.footer-column ul):not(.dropdo
   margin-bottom: 0px;
   position: relative;
   display: inline-block;
-  right: 0; /* Remove the right offset */
+  right: 0;
+  /* Remove the right offset */
 }
 
 .see-all-btn2FB {
@@ -2558,7 +2674,8 @@ div > ul:not(.nav-links):not(.mobile-menu ul):not(.footer-column ul):not(.dropdo
   border: 1px solid #4E6E4E;
   border-radius: 5px;
   transition: all 0.3s ease;
-  margin-right: 0; /* Remove the negative margin */
+  margin-right: 0;
+  /* Remove the negative margin */
 }
 
 .see-all-btn2FB:hover {
@@ -2569,55 +2686,56 @@ div > ul:not(.nav-links):not(.mobile-menu ul):not(.footer-column ul):not(.dropdo
 /* Responsive design for Featured Blogs */
 @media (max-width: 1400px) {
   .table-sectionFB {
-      width: 90%;
-      max-width: 1200px;
-      margin-top: -300px;
+    width: 90%;
+    max-width: 1200px;
+    margin-top: -300px;
   }
 }
 
 @media (max-width: 1024px) {
   .table-sectionFB {
-      width: 95%;
-      margin-top: -250px;
+    width: 95%;
+    margin-top: -250px;
   }
-  
+
   .table-titleFB {
-      font-size: 1.8rem;
+    font-size: 1.8rem;
   }
-  
+
   .see-all-btn2FB {
-      font-size: 1rem;
+    font-size: 1rem;
   }
 }
 
 @media (max-width: 768px) {
   .table-sectionFB {
-      margin-top: -200px;
-      margin-bottom: 40px;
+    margin-top: -200px;
+    margin-bottom: 40px;
   }
-  
+
   .table-title-containerFB {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 15px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
   }
-  
+
   .table-titleFB {
-      font-size: 1.6rem;
+    font-size: 1.6rem;
   }
 }
 
 @media (max-width: 480px) {
   .table-sectionFB {
-      width: 100%;
-      padding: 0 15px;
-      margin-top: -150px;
+    width: 100%;
+    padding: 0 15px;
+    margin-top: -150px;
   }
-  
+
   .table-titleFB {
-      font-size: 1.4rem;
+    font-size: 1.4rem;
   }
 }
+
 /*--------------------Featured Blogs (title and button) end---------------------*/
 
 /*--------------------Slideshow 1 Index------------------*/
@@ -2649,70 +2767,72 @@ div > ul:not(.nav-links):not(.mobile-menu ul):not(.footer-column ul):not(.dropdo
 /* Add responsive design for Slideshow 1 */
 @media (max-width: 1200px) {
   .registration-svg-form-indexSS1 {
-      width: 80%;
-      left: 50%;
-      transform: translateX(-50%);
-      max-width: 800px;
+    width: 80%;
+    left: 50%;
+    transform: translateX(-50%);
+    max-width: 800px;
   }
 }
 
 @media (max-width: 768px) {
   .registration-svg-form-indexSS1 {
-      width: 90%;
-      height: auto;
-      min-height: 350px;
-      top: 90px;
+    width: 90%;
+    height: auto;
+    min-height: 350px;
+    top: 90px;
   }
-  
-  .slide-leftSS1, .slide-rightSS1 {
-      padding: 0.5rem;
-      font-size: 1rem;
+
+  .slide-leftSS1,
+  .slide-rightSS1 {
+    padding: 0.5rem;
+    font-size: 1rem;
   }
 }
 
 @media (max-width: 480px) {
   .registration-svg-form-indexSS1 {
-      top: 80px;
-      min-height: 300px;
-      padding: 15px;
+    top: 80px;
+    min-height: 300px;
+    padding: 15px;
   }
-  
+
   .mySlidesSS1 {
-      flex-direction: column;
+    flex-direction: column;
   }
-  
-  .slide-leftSS1, .slide-rightSS1 {
-      flex: none;
-      width: 100%;
+
+  .slide-leftSS1,
+  .slide-rightSS1 {
+    flex: none;
+    width: 100%;
   }
 }
 
 /*--------------------Slideshow and Map Container------------------*/
 .slideshow-map-wrapperMB {
-display: flex;
-justify-content: space-between;
-align-items: flex-start;
-gap: 20px;
-position: relative;
-padding-top: 50px;
-margin-bottom: 100px;
-width: 90%;
-max-width: 1700px;
-margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+  position: relative;
+  padding-top: 50px;
+  margin-bottom: 100px;
+  width: 90%;
+  max-width: 1700px;
+  margin: 0 auto;
 }
 
 /* Media queries for the wrapper */
 @media (max-width: 992px) {
-.slideshow-map-wrapperMB {
+  .slideshow-map-wrapperMB {
     flex-direction: column;
     align-items: center;
-}
+  }
 }
 
 @media (max-width: 480px) {
   .slideshow-map-wrapperMB {
-      padding-top: 30px;
-      margin-bottom: 60px;
+    padding-top: 30px;
+    margin-bottom: 60px;
   }
 }
 
@@ -2746,16 +2866,19 @@ margin: 0 auto;
   color: #F6EFDC;
   padding: 15px 20px;
   display: flex;
-  justify-content: center; /* Center the content horizontally */
+  justify-content: center;
+  /* Center the content horizontally */
   align-items: center;
-  position: relative; /* For absolute positioning of the close button */
+  position: relative;
+  /* For absolute positioning of the close button */
 }
 
 .confirmation-popup-header h5 {
   margin: 0;
   font-size: 1.25rem;
   font-weight: 600;
-  text-align: center; /* Center the text */
+  text-align: center;
+  /* Center the text */
 }
 
 .confirmation-popup-header .btn-close {
@@ -2820,6 +2943,7 @@ margin: 0 auto;
     opacity: 0;
     transform: translateY(-20px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -2830,10 +2954,12 @@ margin: 0 auto;
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
 }
+
 /* End of Confirmation Popup Styles */
 
 /* Add these Bootstrap-inspired validation styles */
