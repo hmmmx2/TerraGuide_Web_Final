@@ -36,18 +36,26 @@ export const doCreateUserWithEmailAndPassword = async (email, password, firstNam
 
 // Sign in a user with email and password
 export const doSignInWithEmailAndPassword = async (email, password) => {
-    try {
-        const { data, error } = await supabase.auth.signInWithPassword({
-            email,
-            password,
-        });
-        
-        if (error) throw error;
-        return data;
-    } catch (error) {
-        console.error("Login error:", error);
-        throw error;
+  try {
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+
+    if (error) {
+      throw error;
     }
+
+    // Remove this direct redirect
+    // const role = data.user?.user_metadata?.role || 'parkguide';
+    // if (role === 'admin') {
+    //   window.location.href = '/#/dashboard';
+    // }
+
+    return data;
+  } catch (error) {
+    throw error;
+  }
 };
 
 // Sign in with email OTP (magic link)
@@ -98,44 +106,28 @@ export const doPasswordChange = async (password) => {
 // Sign out a user
 export const doSignOut = async () => {
     try {
+        // Clear any local storage items that might be keeping the session alive
+        localStorage.removeItem('supabase.auth.token');
+        localStorage.removeItem('guestMode');
+        localStorage.removeItem('guestName');
+        
+        // Clear any cookies that might be related to authentication
+        document.cookie.split(";").forEach((c) => {
+            document.cookie = c
+                .replace(/^ +/, "")
+                .replace(/=.*/, `=;expires=${new Date().toUTCString()};path=/`);
+        });
+        
+        // Call the Supabase signOut method
         const { error } = await supabase.auth.signOut();
         if (error) throw error;
+        
+        // Force reload the page to ensure all state is cleared
+        window.location.href = '/';
+        
         return true;
     } catch (error) {
         console.error("Logout error:", error);
         throw error;
     }
-};
-
-// Create a default admin user with predefined values
-export const createDefaultAdmin = async () => {
-  const email = 'admin@email.com';
-  const password = 'admin'; // Should be changed after first login
-  const firstName = 'System';
-  const lastName = 'Administrator';
-  
-  return createAdminUser(email, password, firstName, lastName);
-};
-
-// Create a specific admin account
-export const createExampleAdmin = async () => {
-  try {
-    const { data, error } = await createAdminUser(
-      'admin@example.com',
-      'admin',
-      'The',
-      'Administrator'
-    );
-    
-    if (error) {
-      console.error('Error creating admin:', error);
-      return { success: false, error };
-    } else {
-      console.log('Admin created successfully:', data);
-      return { success: true, data };
-    }
-  } catch (err) {
-    console.error('Failed to create admin:', err);
-    return { success: false, error: err };
-  }
 };

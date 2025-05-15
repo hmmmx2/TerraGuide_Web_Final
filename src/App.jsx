@@ -21,6 +21,8 @@ import Course2 from './Pages/Course2';
 import Blogs3 from './Pages/Blogs3';
 import Ai from './Pages/Ai';
 import Dashboard from './Pages/Dashboard';
+import React, { useEffect, useState } from 'react';
+import { supabase } from './supabase/supabase';
 
 // More efficient ProtectedRoute using Outlet
 function ProtectedRoutes() {
@@ -34,6 +36,57 @@ function ProtectedRoutes() {
   return userLoggedIn ? <Outlet /> : <Navigate to="/" replace />;
 }
 
+// New AdminRoutes component for admin/controller only pages
+function AdminRoutes() {
+  const { currentUser, loading, userLoggedIn, userRole } = useAuth();
+  const [authorized, setAuthorized] = useState(false);
+  const [authCheckComplete, setAuthCheckComplete] = useState(false);
+  
+  useEffect(() => {
+    const checkAdminRole = async () => {
+      if (!currentUser) {
+        setAuthorized(false);
+        setAuthCheckComplete(true);
+        return;
+      }
+      
+      try {
+        // Get user role from context instead of checking metadata again
+        const isAdmin = userRole === 'admin' || userRole === 'controller';
+        setAuthorized(isAdmin);
+        
+        // Log the authorization state for debugging
+        console.log('Admin authorization check:', { 
+          userRole, 
+          isAdmin, 
+          authorized: isAdmin 
+        });
+      } catch (error) {
+        console.error('Role check failed:', error);
+        setAuthorized(false);
+      } finally {
+        setAuthCheckComplete(true);
+      }
+    };
+    
+    checkAdminRole();
+  }, [currentUser, userRole]);
+
+  // Add effect to reset authorized state when user logs out
+  useEffect(() => {
+    if (!userLoggedIn) {
+      setAuthorized(false);
+    }
+  }, [userLoggedIn]);
+
+  // Show loading state until both auth loading is complete AND our own check is complete
+  if (loading || !authCheckComplete) {
+    return <div>Loading...</div>;
+  }
+
+  return authorized ? <Outlet /> : <Navigate to="/index" replace />;
+}
+
 // Optional: PublicOnlyRoutes for login/signup
 function PublicOnlyRoutes() {
   const { userLoggedIn, loading } = useAuth();
@@ -43,6 +96,24 @@ function PublicOnlyRoutes() {
   }
   
   return !userLoggedIn ? <Outlet /> : <Navigate to="/index" replace />;
+}
+
+// New component to conditionally redirect admin users from index to dashboard
+function IndexRedirect() {
+  const { userRole, loading } = useAuth();
+  
+  // Show loading state while checking auth
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+  
+  // // If user is admin, redirect to dashboard
+  // if (userRole === 'admin' || userRole === 'controller') {
+  //   return <Navigate to="/dashboard" replace />;
+  // }
+  
+  // Otherwise, show the Index component with a key to force a fresh render
+  return <Index key="index-page" />;
 }
 
 function App() {
@@ -57,9 +128,15 @@ function App() {
               <Route path="/signup" element={<Register />} />
             </Route>
 
+            {/* Admin/Controller only routes */}
+            <Route element={<AdminRoutes />}>
+              <Route path="/dashboard" element={<Dashboard />} />
+            </Route>
+
             {/* All protected routes in one group */}
             <Route element={<ProtectedRoutes />}>
-              <Route path="/index" element={<Index />} />
+              {/* Conditional redirect for admin users */}
+              <Route path="/index" element={<IndexRedirect />} />
               <Route path="/blogmenu" element={<Blogmenu />} />
               <Route path="/test" element={<Test />} />
               <Route path="/blogs" element={<Blogs />} />
@@ -75,7 +152,6 @@ function App() {
               <Route path="/course2" element={<Course2 />} />
               <Route path="/blogs3" element={<Blogs3 />} />
               <Route path="/ai" element={<Ai />} />
-              <Route path="/dashboard" element={<Dashboard />} />
             </Route>
 
             {/* Catch-all route */}

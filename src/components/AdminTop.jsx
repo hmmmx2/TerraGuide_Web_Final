@@ -59,16 +59,19 @@ function AdminTop() {
       if (isGuestMode) {
         // For guest mode, just clear localStorage and update state
         exitGuestMode();
-        navigate('/');
+        // Force reload to clear any remaining state
+        window.location.href = '/';
       } else {
         // For regular users, sign out from Supabase
         await doSignOut();
-        navigate('/');
+        // The doSignOut function now handles the redirect
       }
       setDropdownOpen(false);
     } catch (err) {
-      console.error(err);
+      console.error('Logout error:', err);
       alert('Failed to log out. Please try again.');
+      // Even if there's an error, try to force a redirect to login
+      window.location.href = '/';
     }
   };
 
@@ -80,16 +83,16 @@ function AdminTop() {
             <div/><div/><div/>
           </div>
 
-          <Link to="/index" className="logo">
+          <Link to="/dashboard" className="logo">
             <img src={terraguideLogo} alt="TerraGuide Logo"/>
           </Link>
 
           <div className="nav-links">
-            <Link to="#">Dashboard</Link>
-            <Link to="#">Database</Link>
-            <Link to="#">User</Link>
-            <Link to="#">License</Link>
-            <Link to="#">Content</Link>
+            <Link to="/dashboard">Dashboard</Link>
+            <Link to="/dashboard/database">Database</Link>
+            <Link to="/dashboard/users">User</Link>
+            <Link to="/dashboard/license">License</Link>
+            <Link to="/dashboard/content">Content</Link>
           </div>
 
           <div className="auth-buttons">
@@ -140,7 +143,6 @@ function AdminTop() {
                   <div className="dropdown-menu">
                     {!isGuestMode && (
                       <>
-
                         <Link
                           to="/settings"
                           className="dropdown-item"
@@ -150,6 +152,12 @@ function AdminTop() {
                         </Link>
                       </>
                     )}
+                    <button
+                      onClick={handleLogout}
+                      className="dropdown-item"
+                    >
+                      {isGuestMode ? 'Exit Guest Mode' : 'Logout'}
+                    </button>
                   </div>
                 )}
               </div>

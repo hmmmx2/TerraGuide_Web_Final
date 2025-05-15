@@ -52,8 +52,17 @@ const Login = () => {
         setEmailVerificationSent(true);
       } else {
         // Use traditional password login
-        await doSignInWithEmailAndPassword(email, password);
-        navigate("/index");
+        const result = await doSignInWithEmailAndPassword(email, password);
+        
+        // Check if user is admin and redirect to dashboard
+        const user = result?.user;
+        const role = user?.user_metadata?.role || 'parkguide';
+        
+        if (role === 'admin') {
+          navigate("/dashboard");
+        } else {
+          navigate("/index");
+        }
       }
     } catch (error) {
       setErrorMessage(error.message);
