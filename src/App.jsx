@@ -101,17 +101,17 @@ function PublicOnlyRoutes() {
 // New component to conditionally redirect admin users from index to dashboard
 function IndexRedirect() {
   const { userRole, loading } = useAuth();
-
+  
   // Show loading state while checking auth
   if (loading) {
     return <div>Loading...</div>;
   }
-
-  // // If user is admin, redirect to dashboard
-  // if (userRole === 'admin' || userRole === 'controller') {
-  //   return <Navigate to="/dashboard" replace />;
-  // }
-
+  
+  // If user is admin or controller, redirect to dashboard
+  if (userRole === 'admin' || userRole === 'controller') {
+    return <Navigate to="/dashboard" replace />;
+  }
+  
   // Otherwise, show the Index component with a key to force a fresh render
   return <Index key="index-page" />;
 }
