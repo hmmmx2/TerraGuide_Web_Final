@@ -19,7 +19,7 @@ import Course1 from './Pages/Course1';
 import MyCourses from './Pages/MyCourses';
 import Course2 from './Pages/Course2';
 import Blogs3 from './Pages/Blogs3';
-import Ai from './Pages/Ai';
+import Identify from './Pages/Identify';
 import Dashboard from './Pages/Dashboard';
 
 // More efficient ProtectedRoute using Outlet
@@ -74,7 +74,7 @@ function App() {
               <Route path="/mycourses" element={<MyCourses />} />
               <Route path="/course2" element={<Course2 />} />
               <Route path="/blogs3" element={<Blogs3 />} />
-              <Route path="/ai" element={<Ai />} />
+              <Route path="/identify" element={<Identify />} />
               <Route path="/dashboard" element={<Dashboard />} />
             </Route>
 
