@@ -10,11 +10,22 @@ if not exist "backend\plant_api" (
 )
 
 :: Check if model files exist directly in the plant_api directory
+echo [DEBUG] Checking for model files...
 if not exist "backend\plant_api\identify_plant.pth" (
-    echo Model files not found in plant_api directory.
+    echo [DEBUG] identify_plant.pth not found!
+    echo Model file identify_plant.pth not found in plant_api directory.
     echo Please run install_and_run.bat first to download the models.
     exit /b 1
 )
+
+if not exist "backend\plant_api\class_names.json" (
+    echo [DEBUG] class_names.json not found!
+    echo Model file class_names.json not found in plant_api directory.
+    echo Please run install_and_run.bat first to download the models.
+    exit /b 1
+)
+
+echo [DEBUG] All model files found successfully!
 
 :: Activate the virtual environment if it exists
 if exist "backend\plant_api\venv" (
