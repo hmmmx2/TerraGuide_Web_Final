@@ -53,25 +53,34 @@ export default function Identify() {
     inputRef.current.click();
   };
 
-  const handleSubmit = async () => {
-    if (!selectedFile) {
-      alert("Please upload a file first.");
-      return;
-    }
-
-    const formData = new FormData();
-    formData.append("file", selectedFile);
-
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log("Submitting image...");
+    
     try {
-      const response = await fetch("http://localhost:8000/", {
-        method: "POST",
-        body: formData
-      });
+      if (!selectedFile) {
+        alert("Please upload a file first.");
+        return;
+      }
 
-      if (!response.ok) throw new Error("Prediction failed");
+      const formData = new FormData();
+      formData.append("file", selectedFile);
 
-      const data = await response.json();
-      setPredictionResult(data);
+      try {
+        const response = await fetch("http://localhost:8000/api/identify", {
+          method: "POST",
+          body: formData
+        });
+
+        if (!response.ok) throw new Error("Prediction failed");
+
+        const data = await response.json();
+        setPredictionResult(data);
+        console.log("Response data:", data);
+      } catch (error) {
+        console.error("Error submitting image:", error);
+        alert("Something went wrong. Please try again.");
+      }
     } catch (error) {
       console.error("Upload error:", error);
       alert("Something went wrong. Please try again.");

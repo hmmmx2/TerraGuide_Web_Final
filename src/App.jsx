@@ -158,7 +158,7 @@ function App() {
             {/* Catch-all route */}
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
-          <SessionTimeoutManager timeoutDuration={60000} /> {/* 1 minute timeout */}
+          <SessionTimeoutManager timeoutDuration={180000} /> {/* 3 minute timeout */}
         </Router>
       </AuthProvider>
   );

@@ -1,40 +1,59 @@
-# Logs
-logs
-*.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-lerna-debug.log*
-
-# Dependency directories
-node_modules/
-dist/
-dist-ssr/
-*.local
-
-# Editor directories and files
-.vscode/
-!.vscode/extensions.json
-.idea/
-.DS_Store
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
-
-# Python virtual environments
-venv/
-*/venv/
-.env/
-.venv/
-backend/plant_api/venv/
-
-# Python artifacts
-__pycache__/
-*.py[cod]
-*.pyo
-*.pyd
-*.egg-info/
+# Logs 
+logs 
+*.log 
+npm-debug.log* 
+yarn-debug.log* 
+yarn-error.log* 
+pnpm-debug.log* 
+lerna-debug.log* 
+ 
+# Dependency directories 
+node_modules/ 
+dist/ 
+dist-ssr/ 
+*.local 
+ 
+# Editor directories and files 
+.vscode/ 
+!.vscode/extensions.json 
+.idea/ 
+.DS_Store 
+*.suo 
+*.ntvs* 
+*.njsproj 
+*.sln 
+*.sw? 
+ 
+# Python virtual environments 
+venv/ 
+*/venv/ 
+.env/ 
+.venv/ 
+backend/plant_api/venv/ 
+ 
+# Python artifacts 
+__pycache__/ 
+*.py[cod] 
+*.pyo 
+*.pyd 
+*.egg-info/ 
 .eggs/
+
+# Large model files
+*.pth
+*.pt
+*.h5
+*.onnx
+*.pkl
+*.bin
+*.safetensors
+backend/plant_api/models/
+backend/plant_api/identify_plant.pth
+backend/plant_api/class_names.json
+
+# Downloaded model data
+backend/plant_api/download_model.py
+
+# Temporary files
+.temp/
+.tmp/

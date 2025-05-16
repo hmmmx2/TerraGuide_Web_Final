@@ -1,13 +1,16 @@
 {
   "name": "terraguideproject",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "install-backend": "cd backend\\plant_api && pip install -r requirement.txt",
+    "start-backend": "start cmd /c start_backend.bat",
+    "start": "npm run start-backend && vite"
   },
   "dependencies": {
     "@emailjs/browser": "^4.4.1",
