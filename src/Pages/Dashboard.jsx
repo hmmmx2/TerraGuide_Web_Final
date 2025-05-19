@@ -6,6 +6,7 @@ import AlertList from '../components/AlertList';
 import AdminTop from '../components/AdminTop';
 import Footer1 from '../components/Footer1';
 import '../dashboard.css';
+import StatsCard from '../components/StatsCard';
 
 export default function Dashboard() {
   const sampleAlerts = [
@@ -17,14 +18,15 @@ export default function Dashboard() {
 
   return (
     <>
-      
+      <AdminTop/>
+      <StatsCard/>
       <div className="dashboard-container">
         <PO />
         <PC />
         <RMO />
         <AlertList alerts={sampleAlerts} />
       </div>
-      
+      <Footer1/>
     </>
   );
 }

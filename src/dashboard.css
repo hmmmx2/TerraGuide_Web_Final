@@ -1,34 +1,28 @@
-/* 1) Responsive root font-size */
-html {
-  font-size: clamp(14px, 1.2vw, 18px);
-}
-
-/* 2) Reset + base */
+/* 1) Reset + base */
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
+
 body {
   font-family: sans-serif;
   background: #f2f6ee;
   color: #334;
 }
 
-/* 3) Dashboard grid */
+/* 2) Dashboard grid */
 .dashboard-container {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: auto 1fr;  /* 1fr for second row ensures equal heights */
-  gap: 2vw;
-  padding: 2vw;
-  width: 90vw;
+  grid-auto-rows: minmax(200px, auto);
+  gap: 1.5rem;
+  padding: 1.5rem;
   max-width: 1200px;
   margin: 0 auto;
-  height: calc(100vh - 4vw);
 }
 
-/* 4) Card wrapper */
+/* 3) Uniform card wrapper */
 .card {
   background: #fff;
   border-radius: 1rem;
@@ -36,23 +30,24 @@ body {
   padding: 1.5rem;
   display: flex;
   flex-direction: column;
-  height: 100%;         /* fill its grid cell */
-  overflow: hidden;     /* inner scroll only */
+  overflow: hidden;
 }
 
-/* 5) Recharts fix */
+/* 4) Stretch cards vertically if you add .fill */
+.card.fill {
+  align-self: stretch;
+}
+
+/* 5) let Recharts ResponsiveContainers grow/shrink */
 .recharts-responsive-container {
   flex: 1;
   min-height: 0;
 }
 
 /* 6) Mobile: single column */
-@media (max-width: 600px) {
+@media (max-width: 650px) {
   .dashboard-container {
     grid-template-columns: 1fr;
-    grid-template-rows: repeat(4, auto);
-    width: 100vw;
-    padding: 4vw;
-    height: auto;
   }
 }
+
