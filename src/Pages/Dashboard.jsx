@@ -17,14 +17,14 @@ export default function Dashboard() {
 
   return (
     <>
-      <AdminTop />
+      
       <div className="dashboard-container">
         <PO />
         <PC />
         <RMO />
         <AlertList alerts={sampleAlerts} />
       </div>
-      <Footer1 />
+      
     </>
   );
 }
