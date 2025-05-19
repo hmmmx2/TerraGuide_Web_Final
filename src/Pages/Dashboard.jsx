@@ -3,6 +3,8 @@ import PO from '../components/PO';
 import PC from '../components/PC';
 import RMO from '../components/RMO';
 import AlertList from '../components/AlertList';
+import AdminTop from '../components/AdminTop';
+import Footer1 from '../components/Footer1';
 import '../dashboard.css';
 
 export default function Dashboard() {
@@ -14,11 +16,15 @@ export default function Dashboard() {
   ];
 
   return (
-    <div className="dashboard-container">
-      <PO />
-      <PC />
-      <RMO />
-      <AlertList alerts={sampleAlerts} />
-    </div>
+    <>
+      <AdminTop />
+      <div className="dashboard-container">
+        <PO />
+        <PC />
+        <RMO />
+        <AlertList alerts={sampleAlerts} />
+      </div>
+      <Footer1 />
+    </>
   );
 }
