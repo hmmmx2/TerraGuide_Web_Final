@@ -419,17 +419,12 @@ const Register = () => {
               {/* Or separator */}
               <div style={{ display: 'flex', alignItems: 'center', margin: '20px 0' }}>
                 <div style={{ flex: 1, height: '1px', backgroundColor: '#ccc' }}></div>
-                <p style={{ margin: '0 10px', color: '#666' }}>or</p>
+                <p style={{ margin: '0 10px', color: '#F6EFDC' }}>or</p>
                 <div style={{ flex: 1, height: '1px', backgroundColor: '#ccc' }}></div>
               </div>
               
               {/* Guest sign-in button */}
-              <button 
-                type="button" 
-                className="register-btn" 
-                style={{ backgroundColor: '#6c757d' }} 
-                onClick={handleGuestSignIn}
-              >
+              <button type="button" className="register-btn bg-light text-success" onClick={handleGuestSignIn}>
                 Sign in as Guest
               </button>
             </form>
@@ -446,7 +441,7 @@ const Register = () => {
           message="A confirmation email has been sent to your email address. Please check your inbox and follow the instructions to verify your account."
         />
       </>
-
+      <Footer1 />
     </>
   );
 };

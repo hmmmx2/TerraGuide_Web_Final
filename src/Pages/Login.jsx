@@ -119,11 +119,11 @@ const Login = () => {
       <>
         <Top/>
 
-        <div className="text-box-registration">
+        {/* <div className="text-box-registration">
           <h1 className="text-title-registration">LOGIN</h1>
-        </div>
+        </div> */}
 
-        <div className="registration-height-container">
+        <div className="registration-height-container mt-5">
           <div className="registration-svg-form">
             <div className="registration-svg">
               <div className="registration-svg-container">
@@ -199,20 +199,9 @@ const Login = () => {
                         </span>
                       </div>
                       <div style={{ textAlign: 'right', marginTop: '5px' }}>
-                        <button
-                          type="button"
-                          onClick={() => setShowResetPassword(true)}
-                          style={{
-                            background: 'none',
-                            border: 'none',
-                            color: '#007bff',
-                            cursor: 'pointer',
-                            padding: 0,
-                            fontSize: '0.9em'
-                          }}
-                        >
+                        <a type="button" className="link-light link-offset-2 link-underline-light link-underline-opacity-50 link-underline-opacity-100-hover" onClick={() => setShowResetPassword(true)}>
                           Forgot Password?
-                        </button>
+                        </a>
                       </div>
                     </div>
                   )}
@@ -248,10 +237,7 @@ const Login = () => {
                     
                     <p className="or-text" style={{ margin: '15px 0', textAlign: 'center', color: 'white' }}>or</p>
                     
-                    <button 
-                      type="button" 
-                      className="register-btn" 
-                      style={{ backgroundColor: '#FFC107', color: '#000' }}
+                    <button type="button" className="register-btn bg-light text-success" 
                       onClick={() => {
                         enableGuestMode();
                         navigate('/index');
@@ -380,8 +366,7 @@ const Login = () => {
                     
                     <button
                       type="button"
-                      className="register-btn"
-                      style={{ backgroundColor: '#6c757d', marginTop: '10px' }}
+                      className="btn bg-light text-success register-btn"
                       onClick={() => {
                         setShowResetPassword(false);
                         setResetStep(1);

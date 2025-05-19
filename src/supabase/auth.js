@@ -46,11 +46,15 @@ export const doSignInWithEmailAndPassword = async (email, password) => {
       throw error;
     }
 
-    // Remove this direct redirect
-    // const role = data.user?.user_metadata?.role || 'parkguide';
-    // if (role === 'admin') {
-    //   window.location.href = '/#/dashboard';
-    // }
+    // Check if user has a valid role
+    const userRole = data.user?.user_metadata?.role;
+    const validRoles = ['admin', 'controller', 'parkguide']; // Define your valid roles
+    
+    if (!validRoles.includes(userRole)) {
+      // Sign out the user immediately
+      await supabase.auth.signOut();
+      throw new Error('Your account has an outdated role. Please contact an administrator.');
+    }
 
     return data;
   } catch (error) {

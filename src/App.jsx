@@ -1,6 +1,14 @@
 import { HashRouter as Router, Routes, Route, Navigate, Outlet } from "react-router-dom";
 // Updated to use Supabase authentication instead of Firebase
 import { AuthProvider, useAuth } from "./contexts/authContext/supabaseAuthContext";
+// Import custom SCSS instead of Bootstrap CSS
+import './custom.scss';
+// Import Bootstrap JS (optional, only if you need interactive components)
+// Import Bootstrap CSS
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap-icons/font/bootstrap-icons.css';
+// Import Bootstrap JS (required for dropdown functionality)
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import Register from "./Pages/Register.jsx";
 import Login from "./Pages/Login.jsx";
 import Blogmenu from "./Pages/blogmenu";
@@ -21,6 +29,7 @@ import Course2 from './Pages/Course2';
 import Blogs3 from './Pages/Blogs3';
 import Identify from './Pages/Identify';
 import Dashboard from './Pages/Dashboard';
+import ViewAccounts from './Pages/ViewAccounts';
 import React, { useEffect, useState } from 'react';
 import { supabase } from './supabase/supabase';
 
@@ -118,7 +127,6 @@ function IndexRedirect() {
 
 function App() {
   return (
-      // Added AuthProvider by Desmond @ 18 April 2025
       <AuthProvider>
         <Router>
           <Routes>
@@ -131,6 +139,8 @@ function App() {
             {/* Admin/Controller only routes */}
             <Route element={<AdminRoutes />}>
               <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/dashboard/manage-users/view" element={<ViewAccounts />} />
+              {/* Add other user management routes as needed */}
             </Route>
 
             {/* All protected routes in one group */}

@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useAuth } from '../contexts/authContext/supabaseAuthContext';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, useLocation } from 'react-router-dom';
 import '../top.css';
 import terraguideLogo from '../assets/TerraGuide_Logo.png';
 import user_sample from '../assets/sample.png';
@@ -10,11 +10,13 @@ import { doSignOut } from '../supabase/auth.js';
 function AdminTop() {
   const { currentUser, userLoggedIn, isGuestMode, exitGuestMode } = useAuth();
   const navigate = useNavigate();
-
+  const location = useLocation(); // Get current location
+  
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [isActive, setIsActive]       = useState(false);
-  const searchRef    = useRef(null);
-  const dropdownRef  = useRef(null);
+  const [isActive, setIsActive] = useState(false);
+  const [navbarCollapsed, setNavbarCollapsed] = useState(true);
+  const searchRef = useRef(null);
+  const dropdownRef = useRef(null);
 
   // Close search when clicking outside
   useEffect(() => {
@@ -38,136 +40,143 @@ function AdminTop() {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  // Hamburger toggle for mobile
-  useEffect(() => {
-    const hamburger = document.querySelector('.hamburger');
-    const navLinks  = document.querySelector('.nav-links');
-    if (!hamburger || !navLinks) return;
-
-    function toggle() {
-      hamburger.classList.toggle('active');
-      navLinks.classList.toggle('active');
-    }
-
-    hamburger.addEventListener('click', toggle);
-    return () => hamburger.removeEventListener('click', toggle);
-  }, []);
-
   const handleLogout = async () => {
     if (!window.confirm('Are you sure you want to log out?')) return;
     try {
       if (isGuestMode) {
-        // For guest mode, just clear localStorage and update state
         exitGuestMode();
-        // Force reload to clear any remaining state
-        window.location.href = '/';
+        navigate('/');
       } else {
-        // For regular users, sign out from Supabase
         await doSignOut();
-        // The doSignOut function now handles the redirect
+        navigate('/');
       }
       setDropdownOpen(false);
     } catch (err) {
       console.error('Logout error:', err);
       alert('Failed to log out. Please try again.');
-      // Even if there's an error, try to force a redirect to login
-      window.location.href = '/';
     }
   };
 
   return (
     <header>
-      <nav>
-        <div className="navbar-container">
-          <div className="hamburger">
-            <div/><div/><div/>
-          </div>
-
-          <Link to="/dashboard" className="logo">
-            <img src={terraguideLogo} alt="TerraGuide Logo"/>
+      <nav className="navbar navbar-expand-lg navbar-dark shadow" style={{backgroundColor: '#4E6E4E'}}>
+        <div className="container">
+          <Link to="/dashboard" className="navbar-brand">
+            <img src={terraguideLogo} alt="TerraGuide Logo" height="60" />
           </Link>
-
-          <div className="nav-links">
-            <Link to="/dashboard">Dashboard</Link>
-            <Link to="/dashboard/database">Database</Link>
-            <Link to="/dashboard/users">User</Link>
-            <Link to="/dashboard/license">License</Link>
-            <Link to="/dashboard/content">Content</Link>
-          </div>
-
-          <div className="auth-buttons">
-            {userLoggedIn ? (
-              <div
-                className={`profile-menu${dropdownOpen ? ' open' : ''}`}
-                ref={dropdownRef}
-              >
-                <div className="icon-bar">
-                  <div
-                    className={`search-container${isActive ? ' active-search-container' : ''}`}
-                    ref={searchRef}
-                  >
-                    <i
-                      className="fas fa-search icon"
-                      onClick={() => setIsActive(a => !a)}
-                    />
-                    <input
-                      type="text"
-                      placeholder="Search..."
-                      className={`search-input${isActive ? ' active-search-input' : ''}`}
-                    />
+          
+          <button 
+            className="navbar-toggler" 
+            type="button" 
+            onClick={() => setNavbarCollapsed(!navbarCollapsed)}
+            aria-expanded={!navbarCollapsed}
+            aria-label="Toggle navigation"
+          >
+            <span className="navbar-toggler-icon"></span>
+          </button>
+          
+          <div className={`collapse navbar-collapse ${navbarCollapsed ? '' : 'show'}`}>
+            <ul className="navbar-nav justify-content-center w-100 mb-2 mb-lg-0">
+              <li className="nav-item">
+                <Link to="/dashboard" className="nav-link text-center fs-5">Dashboard</Link>
+              </li>
+              <li className="nav-item">
+                <Link to="/dashboard/database" className="nav-link text-center fs-5">Database</Link>
+              </li>
+              <li className="nav-item">
+                <Link to="/dashboard/manage-users/view" className="nav-link text-center fs-5">User</Link>
+              </li>
+              <li className="nav-item">
+                <Link to="/dashboard/license" className="nav-link text-center fs-5">License</Link>
+              </li>
+              <li className="nav-item">
+                <Link to="/dashboard/content" className="nav-link text-center fs-5">Content</Link>
+              </li>
+            </ul>
+            
+            <div className="d-flex align-items-center">
+              {userLoggedIn ? (
+                <div className="position-relative" ref={dropdownRef}>
+                  <div className="d-flex align-items-center">
+                    <div 
+                      className="position-relative me-3" 
+                      ref={searchRef}
+                    >
+                      <div className="input-group" style={{width: isActive ? '200px' : '40px', transition: 'width 0.3s'}}>
+                        <span className="input-group-text bg-transparent border-0 text-white" onClick={() => setIsActive(!isActive)}>
+                          <i className="fas fa-search"></i>
+                        </span>
+                        {isActive && (
+                          <input 
+                            type="text" 
+                            className="form-control" 
+                            placeholder="Search..." 
+                          />
+                        )}
+                      </div>
+                    </div>
+                    
+                    <div className="me-3 text-white">
+                      <i className="fas fa-bell"></i>
+                    </div>
+                    
+                    {isGuestMode && (
+                      <span className="badge bg-warning text-dark me-2">
+                        GUEST
+                      </span>
+                    )}
+                    
+                    <div 
+                      onClick={() => setDropdownOpen(!dropdownOpen)} 
+                      style={{cursor: 'pointer'}}
+                    >
+                      <img 
+                        src={isGuestMode ? guest_avatar : user_sample} 
+                        alt="Profile" 
+                        className="rounded-circle" 
+                        width="40" 
+                        height="40" 
+                      />
+                    </div>
                   </div>
-                  <i className="fas fa-bell icon"/>
-                  {isGuestMode && (
-                    <span style={{ 
-                      backgroundColor: '#FFC107', 
-                      color: '#000', 
-                      padding: '2px 8px', 
-                      borderRadius: '10px', 
-                      fontSize: '12px',
-                      marginLeft: '5px',
-                      fontWeight: 'bold'
-                    }}>
-                      GUEST
-                    </span>
-                  )}
-                </div>
-
-                <div
-                  className="profile-circle"
-                  onClick={() => setDropdownOpen(o => !o)}
-                >
-                  <img src={isGuestMode ? guest_avatar : user_sample} alt="Profile"/>
-                </div>
-
-                {dropdownOpen && (
-                  <div className="dropdown-menu">
-                    {!isGuestMode && (
-                      <>
-                        <Link
-                          to="/settings"
-                          className="dropdown-item"
+                  
+                  {dropdownOpen && (
+                    <div className="position-absolute end-0 mt-2 py-2 bg-white rounded shadow" style={{minWidth: '200px', zIndex: 1000}}>
+                      {!isGuestMode && (
+                        <Link 
+                          to="/settings" 
+                          className="dropdown-item" 
                           onClick={() => setDropdownOpen(false)}
                         >
                           Settings
                         </Link>
-                      </>
-                    )}
-                    <button
-                      onClick={handleLogout}
-                      className="dropdown-item"
-                    >
-                      {isGuestMode ? 'Exit Guest Mode' : 'Logout'}
-                    </button>
-                  </div>
-                )}
-              </div>
-            ) : (
-              <>
-                <Link to="/signup" className="sign-in">Sign Up</Link>
-                <div className="separator"/>
-                <Link to="/"      className="log-in">Log In</Link>
-              </>
-            )}
+                      )}
+                      <button 
+                        onClick={handleLogout} 
+                        className="dropdown-item text-danger"
+                      >
+                        {isGuestMode ? 'Exit Guest Mode' : 'Logout'}
+                      </button>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <div className="d-flex">
+                  <Link 
+                    to="/signup" 
+                    className="btn btn-outline-light me-2"
+                  >
+                    Sign Up
+                  </Link>
+                  <Link 
+                    to="/" 
+                    className="btn btn-light"
+                  >
+                    Log In
+                  </Link>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </nav>
