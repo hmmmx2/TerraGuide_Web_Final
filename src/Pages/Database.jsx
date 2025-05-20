@@ -12,59 +12,77 @@ const SECTIONS = [
 
 export default function App() {
   const [selected, setSelected] = useState(SECTIONS[0])
-  const [open, setOpen] = useState(false)
+  const [open, setOpen]       = useState(false)
+  const [enlarged, setEnl]    = useState(false)
 
   return (
     <div className="container">
-      {/* Section Selector */}
-      <div
-        className="dropdown"
-        onClick={() => setOpen(o => !o)}
-      >
-        <span>{selected}</span>
-        <FaChevronDown className={open ? 'rotated' : ''}/>
+      {/* ==== Top Search ==== */}
+      <div className="header">
+        <div className="search-box">
+          <FaSearch className="icon" />
+          <input type="text" placeholder="Search" />
+        </div>
       </div>
+
+      {/* ==== Table Wrapper ==== */}
+      <div className={`table-wrapper ${enlarged ? 'enlarged' : ''}`}>
+        <table className="data-table">
+          <thead>
+            <tr>
+              <th className="dropdown-cell">
+                <div
+                  className="dropdown"
+                  onClick={() => setOpen(o => !o)}
+                >
+                  <span>{selected}</span>
+                  <FaChevronDown className={open ? 'rotated' : ''} />
+                </div>
+              </th>
+              <th className="action-cell">
+                <button
+                  className="action-btn"
+                  onClick={() => alert('Action clicked')}
+                >
+                  Action
+                </button>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {[...Array(5)].map((_, i) => (
+              <tr key={i}>
+                <td className="data-cell">&nbsp;</td>
+                <td className="data-cell">&nbsp;</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+
+        <button
+          className="enlarge-btn"
+          onClick={() => setEnl(e => !e)}
+        >
+          {enlarged ? 'Shrink' : 'Enlarge'}
+        </button>
+      </div>
+
+      {/* ==== Dropdown Menu ==== */}
       {open && (
         <ul className="menu">
           {SECTIONS.map(sec => (
-            <li key={sec} onClick={() => { setSelected(sec); setOpen(false) }}>
+            <li
+              key={sec}
+              onClick={() => {
+                setSelected(sec)
+                setOpen(false)
+              }}
+            >
               {sec}
             </li>
           ))}
         </ul>
       )}
-
-      {/* Search & Action Toolbar */}
-      <div className="toolbar">
-        <div className="search-box">
-          <FaSearch className="icon"/>
-          <input type="text" placeholder="Search" />
-        </div>
-        <button className="action-btn">Action</button>
-      </div>
-
-      {/* Table Placeholder */}
-      <div className="table-wrapper">
-        <table className="data-table">
-          <thead>
-            <tr>
-              <th>Column A</th>
-              <th>Column B</th>
-              <th>Column C</th>
-            </tr>
-          </thead>
-          <tbody>
-            {/* render as many empty rows as you like */}
-            {[...Array(5)].map((_, i) => (
-              <tr key={i}>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
     </div>
   )
 }
