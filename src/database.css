@@ -40,10 +40,6 @@
   border: 1px solid #4e6e4e;
   border-radius: 1rem;
   overflow: hidden;
-  transition: transform 0.25s ease;
-}
-.table-wrapper.enlarged {
-  transform: scale(1.05);
 }
 
 /* ==== Data Table ==== */
@@ -73,7 +69,7 @@
   border-top-right-radius: 1rem;
 }
 
-/* Dropdown inside table header matches table background */
+/* Dropdown inside table header */
 .table-wrapper .dropdown {
   display: inline-flex;
   align-items: center;
@@ -91,7 +87,7 @@
   transition: transform 0.2s ease;
 }
 
-/* Action button inside table header matches table background */
+/* Action button inside table header */
 .table-wrapper .action-btn {
   background: #4e6e4e;
   color: #fff;
@@ -121,6 +117,18 @@
   border-bottom: none;
 }
 
+/* ==== See More / See Less button ==== */
+.see-more-btn {
+  display: block;
+  margin: 1rem auto;
+  background: none;
+  border: none;
+  font-size: 1rem;
+  color: #4e6e4e;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
 /* ==== Dropdown menu ==== */
 .menu {
   position: absolute;
@@ -144,18 +152,4 @@
 }
 .menu li:hover {
   background: #f0f0f0;
-}
-
-/* ==== Enlarge link ==== */
-.enlarge-btn {
-  position: absolute;
-  bottom: 0.8rem;
-  left: 50%;
-  transform: translateX(-50%);
-  background: none;
-  border: none;
-  font-size: 1rem;
-  color: #4e6e4e;
-  cursor: pointer;
-  text-decoration: underline;
 }
