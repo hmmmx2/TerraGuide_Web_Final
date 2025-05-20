@@ -81,7 +81,7 @@ function AdminTop() {
                 <Link to="/dashboard" className="nav-link text-center fs-5">Dashboard</Link>
               </li>
               <li className="nav-item">
-                <Link to="/dashboard/database" className="nav-link text-center fs-5">Database</Link>
+                <Link to="/database" className="nav-link text-center fs-5">Database</Link>
               </li>
               <li className="nav-item">
                 <Link to="/dashboard/manage-users/view" className="nav-link text-center fs-5">User</Link>

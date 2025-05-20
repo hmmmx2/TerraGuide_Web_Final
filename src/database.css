@@ -1,0 +1,112 @@
+/* Container */
+.container {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+  font-family: sans-serif;
+  position: relative;
+}
+
+/* Dropdown */
+.dropdown {
+  display: inline-flex;
+  align-items: center;
+  background: #4e6e4e;
+  color: #fff;
+  padding: 0.6rem 1.2rem;
+  border-radius: 999px;
+  cursor: pointer;
+  user-select: none;
+  font-weight: 500;
+}
+.dropdown .rotated {
+  transform: rotate(180deg);
+  transition: transform 0.2s ease;
+}
+
+/* Dropdown menu */
+.menu {
+  position: absolute;
+  top: 3.2rem;
+  left: 1rem;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 0.5rem;
+  list-style: none;
+  padding: 0.5rem 0;
+  width: calc(100% - 2rem);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  z-index: 10;
+}
+.menu li {
+  padding: 0.6rem 1rem;
+  cursor: pointer;
+}
+.menu li:hover {
+  background: #f0f0f0;
+}
+
+/* Toolbar */
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1.5rem;
+}
+.search-box {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  background: #fff;
+  border: 1px solid #4e6e4e;
+  border-radius: 999px;
+  padding: 0.4rem 1rem;
+  margin-right: 1rem;
+}
+.search-box .icon {
+  margin-right: 0.6rem;
+  color: #4e6e4e;
+}
+.search-box input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 1rem;
+}
+.action-btn {
+  background: #4e6e4e;
+  color: #fff;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 999px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+/* Table wrapper & styling */
+.table-wrapper {
+  margin-top: -0.8rem; /* pull up to overlap toolbar bottom */
+  border: 1px solid #4e6e4e;
+  border-top: none;
+  border-radius: 0 0 1rem 1rem;
+  overflow: hidden;
+}
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #f9f9f9;
+}
+.data-table th,
+.data-table td {
+  padding: 0.8rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid #e0e0e0;
+}
+.data-table tr:last-child td {
+  border-bottom: none;
+}
+.data-table th {
+  background: #4e6e4e;
+  color: white;
+  font-weight: 500;
+}
