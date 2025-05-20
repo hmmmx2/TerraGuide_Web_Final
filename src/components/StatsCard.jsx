@@ -1,37 +1,54 @@
 // src/components/StatsCard.jsx
 import React from 'react';
 
-export default function StatsCard({ examCount = '1,357', bookerCount = '357' }) {
+export default function StatsCard({
+  examCount = '1,357',
+  bookerCount = '357',
+}) {
   return (
     <div
       style={{
-        background: '#4e6e4e',        // same dark‐green as your example
-        borderRadius: '12px',
-        padding: '24px',
-        width: '450px',
-        height:'250px',
+        background: '#4e6e4e',
+        borderRadius: 12,
+        padding: '16px 32px',
+        width: '100%',
+        maxWidth: 900,
+        height: 120,            // ↓ shrunk from 200
+        marginTop: '24px',      // ↑ added top spacing
         boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
         color: 'white',
-        textAlign: 'center',
-        marginLeft: '80px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        margin: '24px auto 0', // you can also combine vertical margins here
       }}
     >
-      {/* top metric */}
-      <div style={{ marginBottom: '42px' }}>
-        <div style={{ fontSize: '2rem', fontWeight: 500 }}>
+      {/* metric 1 */}
+      <div style={{ flex: 1, textAlign: 'center' }}>
+        <div style={{ fontSize: '2rem', fontWeight: 500, lineHeight: 1 }}>
           {examCount}
         </div>
-        <div style={{ fontSize: '0.875rem' }}>
+        <div style={{ fontSize: '0.875rem', marginTop: 2 }}>
           Exam Takers
         </div>
       </div>
 
-      {/* bottom metric */}
-      <div>
-        <div style={{ fontSize: '2rem', fontWeight: 500 }}>
+      {/* divider */}
+      <div
+        style={{
+          width: 1,
+          height: '50%',
+          background: 'rgba(255,255,255,0.3)',
+          margin: '0 24px',
+        }}
+      />
+
+      {/* metric 2 */}
+      <div style={{ flex: 1, textAlign: 'center' }}>
+        <div style={{ fontSize: '2rem', fontWeight: 500, lineHeight: 1 }}>
           {bookerCount}
         </div>
-        <div style={{ fontSize: '0.875rem' }}>
+        <div style={{ fontSize: '0.875rem', marginTop: 2 }}>
           Bookers
         </div>
       </div>

@@ -30,6 +30,7 @@ import Blogs3 from './Pages/Blogs3';
 import Identify from './Pages/Identify';
 import Dashboard from './Pages/Dashboard';
 import ViewAccounts from './Pages/ViewAccounts';
+import Database from './Pages/Database';
 import React, { useEffect, useState } from 'react';
 import { supabase } from './supabase/supabase';
 
@@ -139,6 +140,7 @@ function App() {
             {/* Admin/Controller only routes */}
             <Route element={<AdminRoutes />}>
               <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/database" element={<Database />} />
               <Route path="/dashboard/manage-users/view" element={<ViewAccounts />} />
               {/* Add other user management routes as needed */}
             </Route>

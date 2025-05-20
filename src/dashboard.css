@@ -1,48 +1,53 @@
-/* Global reset + base font */
+/* 1) Reset + base */
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
+
 body {
   font-family: sans-serif;
-  background: #f2f6ee; /* pale green */
+  background: #f2f6ee;
   color: #334;
 }
 
-/* Dashboard grid */
+/* 2) Dashboard grid */
 .dashboard-container {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  grid-auto-rows: 1fr;            /* make both rows equal height */
-  gap: 24px;
-  padding: 24px;
-  height: calc(100vh - 48px);     /* fill viewport minus padding */
+  grid-auto-rows: minmax(200px, auto);
+  gap: 1.5rem;
+  padding: 1.5rem;
   max-width: 1200px;
   margin: 0 auto;
 }
 
-/* Card wrapper */
+/* 3) Uniform card wrapper */
 .card {
   background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  padding: 16px;
+  border-radius: 1rem;
+  box-shadow: 0 0.25rem 1rem rgba(0,0,0,0.1);
+  padding: 1.5rem;
   display: flex;
   flex-direction: column;
-  overflow: auto;                 /* scroll if content is tall */
+  overflow: hidden;
 }
 
-/* Headings in cards */
-.card h2,
-.card h3 {
-  margin-bottom: 12px;
-  font-weight: 600;
-  color: #2d3748;
+/* 4) Stretch cards vertically if you add .fill */
+.card.fill {
+  align-self: stretch;
 }
 
-/* Make Recharts remove their overflow */
+/* 5) let Recharts ResponsiveContainers grow/shrink */
 .recharts-responsive-container {
   flex: 1;
-  min-height: 0; /* allow flex child to shrink */
+  min-height: 0;
 }
+
+/* 6) Mobile: single column */
+@media (max-width: 650px) {
+  .dashboard-container {
+    grid-template-columns: 1fr;
+  }
+}
+

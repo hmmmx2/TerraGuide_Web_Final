@@ -1,150 +1,132 @@
-/*–––––– Dashboard Card ––––––*/
-
-.dashboard-card {
-  background: white;               /* very pale blue */
-  border: 3px solid #4E6E4E;         /* bright blue outline */
-  border-radius: 1.5rem;             
-  overflow: hidden;                  /* clip inner corners */
-  padding: 0;                        /* we’ll put padding on children */
-  max-width: 48rem;
-  margin: 2rem auto;
-  box-shadow: none;                  /* remove previous shadow */
+/* card container */
+.rmo-card {
+  background: #eef6f2;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  max-width: 900px;
+  margin: 0 auto;
+  font-family: sans-serif;
 }
 
-
-/*–––––– Header ––––––*/
-
-.roles-header {
+/* header bar */
+.rmo-header-bar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 2rem;
-  border-bottom: 2px solid #4E6E4E;
-  background: #EAF5FF;
+  margin-bottom: 16px;
 }
-.roles-header h2 {
-  font-size: 1.875rem;
-  color: #2d3748;
-  font-weight: 600;
+.rmo-header-title {
   margin: 0;
+  font-size: 1.25rem;
+  color: #4a5a52;
 }
-.roles-header select {
-  padding: 0.5rem 1rem;
-  background: #fff;
-  border: 1px solid #CBD5E0;
-  border-radius: 0.5rem;
-  color: #4A5568;
+.rmo-header-link {
+  font-size: 0.875rem;
+  color: #3b82f6;
+  text-decoration: none;
 }
-
-
-/*–––––– Table Container ––––––*/
-
-.role-table {
-  width: 100%;
+.rmo-header-link:hover {
+  text-decoration: underline;
 }
 
-
-/*–––––– Column Titles ––––––*/
-
-.role-table .titles {
+/* each row (header & body) */
+.rmo-row {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  padding: 1rem 1.25rem;
-  background: #F1FCFF;
-  color: #4A5568;
-  font-weight: 500;
-  border-bottom: 1px solid #CBD5E0;
-  margin: 0;                       /* flush with header */
-}
-
-
-/*–––––– Data Rows ––––––*/
-
-.role-table .row {
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: 2fr 3fr 2fr 1fr;
   align-items: center;
-  padding: 1rem 1.25rem;
-  background: #fff;
-  border-bottom: 1px solid #E2EFEB;
-  margin: 0;                       /* no gap */
+  padding: 12px 0;
+  border-bottom: 1px solid #d1ded8;
 }
 
-/* remove the divider on the very last row */
-.role-table .row:last-child {
+/* column header styling */
+.rmo-col-headers {
+  color: #4a5a52;
+  font-weight: 500;
+  font-size: 0.9rem;
+  border-bottom: 2px solid #b8ccc3;
+}
+
+/* remove bottom border on last row */
+.rmo-row:last-child {
   border-bottom: none;
 }
 
-
-/* span-2 utility */
-.role-table .col-span-2 {
-  grid-column: span 2;
-}
-
-/* selects inside rows */
-.role-table .row select {
-  width: 100%;
-  padding: 0.25rem 0.75rem;
-  border-radius: 0.375rem;
-  border: 1px solid #CBD5E0;
-  background: #fff;
-  color: #4A5568;
-}
-
-
-/*–––––– Avatar + Name ––––––*/
-
-.user-cell {
+/* user cell: avatar + name */
+.rmo-user-cell {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 12px;
 }
-
-.user-cell img {
-  width: 4rem;
-  height: 4rem;
+.rmo-avatar {
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
   object-fit: cover;
 }
 
-.user-cell span {
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: #4A5568;
+/* email link */
+.rmo-email {
+  color: #3b82f6;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+.rmo-email:hover {
+  text-decoration: underline;
 }
 
-
-/*–––––– Responsive Tweaks ––––––*/
-
-@media (max-width: 1024px) {
-  .roles-header,
-  .role-table .row,
-  .role-table .titles {
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
-  }
-  .user-cell img { width: 3.5rem; height: 3.5rem; }
-  .user-cell span { font-size: 1.125rem; }
+/* designation cell */
+.rmo-title {
+  color: #25433f;
+  font-size: 0.9rem;
 }
 
-@media (max-width: 768px) {
-  .roles-header { flex-direction: column; gap: .5rem; }
-  .role-table .titles { display: none; }
-  .role-table .row {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: .5rem;
-    padding: .75rem 1rem;
-  }
-  .user-cell img { width: 2.5rem; height: 2.5rem; }
-  .user-cell span { font-size: 1rem; }
+/* center Role column */
+.rmo-role-cell {
+  display: flex;
+  justify-content: center;
 }
 
-@media (max-width: 480px) {
-  .roles-header select { width: 100%; }
-  .role-table .row select,
-  .role-table .row a {
-    width: 100%;
-  }
+/* select styling */
+.rmo-select-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 140px;
+}
+.rmo-select {
+  width: 100%;
+  padding: 6px 32px 6px 12px;
+  border: 1px solid #cbd5e0;
+  border-radius: 6px;
+  appearance: none;
+  background: #f9faf9;
+  font-size: 0.9rem;
+  color: #25433f;
+  cursor: pointer;
+}
+.rmo-select::-ms-expand { display: none; }
+/* custom arrow */
+.rmo-select-wrapper::after {
+  content: "▼";
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: #3b8f6e;
+  color: white;
+  font-size: 10px;
+  line-height: 16px;
+  width: 16px;
+  height: 16px;
+  text-align: center;
+  border-radius: 4px;
+  pointer-events: none;
+}
+
+/* responsiveness */
+@media (max-width: 650px) {
+  .rmo-card { padding: 16px; }
+  .rmo-header-bar { flex-direction: column; align-items: flex-start; gap: 8px; }
+  .rmo-row { grid-template-columns: 1fr; row-gap: 12px; }
+  .rmo-col-headers { display: none; }
 }
