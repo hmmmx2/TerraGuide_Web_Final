@@ -550,7 +550,7 @@ const ViewAccounts = () => {
         {/* Edit User Form */}
         {editingUser && (
           <div className="container mb-4 p-4 bg-white shadow-sm rounded-3 border">
-            <h5 className="border-bottom pb-3 mb-3 text-info">Edit User: {editingUser.email}</h5>
+            <h5 className="border-bottom pb-3 mb-3 text-primary">Edit User: {editingUser.email}</h5>
             <form onSubmit={updateUser}>
               <div className="row g-3">
                 <div className="col-md-6">
@@ -611,7 +611,7 @@ const ViewAccounts = () => {
                   </div>
                 </div>
                 <div className="col-12">
-                  <button type="submit" className="btn btn-info text-white me-2 shadow-sm" disabled={loading}>
+                  <button type="submit" className="btn btn-primary text-white me-2 shadow-sm" disabled={loading}>
                     {loading ? 'Updating...' : 'Update User'}
                   </button>
                   <button 

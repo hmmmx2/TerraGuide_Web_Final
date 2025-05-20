@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import { FaSearch, FaChevronDown } from 'react-icons/fa'
 import '../database.css'
+import AdminTop from '../components/AdminTop'
+import Footer1 from '../components/Footer1'
 
 const SECTIONS = [
   'Learner Enrollment & Progress',
@@ -16,6 +18,8 @@ export default function App() {
   const [enlarged, setEnl]    = useState(false)
 
   return (
+    <>
+    <AdminTop/>
     <div className="container">
       {/* ==== Top Search ==== */}
       <div className="header">
@@ -84,5 +88,7 @@ export default function App() {
         </ul>
       )}
     </div>
+    <Footer1 />
+    </>
   )
 }

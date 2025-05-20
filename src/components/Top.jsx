@@ -65,7 +65,7 @@ function Top() {
 
   return (
     <header>
-      <nav className="navbar navbar-expand-lg navbar-dark shadow" style={{backgroundColor: '#4E6E4E'}}>
+      <nav className="navbar navbar-expand-lg navbar-dark shadow" style={{backgroundColor: '#4E6E4E', width: '100%'}}>
         <div className="container">
           <Link to="/index" className="navbar-brand">
             <img src={terraguideLogo} alt="TerraGuide Logo" height="60" />
