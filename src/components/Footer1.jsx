@@ -1,13 +1,8 @@
 import React from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
 
 function Footer1() {
   return (
-    <footer className="text-white py-4" style={{
-      backgroundColor: '#4E6E4E',
-      width: '100%',
-      overflowX: 'hidden'
-    }}>
+    <footer className="text-white py-4" style={{backgroundColor: '#4E6E4E'}}>
       <div className="container text-center">
         <div className="row g-4 justify-content-center">
           <div className="col-md-4">
