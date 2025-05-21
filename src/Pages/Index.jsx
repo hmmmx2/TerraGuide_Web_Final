@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { useLocation } from 'react-router-dom'; // Add this import
+import { useLocation } from 'react-router-dom';
 import Top from '../components/Top';
 import Footer1 from '../components/Footer1';
 import SlideshowMap from '../components/SlideshowMap';
@@ -11,66 +11,72 @@ import ExampleImage3 from "../assets/des1.jpg";
 import { useEffect, useState } from 'react';
 
 export default function Index() {
-  const [showAlert, setShowAlert] = useState(false);
-  const [alertType, setAlertType] = useState('success'); // Add this state
-  const [alertMessage, setAlertMessage] = useState('Login successful!'); // Add this state
-  const location = useLocation(); // Add this hook
+  const [alert, setAlert] = useState({
+    show: false,
+    message: 'Login successful!',
+    type: 'success'
+  });
+  const location = useLocation();
   
   useEffect(() => {
     // Check if user just logged in
     const loginSuccess = sessionStorage.getItem('loginSuccess');
     if (loginSuccess === 'true') {
       // Show alert
-      setShowAlert(true);
-      setAlertType('success');
-      setAlertMessage('Login successful!');
+      setAlert({
+        show: true,
+        message: 'Login successful!',
+        type: 'success'
+      });
       
       // Remove the flag from sessionStorage
       sessionStorage.removeItem('loginSuccess');
-      
-      // Auto-hide alert after 3 seconds
-      const timer = setTimeout(() => {
-        setShowAlert(false);
-      }, 3000);
-      
-      return () => clearTimeout(timer);
     }
     
     // Check for logout message from location state
     if (location.state?.message) {
-      setShowAlert(true);
-      setAlertType(location.state.type || 'danger');
-      setAlertMessage(location.state.message);
+      setAlert({
+        show: true,
+        message: location.state.message,
+        type: location.state.type || 'danger'
+      });
       
       // Clear the location state
       window.history.replaceState({}, document.title);
-      
-      // Auto-hide alert after 3 seconds
-      const timer = setTimeout(() => {
-        setShowAlert(false);
-      }, 3000);
-      
-      return () => clearTimeout(timer);
     }
   }, [location]);
+  
+  // Separate useEffect for auto-hiding the alert
+  useEffect(() => {
+    let timer;
+    if (alert.show) {
+      timer = setTimeout(() => {
+        setAlert(prev => ({ ...prev, show: false }));
+      }, 3000);
+    }
+    
+    return () => {
+      if (timer) clearTimeout(timer);
+    };
+  }, [alert.show]);
   
   return (
     <>
       <Top />
       
       {/* Bootstrap 5 Alert - Top Center */}
-      {showAlert && (
+      {alert.show && (
         <div className="position-fixed top-0 start-50 translate-middle-x mt-3" style={{ zIndex: 1100, width: "auto" }}>
-          <div className={`alert alert-${alertType} d-flex align-items-center py-2 px-4`} role="alert">
+          <div className={`alert alert-${alert.type} d-flex align-items-center py-2 px-4`} role="alert">
             <div className="d-flex w-100 justify-content-between align-items-center">
               <div>
-                <i className={`bi ${alertType === 'success' ? 'bi-check-circle-fill' : 'bi-exclamation-circle-fill'} me-2`}></i>
-                <strong>{alertMessage}</strong>
+                <i className={`bi ${alert.type === 'success' ? 'bi-check-circle-fill' : 'bi-exclamation-circle-fill'} me-2`}></i>
+                {alert.message}
               </div>
               <button 
                 type="button" 
                 className="btn-close ms-3" 
-                onClick={() => setShowAlert(false)} 
+                onClick={() => setAlert(prev => ({ ...prev, show: false }))} 
                 aria-label="Close"
               ></button>
             </div>

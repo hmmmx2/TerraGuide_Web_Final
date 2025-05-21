@@ -137,7 +137,7 @@ export default function Identify() {
         </div>
       )}
       
-      <div className="container py-5">
+      <div className="container mt-0 py-5">
         {/* Header Section */}
         <div className="row mb-5">
           <div className="col-12 text-center">
@@ -210,30 +210,24 @@ export default function Identify() {
                 <i className="bi bi-search me-2"></i>
                 Identify Plant
               </button>
-            </div>
-          </div>
-        </div>
-        
-        {/* Results Section */}
-        {previewURL && (
-          <div className="row mt-5">
-            <div className="col-12">
-              <h2 className="fw-bold mb-4" style={{ color: "#4E6E4E" }}>Preview</h2>
-              <div className="p-4 rounded-3 shadow-sm bg-white">
-                <div className="row">
-                  <div className="col-md-6 mx-auto text-center">
+              
+              {/* Inline Preview */}
+              {previewURL && (
+                <div className="mt-4">
+                  <h6 className="fw-bold mb-2" style={{ color: "#4E6E4E" }}>Image Preview</h6>
+                  <div className="text-center p-2 rounded-3 border" style={{ backgroundColor: "white" }}>
                     <img 
                       src={previewURL} 
                       alt="Uploaded preview" 
-                      className="img-fluid rounded-3 shadow-sm" 
-                      style={{ maxHeight: "300px", objectFit: "contain" }} 
+                      className="img-fluid rounded-2" 
+                      style={{ maxHeight: "150px", objectFit: "contain" }} 
                     />
                   </div>
                 </div>
-              </div>
+              )}
             </div>
           </div>
-        )}
+        </div>
       </div>
 
       <footer>

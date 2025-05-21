@@ -115,6 +115,10 @@ export const doSignOut = async () => {
         localStorage.removeItem('guestMode');
         localStorage.removeItem('guestName');
         
+        // Set logout message in sessionStorage
+        sessionStorage.setItem('logoutMessage', 'Logout successful!');
+        sessionStorage.setItem('logoutMessageType', 'success');
+        
         // Clear any cookies that might be related to authentication
         document.cookie.split(";").forEach((c) => {
             document.cookie = c
@@ -125,9 +129,6 @@ export const doSignOut = async () => {
         // Call the Supabase signOut method
         const { error } = await supabase.auth.signOut();
         if (error) throw error;
-        
-        // Force reload the page to ensure all state is cleared
-        window.location.href = '/';
         
         return true;
     } catch (error) {

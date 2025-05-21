@@ -5,15 +5,24 @@ $secondary: #6c757d;
 $info: #0dcaf0;
 $warning: #ffc107;
 $danger: #dc3545;
-$light: #f8f9fa;
+$light: #F6EFDC;    // Your light white/greenish color
 $dark: #212529;
+
+// Additional custom color variables
+$custom-colors: (
+  "terra-green": #4E6E4E,
+  "terra-light": #F6EFDC
+);
 
 // Import Bootstrap
 @import "bootstrap/scss/bootstrap";
 
+// Merge custom colors with Bootstrap's theme colors
+$theme-colors: map-merge($theme-colors, $custom-colors);
+
 // Add a less white background color to the body
 body {
-  background-color: #e6e2d3; // Light earth tone
+  background-color: #F6EFDC; // Using your light color
 }
 
 // Remove any custom font declarations to use Bootstrap's default font stack
@@ -21,5 +30,5 @@ body {
   font-family: Arial, sans-serif;
 }
 
-// You can add more custom styles here that will override Bootstrap defaults
-// while maintaining your color scheme and branding
+// Additional custom styles for components that need specific styling
+// while maintaining Bootstrap compatibility

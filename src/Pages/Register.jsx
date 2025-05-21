@@ -198,12 +198,12 @@ const Register = () => {
     <>
       <Top/>
 
-      <div>
-      <div className="text-box-registration">
+      {/* <div> */}
+      {/* <div className="mt-4 text-box-registration">
         <h1 className="text-title-registration">REGISTRATION FORM</h1>
-      </div>
+      </div> */}
 
-      <div className="registration-height-container">
+      <div className="mt-5 registration-height-container">
         <div className="registration-svg-form">
           <div className="registration-svg">
             <div className="registration-svg-container">
@@ -431,7 +431,7 @@ const Register = () => {
           </div>
         </div>
       </div>
-    </div>
+    {/* </div> */}
 
       <>
         <ConfirmationPopup 

@@ -94,13 +94,20 @@ function Top() {
     if (!window.confirm('Are you sure you want to log out?')) return;
     try {
       await doSignOut();
-      // Navigate with state to pass the logout message
-      navigate('/', { 
-        state: { 
-          message: 'Logout successful!', 
-          type: 'danger' // Using danger type for red color
-        } 
-      });
+      
+      // Only navigate with logout message if we're not already on the login page
+      if (location.pathname !== '/') {
+        navigate('/', { 
+          state: { 
+            message: 'Logout successful!', 
+            type: 'danger' // Using danger type for red color
+          } 
+        });
+      } else {
+        // Just navigate to login without message if we're already there
+        navigate('/');
+      }
+      
       setDropdownOpen(false);
     } catch (err) {
       console.error('Logout error:', err);

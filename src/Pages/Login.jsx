@@ -53,7 +53,7 @@ const Login = () => {
         type: location.state.type || 'danger'
       });
       
-      // Clear the location state
+      // Clear the location state to prevent showing the message again on refresh
       window.history.replaceState({}, document.title);
       
       // Auto-hide alert after 5 seconds
@@ -63,7 +63,36 @@ const Login = () => {
       
       return () => clearTimeout(timer);
     }
-  }, [location]);
+  }, [location]); // Changed from [location.state] to [location] to ensure it runs when location changes
+
+  // Add this effect to check for logout message in sessionStorage
+  useEffect(() => {
+    const logoutMessage = sessionStorage.getItem('logoutMessage');
+    const logoutMessageType = sessionStorage.getItem('logoutMessageType') || 'success';
+    
+    if (logoutMessage) {
+      // Set the alert
+      setAlert({
+        show: true,
+        message: logoutMessage,
+        type: logoutMessageType
+      });
+      
+      // Clear the message from sessionStorage
+      sessionStorage.removeItem('logoutMessage');
+      sessionStorage.removeItem('logoutMessageType');
+      
+      // Auto-hide alert after 3 seconds
+      const timer = setTimeout(() => {
+        setAlert(prev => ({ ...prev, show: false }));
+      }, 3000);
+      
+      // Make sure to clear the timeout if the component unmounts
+      return () => {
+        clearTimeout(timer);
+      };
+    }
+  }, []); // Run once on component mount
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -161,25 +190,22 @@ const Login = () => {
       <>
         <Top/>
 
-        {/* Bootstrap 5 Alert */}
+        {/* Bootstrap 5 Alert - Make sure it's visible and positioned properly */}
         {alert.show && (
-          <div className="container mt-3">
-            <div className={`alert alert-${alert.type} alert-dismissible fade show d-flex align-items-center`} role="alert">
-              <div>
-                {alert.type === 'success' ? (
-                  <i className="fas fa-check-circle me-2"></i>
-                ) : (
-                  <i className="fas fa-exclamation-circle me-2"></i>
-                )}
-                {alert.message}
+          <div className="position-fixed top-0 start-50 translate-middle-x mt-3" style={{ zIndex: 1100, width: "auto" }}>
+            <div className={`alert alert-${alert.type} d-flex align-items-center py-2 px-4 fade show`} role="alert">
+              <div className="d-flex w-100 justify-content-between align-items-center">
+                <div>
+                  <i className={`bi ${alert.type === 'success' ? 'bi-check-circle-fill' : 'bi-exclamation-circle-fill'} me-2`}></i>
+                  {alert.message}
+                </div>
+                <button 
+                  type="button" 
+                  className="btn-close ms-3" 
+                  onClick={() => setAlert(prev => ({ ...prev, show: false }))} 
+                  aria-label="Close"
+                ></button>
               </div>
-              <button 
-                type="button" 
-                className="btn-close" 
-                data-bs-dismiss="alert" 
-                aria-label="Close"
-                onClick={() => setAlert(prev => ({ ...prev, show: false }))}
-              ></button>
             </div>
           </div>
         )}
@@ -448,6 +474,6 @@ const Login = () => {
         </footer>
       </>
   );
-};
+}
 
 export default Login;
