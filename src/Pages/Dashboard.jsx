@@ -95,7 +95,12 @@ export default function Dashboard() {
         <PO />
         <PC />
         <RMO />
-        <AlertList alerts={sampleAlerts} />
+        <AlertList
+        alerts={sampleAlerts}
+        title="Alert"
+        linkText="All alerts"
+        linkTo="/alertspage"
+        />
       </div>
       <Footer1/>
     </>

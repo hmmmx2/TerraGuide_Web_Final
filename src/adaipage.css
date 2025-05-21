@@ -9,16 +9,15 @@
 .adaipage__title {
   display: inline-block;
   position: relative;
+  color:#4E6E4E;
   z-index: 1;
   margin: 0;
   padding: 0 12px;
-  background: #fff;
   font-size: 2.5rem;
   letter-spacing: 1px;
   text-transform: uppercase;
-
-  /* new: lift it up by 10px */
   top: -10px;       /* pull down to overlap border */
+  text-decoration: underline;
 }
 
 /* The big outlined box */
@@ -64,10 +63,12 @@
   margin: 0 0 0.5rem;
   font-size: 1.75rem;
   font-weight: bold;   
+  color: #4E6E4E;
 }
 
 .adaipage__text-block p {
   margin: 0;
   font-size: 1.125rem;
   line-height: 1.5;
+  color: #6D7E5E;
 }

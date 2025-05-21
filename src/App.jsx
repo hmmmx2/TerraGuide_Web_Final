@@ -34,6 +34,7 @@ import Database from './Pages/Database';
 import AdAiPage from './Pages/AdAiPage';
 import React, { useEffect, useState } from 'react';
 import { supabase } from './supabase/supabase';
+import AlertsPage from "./Pages/AlertsPage";
 
 // More efficient ProtectedRoute using Outlet
 function ProtectedRoutes() {
@@ -144,6 +145,7 @@ function App() {
               <Route path="/database" element={<Database />} />
               <Route path="/dashboard/manage-users/view" element={<ViewAccounts />} />
               <Route path="/aipage" element={<AdAiPage />} />
+              <Route path="/alertspage" element={<AlertsPage />} />
               {/* Add other user management routes as needed */}
             </Route>
 

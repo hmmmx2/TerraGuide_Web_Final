@@ -1,13 +1,39 @@
+// src/components/AlertList.jsx
 import React from 'react';
+import { Link } from 'react-router-dom';
 import '../alert_list.css';
 
-export default function AlertList({ alerts }) {
+export default function AlertList({
+  alerts,
+  title = 'Alert',
+  linkText = '',
+  linkTo = '',
+  onLinkClick,        // optional click handler
+}) {
   return (
     <div className="alert-list">
       <div className="alert-list__header">
-        <h2 className="alert-list__title">Alert</h2>
-        <a href="#" className="alert-list__link">All alerts</a>
+        <h2 className="alert-list__title">{title}</h2>
+        {linkText && (
+          onLinkClick ? (
+            <a
+              href="#!"
+              className="alert-list__link"
+              onClick={e => {
+                e.preventDefault();
+                onLinkClick();
+              }}
+            >
+              {linkText}
+            </a>
+          ) : (
+            <Link to={linkTo} className="alert-list__link">
+              {linkText}
+            </Link>
+          )
+        )}
       </div>
+
       <div className="alert-list__items">
         {alerts.map((a, i) => (
           <React.Fragment key={i}>
@@ -30,7 +56,9 @@ export default function AlertList({ alerts }) {
                 <p className="alert-item__meta">Area: {a.area}</p>
               </div>
             </div>
-            {i < alerts.length - 1 && <hr className="alert-list__divider" />}
+            {i < alerts.length - 1 && (
+              <hr className="alert-list__divider" />
+            )}
           </React.Fragment>
         ))}
       </div>
