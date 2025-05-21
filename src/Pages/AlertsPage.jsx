@@ -9,10 +9,10 @@ const sampleAlerts = [
   { title: 'Intruder Approaching To The Restricted Area', date: '17/3/2025, 2:30 PM', area: 'Park 3' },
   { title: 'Intruder Approaching To The Restricted Area', date: '16/3/2025, 1:35 PM', area: 'Park 6' },
   { title: 'Intruder Approaching To The Restricted Area', date: '15/3/2025, 12:03 PM', area: 'Park 4' },
-  { title: 'Intruder Approaching To The Restricted Area', date: '14/3/2025, 12:03 PM', area: 'Park 8' },
-  { title: 'Intruder Approaching To The Restricted Area', date: '13/3/2025, 12:03 PM', area: 'Park 9' },
-  { title: 'Intruder Approaching To The Restricted Area', date: '12/3/2025, 12:03 PM', area: 'Park 5' },
-  { title: 'Intruder Approaching To The Restricted Area', date: '11/3/2025, 12:03 PM', area: 'Park 2' },
+  { title: 'Intruder Approaching To The Restricted Area', date: '14/3/2025, 2:03 AM', area: 'Park 8' },
+  { title: 'Intruder Approaching To The Restricted Area', date: '13/3/2025, 5:03 PM', area: 'Park 9' },
+  { title: 'Intruder Approaching To The Restricted Area', date: '12/3/2025, 3:03 AM', area: 'Park 5' },
+  { title: 'Intruder Approaching To The Restricted Area', date: '11/3/2025, 1:03 AM', area: 'Park 2' },
 
   // imagine you have more…
 ];
