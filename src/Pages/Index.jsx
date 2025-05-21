@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { useLocation } from 'react-router-dom'; // Add this import
 import Top from '../components/Top';
 import Footer1 from '../components/Footer1';
 import SlideshowMap from '../components/SlideshowMap';
@@ -11,6 +12,9 @@ import { useEffect, useState } from 'react';
 
 export default function Index() {
   const [showAlert, setShowAlert] = useState(false);
+  const [alertType, setAlertType] = useState('success'); // Add this state
+  const [alertMessage, setAlertMessage] = useState('Login successful!'); // Add this state
+  const location = useLocation(); // Add this hook
   
   useEffect(() => {
     // Check if user just logged in
@@ -18,6 +22,8 @@ export default function Index() {
     if (loginSuccess === 'true') {
       // Show alert
       setShowAlert(true);
+      setAlertType('success');
+      setAlertMessage('Login successful!');
       
       // Remove the flag from sessionStorage
       sessionStorage.removeItem('loginSuccess');
@@ -29,7 +35,24 @@ export default function Index() {
       
       return () => clearTimeout(timer);
     }
-  }, []);
+    
+    // Check for logout message from location state
+    if (location.state?.message) {
+      setShowAlert(true);
+      setAlertType(location.state.type || 'danger');
+      setAlertMessage(location.state.message);
+      
+      // Clear the location state
+      window.history.replaceState({}, document.title);
+      
+      // Auto-hide alert after 3 seconds
+      const timer = setTimeout(() => {
+        setShowAlert(false);
+      }, 3000);
+      
+      return () => clearTimeout(timer);
+    }
+  }, [location]);
   
   return (
     <>
@@ -38,11 +61,11 @@ export default function Index() {
       {/* Bootstrap 5 Alert - Top Center */}
       {showAlert && (
         <div className="position-fixed top-0 start-50 translate-middle-x mt-3" style={{ zIndex: 1100, width: "auto" }}>
-          <div className="alert alert-success d-flex align-items-center py-2 px-4" role="alert">
+          <div className={`alert alert-${alertType} d-flex align-items-center py-2 px-4`} role="alert">
             <div className="d-flex w-100 justify-content-between align-items-center">
               <div>
-                <i className="bi bi-check-circle-fill me-2"></i>
-                <strong>Login successful!</strong>
+                <i className={`bi ${alertType === 'success' ? 'bi-check-circle-fill' : 'bi-exclamation-circle-fill'} me-2`}></i>
+                <strong>{alertMessage}</strong>
               </div>
               <button 
                 type="button" 

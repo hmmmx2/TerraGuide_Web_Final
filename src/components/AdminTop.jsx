@@ -6,18 +6,66 @@ import terraguideLogo from '../assets/TerraGuide_Logo.png';
 import user_sample from '../assets/sample.png';
 import guest_avatar from '../assets/guest_user.jpeg';
 import { doSignOut } from '../supabase/auth.js';
+import { supabase } from '../supabase/supabase'; // Add this import
 
 function AdminTop() {
   const { currentUser, userLoggedIn, isGuestMode, exitGuestMode } = useAuth();
   const navigate = useNavigate();
-  const location = useLocation(); // Get current location
+  const location = useLocation();
   
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [isActive, setIsActive] = useState(false);
   const [navbarCollapsed, setNavbarCollapsed] = useState(true);
+  const [username, setUsername] = useState(null); // Change to null instead of empty string
   const searchRef = useRef(null);
   const dropdownRef = useRef(null);
 
+  // Fetch username when currentUser changes
+  useEffect(() => {
+    let isMounted = true;
+    
+    const fetchUsername = async () => {
+      if (currentUser && currentUser.id) {
+        try {
+          // Check if we have username in sessionStorage first
+          const cachedUsername = sessionStorage.getItem('terraGuideUsername');
+          if (cachedUsername) {
+            setUsername(cachedUsername);
+          }
+          
+          // Still fetch from database to ensure we have the latest
+          const { data, error } = await supabase
+            .from('users')
+            .select('username')
+            .eq('supabase_uid', currentUser.id)
+            .single();
+          
+          if (isMounted) {
+            if (data && data.username) {
+              setUsername(data.username);
+              // Cache the username in sessionStorage
+              sessionStorage.setItem('terraGuideUsername', data.username);
+            } else if (currentUser.user_metadata?.first_name) {
+              // Fallback to first name from metadata if username not found
+              setUsername(currentUser.user_metadata.first_name);
+              // Cache the username in sessionStorage
+              sessionStorage.setItem('terraGuideUsername', currentUser.user_metadata.first_name);
+            }
+          }
+        } catch (error) {
+          console.error('Error fetching username:', error);
+        }
+      }
+    };
+    
+    fetchUsername();
+    
+    // Cleanup function to prevent state updates if component unmounts
+    return () => {
+      isMounted = false;
+    };
+  }, [currentUser]);
+  
   // Close search when clicking outside
   useEffect(() => {
     function handleClickOutside(e) {
@@ -43,13 +91,14 @@ function AdminTop() {
   const handleLogout = async () => {
     if (!window.confirm('Are you sure you want to log out?')) return;
     try {
-      if (isGuestMode) {
-        exitGuestMode();
-        navigate('/');
-      } else {
-        await doSignOut();
-        navigate('/');
-      }
+      await doSignOut();
+      // Navigate with state to pass the logout message
+      navigate('/', { 
+        state: { 
+          message: 'Logout successful!', 
+          type: 'danger' // Using danger type for red color
+        } 
+      });
       setDropdownOpen(false);
     } catch (err) {
       console.error('Logout error:', err);
@@ -78,19 +127,29 @@ function AdminTop() {
           <div className={`collapse navbar-collapse ${navbarCollapsed ? '' : 'show'}`}>
             <ul className="navbar-nav justify-content-center w-100 mb-2 mb-lg-0">
               <li className="nav-item">
-                <Link to="/dashboard" className="nav-link text-center fs-5">Dashboard</Link>
+                <Link to="/dashboard" className={`nav-link text-center fs-5 ${location.pathname === '/dashboard' ? 'bg-white text-success rounded-3' : 'text-white'}`}>
+                  Dashboard
+                </Link>
               </li>
               <li className="nav-item">
-                <Link to="/database" className="nav-link text-center fs-5">Database</Link>
+                <Link to="/database" className={`nav-link text-center fs-5 ${location.pathname === '/database' ? 'bg-white text-success rounded-3' : 'text-white'}`}>
+                  Database
+                </Link>
               </li>
               <li className="nav-item">
-                <Link to="/dashboard/manage-users/view" className="nav-link text-center fs-5">User</Link>
+                <Link to="/dashboard/manage-users/view" className={`nav-link text-center fs-5 ${location.pathname === '/dashboard/manage-users/view' ? 'bg-white text-success rounded-3' : 'text-white'}`}>
+                  User
+                </Link>
               </li>
               <li className="nav-item">
-                <Link to="/dashboard/license" className="nav-link text-center fs-5">License</Link>
+                <Link to="/dashboard/license" className={`nav-link text-center fs-5 ${location.pathname === '/dashboard/license' ? 'bg-white text-success rounded-3' : 'text-white'}`}>
+                  License
+                </Link>
               </li>
               <li className="nav-item">
-                <Link to="/dashboard/content" className="nav-link text-center fs-5">Content</Link>
+                <Link to="/dashboard/content" className={`nav-link text-center fs-5 ${location.pathname === '/dashboard/content' ? 'bg-white text-success rounded-3' : 'text-white'}`}>
+                  Content
+                </Link>
               </li>
             </ul>
             
@@ -120,54 +179,47 @@ function AdminTop() {
                       <i className="fas fa-bell"></i>
                     </div>
                     
-                    {isGuestMode && (
-                      <span className="badge bg-warning text-dark me-2">
-                        GUEST
-                      </span>
-                    )}
+                    {/* Username display */}
+                    <div className="me-3 text-white" style={{whiteSpace: 'nowrap', lineHeight: '1.2'}}>
+                      <div>Welcome,</div>
+                      <div>
+                        {username || (
+                          <span className="opacity-75">
+                            <i className="fas fa-spinner fa-spin fa-sm me-1"></i>Loading...
+                          </span>
+                        )}
+                      </div>
+                    </div>
                     
                     <div 
                       onClick={() => setDropdownOpen(!dropdownOpen)} 
                       style={{cursor: 'pointer'}}
                     >
-                      <img 
-                        src={isGuestMode ? guest_avatar : user_sample} 
-                        alt="Profile" 
-                        className="rounded-circle" 
-                        width="40" 
-                        height="40" 
-                      />
+                      <i className="fas fa-user-circle fa-2x text-white"></i>
                     </div>
                   </div>
                   
                   {dropdownOpen && (
                     <div className="position-absolute end-0 mt-2 py-2 bg-white rounded shadow" style={{minWidth: '200px', zIndex: 1000}}>
-                      {!isGuestMode && (
-                        <Link 
-                          to="/settings" 
-                          className="dropdown-item" 
-                          onClick={() => setDropdownOpen(false)}
-                        >
-                          Settings
-                        </Link>
-                      )}
+                      <Link 
+                        to="/settings" 
+                        className="dropdown-item" 
+                        onClick={() => setDropdownOpen(false)}
+                      >
+                        Settings
+                      </Link>
+                      <div className="dropdown-divider"></div>
                       <button 
                         onClick={handleLogout} 
                         className="dropdown-item text-danger"
                       >
-                        {isGuestMode ? 'Exit Guest Mode' : 'Logout'}
+                        Logout
                       </button>
                     </div>
                   )}
                 </div>
               ) : (
                 <div className="d-flex">
-                  <Link 
-                    to="/signup" 
-                    className="btn btn-outline-light me-2"
-                  >
-                    Sign Up
-                  </Link>
                   <Link 
                     to="/" 
                     className="btn btn-light"

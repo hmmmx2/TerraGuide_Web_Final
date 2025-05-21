@@ -6,18 +6,68 @@ import terraguideLogo from '../assets/TerraGuide_Logo.png';
 import user_sample from '../assets/sample.png';
 import guest_avatar from '../assets/guest_user.jpeg';
 import { doSignOut } from '../supabase/auth.js';
+import { supabase } from '../supabase/supabase'; // Add this import
 
 function Top() {
   const { currentUser, userLoggedIn, isGuestMode, exitGuestMode } = useAuth();
   const navigate = useNavigate();
-  const location = useLocation(); // Get current location
+  const location = useLocation();
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [isActive, setIsActive] = useState(false);
   const [navbarCollapsed, setNavbarCollapsed] = useState(true);
+  const [username, setUsername] = useState(null); // Change to null instead of empty string
   const searchRef = useRef(null);
   const dropdownRef = useRef(null);
 
+  // Fetch username when currentUser changes
+  useEffect(() => {
+    let isMounted = true;
+    
+    const fetchUsername = async () => {
+      if (currentUser && currentUser.id) {
+        try {
+          // Check if we have username in sessionStorage first
+          const cachedUsername = sessionStorage.getItem('terraGuideUsername');
+          if (cachedUsername) {
+            setUsername(cachedUsername);
+          }
+          
+          // Still fetch from database to ensure we have the latest
+          const { data, error } = await supabase
+            .from('users')
+            .select('username')
+            .eq('supabase_uid', currentUser.id)
+            .single();
+          
+          if (isMounted) {
+            if (data && data.username) {
+              setUsername(data.username);
+              // Cache the username in sessionStorage
+              sessionStorage.setItem('terraGuideUsername', data.username);
+            } else if (currentUser.user_metadata?.first_name) {
+              // Fallback to first name from metadata if username not found
+              setUsername(currentUser.user_metadata.first_name);
+              // Cache the username in sessionStorage
+              sessionStorage.setItem('terraGuideUsername', currentUser.user_metadata.first_name);
+            }
+          }
+        } catch (error) {
+          console.error('Error fetching username:', error);
+        }
+      } else if (isGuestMode) {
+        setUsername('Guest');
+      }
+    };
+    
+    fetchUsername();
+    
+    // Cleanup function to prevent state updates if component unmounts
+    return () => {
+      isMounted = false;
+    };
+  }, [currentUser, isGuestMode]);
+  
   // Close search when clicking outside
   useEffect(() => {
     function handleClickOutside(e) {
@@ -43,18 +93,17 @@ function Top() {
   const handleLogout = async () => {
     if (!window.confirm('Are you sure you want to log out?')) return;
     try {
-      if (isGuestMode) {
-        // For guest mode, just clear localStorage and update state
-        exitGuestMode();
-        navigate('/');
-      } else {
-        // For regular users, sign out from Supabase
-        await doSignOut();
-        navigate('/');
-      }
+      await doSignOut();
+      // Navigate with state to pass the logout message
+      navigate('/', { 
+        state: { 
+          message: 'Logout successful!', 
+          type: 'danger' // Using danger type for red color
+        } 
+      });
       setDropdownOpen(false);
     } catch (err) {
-      console.error(err);
+      console.error('Logout error:', err);
       alert('Failed to log out. Please try again.');
     }
   };
@@ -84,22 +133,52 @@ function Top() {
           <div className={`collapse navbar-collapse ${navbarCollapsed ? '' : 'show'}`}>
             <ul className="navbar-nav justify-content-center w-100 mb-2 mb-lg-0">
               <li className="nav-item">
-                <Link to="/index" className="nav-link text-center fs-5">Home</Link>
+                <Link 
+                  to="/index" 
+                  className={`nav-link text-center fs-5 ${location.pathname === '/index' ? 'bg-white text-success rounded-3' : 'text-white'}`}
+                >
+                  Home
+                </Link>
               </li>
               <li className="nav-item">
-                <Link to="/aboutus" className="nav-link text-center fs-5">About Us</Link>
+                <Link 
+                  to="/aboutus" 
+                  className={`nav-link text-center fs-5 ${location.pathname === '/aboutus' ? 'bg-white text-success rounded-3' : 'text-white'}`}
+                >
+                  About Us
+                </Link>
               </li>
               <li className="nav-item">
-                <Link to="/mycourses" className="nav-link text-center fs-5">My Courses</Link>
+                <Link 
+                  to="/mycourses" 
+                  className={`nav-link text-center fs-5 ${location.pathname === '/mycourses' ? 'bg-white text-success rounded-3' : 'text-white'}`}
+                >
+                  My Courses
+                </Link>
               </li>
               <li className="nav-item">
-                <Link to="/identify" className="nav-link text-center fs-5">Dext AI</Link>
+                <Link 
+                  to="/identify" 
+                  className={`nav-link text-center fs-5 ${location.pathname === '/identify' ? 'bg-white text-success rounded-3' : 'text-white'}`}
+                >
+                  Dext AI
+                </Link>
               </li>
               <li className="nav-item">
-                <Link to="/blogmenu" className="nav-link text-center fs-5">Blogs</Link>
+                <Link 
+                  to="/blogmenu" 
+                  className={`nav-link text-center fs-5 ${location.pathname === '/blogmenu' ? 'bg-white text-success rounded-3' : 'text-white'}`}
+                >
+                  Blogs
+                </Link>
               </li>
               <li className="nav-item">
-                <Link to="/guide" className="nav-link text-center fs-5">Park Guide</Link>
+                <Link 
+                  to="/guide" 
+                  className={`nav-link text-center fs-5 ${location.pathname === '/guide' ? 'bg-white text-success rounded-3' : 'text-white'}`}
+                >
+                  Park Guide
+                </Link>
               </li>
             </ul>
             
@@ -135,6 +214,19 @@ function Top() {
                       </span>
                     )}
                     
+                    {/* Add username display */}
+                    {/* Username display with line break */}
+                    <div className="me-3 text-white" style={{whiteSpace: 'nowrap', lineHeight: '1.2'}}>
+                      <div>Welcome,</div>
+                      <div>
+                        {username || (isGuestMode ? 'Guest' : (
+                          <span className="opacity-75">
+                            <i className="fas fa-spinner fa-spin fa-sm me-1"></i>Loading...
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                    
                     <div 
                       onClick={() => setDropdownOpen(!dropdownOpen)} 
                       style={{cursor: 'pointer'}}
@@ -169,11 +261,6 @@ function Top() {
                           </Link>
                           <div className="dropdown-divider"></div>
                         </>
-                      )}
-                      {isGuestMode && (
-                        <div className="dropdown-item text-muted fst-italic">
-                          Guest Mode Active
-                        </div>
                       )}
                       <button 
                         onClick={handleLogout} 

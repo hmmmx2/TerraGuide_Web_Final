@@ -9,6 +9,7 @@ export default function Identify() {
   const [previewURL, setPreviewURL] = useState(null);
   const [predictionResult, setPredictionResult] = useState(null);
   const [dragActive, setDragActive] = useState(false);
+  const [showToast, setShowToast] = useState(false);
   const inputRef = useRef(null);
 
   const handleFileChange = (e) => {
@@ -76,6 +77,13 @@ export default function Identify() {
 
         const data = await response.json();
         setPredictionResult(data);
+        setShowToast(true);
+        
+        // Auto-hide toast after 5 seconds
+        setTimeout(() => {
+          setShowToast(false);
+        }, 5000);
+        
         console.log("Response data:", data);
       } catch (error) {
         console.error("Error submitting image:", error);
@@ -90,31 +98,91 @@ export default function Identify() {
   return (
     <>
       <Top />
-      <div className="identify-container">
-        <div className="text-box-identify-plant">
-          <h1 className="text-title-identify-plant">Identify Plants</h1>
+      
+      {/* Toast notification for results */}
+      {showToast && predictionResult && (
+        <div className="position-fixed top-0 end-0 p-3" style={{ zIndex: 1100 }}>
+          <div className="toast show" role="alert" aria-live="assertive" aria-atomic="true">
+            <div className="toast-header" style={{ backgroundColor: "#4E6E4E", color: "white" }}>
+              <strong className="me-auto">Identification Result</strong>
+              <button 
+                type="button" 
+                className="btn-close btn-close-white" 
+                onClick={() => setShowToast(false)}
+                aria-label="Close"
+              ></button>
+            </div>
+            <div className="toast-body">
+              <div className="mb-2">
+                <strong>Predicted Class:</strong> {predictionResult.predicted_class}
+              </div>
+              <div>
+                <strong>Confidence:</strong> {(predictionResult.confidence * 100).toFixed(2)}%
+                <div className="progress mt-1">
+                  <div 
+                    className="progress-bar" 
+                    role="progressbar" 
+                    style={{ 
+                      width: `${(predictionResult.confidence * 100).toFixed(2)}%`,
+                      backgroundColor: "#4E6E4E" 
+                    }}
+                    aria-valuenow={(predictionResult.confidence * 100).toFixed(2)}
+                    aria-valuemin="0" 
+                    aria-valuemax="100"
+                  ></div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-
-        <section>
-          <div className="cs-guide-content">
-            <div className="cs-upload-guide">
-              <h2>Photo upload guidelines</h2>
-              <ol type="1" className="cs-upload-guide-content">
-                <li><strong>File format:</strong> only PNG and JPG/JPEG format are accepted</li>
-                <li><strong>Quality:</strong> High resolution and compression are ideal</li>
-                <li><strong>Position:</strong> Image should be right side up</li>
-                <li><strong>Size:</strong> Each photo should not be larger than 1MB</li>
+      )}
+      
+      <div className="container py-5">
+        {/* Header Section */}
+        <div className="row mb-5">
+          <div className="col-12 text-center">
+            <h1 className="fw-bold mb-0" style={{ color: "#4E6E4E" }}>Identify Plants</h1>
+            <div className="border-bottom border-3 mx-auto mt-2 mb-4" style={{ width: "50px", borderColor: "#4E6E4E !important" }}></div>
+          </div>
+        </div>
+        
+        {/* Main Content Section */}
+        <div className="row g-4">
+          {/* Guidelines Column */}
+          <div className="col-md-6">
+            <div className="p-4 rounded-3 shadow-sm h-100" style={{ backgroundColor: "#f8f9fa" }}>
+              <h2 className="fw-bold mb-4" style={{ color: "#4E6E4E", fontSize: "1.5rem" }}>Photo upload guidelines</h2>
+              <ol className="ps-3">
+                <li className="mb-3"><span className="fw-medium">File format:</span> only PNG and JPG/JPEG format are accepted</li>
+                <li className="mb-3"><span className="fw-medium">Quality:</span> High resolution and compression are ideal</li>
+                <li className="mb-3"><span className="fw-medium">Position:</span> Image should be right side up</li>
+                <li className="mb-3"><span className="fw-medium">Size:</span> Each photo should not be larger than 1MB</li>
               </ol>
-
-              <div
-                className={`dropzone ${dragActive ? "dropzone-active" : ""}`}
+            </div>
+          </div>
+          
+          {/* Upload Column */}
+          <div className="col-md-6">
+            <div className="p-4 rounded-3 shadow-sm h-100" style={{ backgroundColor: "#f8f9fa" }}>
+              <h2 className="fw-bold mb-4" style={{ color: "#4E6E4E", fontSize: "1.5rem" }}>Upload your image</h2>
+              
+              <div 
+                className={`rounded-3 border-2 ${dragActive ? "border-success" : "border-dashed"} border d-flex flex-column align-items-center justify-content-center p-4 mb-4`}
+                style={{ 
+                  minHeight: "200px", 
+                  cursor: "pointer",
+                  backgroundColor: dragActive ? "rgba(78, 110, 78, 0.05)" : "white",
+                  transition: "all 0.2s ease"
+                }}
                 onDragOver={handleDragOver}
                 onDragLeave={handleDragLeave}
                 onDrop={handleDrop}
                 onClick={handleClick}
               >
-                <img src={UploadIcon} className="cs-upload-logo" alt="Upload icon" />
-                <p className="dropzoneMessage">Drag or Drop the photo here to upload<br />or click to browse</p>
+                <img src={UploadIcon} alt="Upload icon" className="mb-3" style={{ width: "48px", height: "48px" }} />
+                <p className="text-center mb-0">
+                  Drag or Drop the photo here to upload<br />or click to browse
+                </p>
                 <input
                   type="file"
                   accept="image/png, image/jpeg"
@@ -125,43 +193,47 @@ export default function Identify() {
               </div>
 
               {selectedFile && (
-                <p style={{ marginTop: "10px", color: "#4E6E4E" }}>
-                  <strong>Selected File:</strong> {selectedFile.name}
-                </p>
+                <div className="alert alert-success mb-4 d-flex align-items-center">
+                  <i className="bi bi-check-circle-fill me-2"></i>
+                  <div>
+                    <strong>Selected File:</strong> {selectedFile.name}
+                  </div>
+                </div>
               )}
 
-              <button type="button" onClick={handleSubmit} className="cs-identify-btn">
-                Submit Now
+              <button 
+                type="button" 
+                onClick={handleSubmit} 
+                className="btn btn-lg w-100 text-white d-flex align-items-center justify-content-center"
+                style={{ backgroundColor: "#4E6E4E" }}
+              >
+                <i className="bi bi-search me-2"></i>
+                Identify Plant
               </button>
             </div>
           </div>
-        </section>
-
-        <section>
-          <div className="text-box-output-image">
-            <h2 className="text-title-output-image">Output Images</h2>
-          </div>
-          <div className="cs-output">
-            <div className="cs-predict-output">
-              {previewURL && (
-                <div className="cs-output-image">
-                  <img src={previewURL} alt="Uploaded preview" className="cs-images" />
+        </div>
+        
+        {/* Results Section */}
+        {previewURL && (
+          <div className="row mt-5">
+            <div className="col-12">
+              <h2 className="fw-bold mb-4" style={{ color: "#4E6E4E" }}>Preview</h2>
+              <div className="p-4 rounded-3 shadow-sm bg-white">
+                <div className="row">
+                  <div className="col-md-6 mx-auto text-center">
+                    <img 
+                      src={previewURL} 
+                      alt="Uploaded preview" 
+                      className="img-fluid rounded-3 shadow-sm" 
+                      style={{ maxHeight: "300px", objectFit: "contain" }} 
+                    />
+                  </div>
                 </div>
-              )}
-
-              {predictionResult && (
-                <div className="cs-identify-grid-item">
-                  <dl>
-                    <dt><strong>Predicted Class:</strong></dt>
-                    <dd>{predictionResult.predicted_class}</dd>
-                    <dt className="cs-definition-list"><strong>Confidence:</strong></dt>
-                    <dd>{(predictionResult.confidence * 100).toFixed(2)}%</dd>
-                  </dl>
-                </div>
-              )}
+              </div>
             </div>
           </div>
-        </section>
+        )}
       </div>
 
       <footer>

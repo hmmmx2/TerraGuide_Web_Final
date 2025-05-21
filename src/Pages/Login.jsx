@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 // import Firstheader from "../components/Firstheader";
 import Footer1 from "../components/Footer1";
 import "../styles.css";
@@ -8,7 +8,7 @@ import Top from "../components/Top";
 import { doSignInWithEmailAndPassword, doSignInWithEmailOTP } from "../supabase/auth";
 import { sendPasswordResetOTP, resetPasswordWithOTP } from "../supabase/passwordReset";
 import { useAuth } from "../contexts/authContext/supabaseAuthContext";
-import { Navigate, useNavigate, Link } from "react-router-dom";
+import { Navigate, useNavigate, Link, useLocation } from "react-router-dom";
 
 const EMAILJS_SERVICE_ID = 'YOUR_SERVICE_ID';
 const EMAILJS_TEMPLATE_ID = 'YOUR_TEMPLATE_ID';
@@ -17,6 +17,7 @@ const EMAILJS_PUBLIC_KEY = 'YOUR_PUBLIC_KEY';
 const Login = () => {
   const { userLoggedIn, emailVerificationSent, setEmailVerificationSent, enableGuestMode } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -33,8 +34,36 @@ const Login = () => {
   const [resetStep, setResetStep] = useState(1); // 1: email, 2: OTP, 3: new password
   const [resetSuccess, setResetSuccess] = useState(false);
   
+  // Alert state
+  const [alert, setAlert] = useState({
+    show: false,
+    message: '',
+    type: 'success' // 'success' or 'danger'
+  });
+  
   // Use the emailVerificationSent state from context instead of local state
   const otpSent = emailVerificationSent;
+
+  // Check for logout message from URL state
+  useEffect(() => {
+    if (location.state?.message) {
+      setAlert({
+        show: true,
+        message: location.state.message,
+        type: location.state.type || 'danger'
+      });
+      
+      // Clear the location state
+      window.history.replaceState({}, document.title);
+      
+      // Auto-hide alert after 5 seconds
+      const timer = setTimeout(() => {
+        setAlert(prev => ({ ...prev, show: false }));
+      }, 5000);
+      
+      return () => clearTimeout(timer);
+    }
+  }, [location]);
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -54,15 +83,28 @@ const Login = () => {
         // Use traditional password login
         const result = await doSignInWithEmailAndPassword(email, password);
         
+        // Show success alert
+        setAlert({
+          show: true,
+          message: 'Login successful!',
+          type: 'success'
+        });
+        
+        // Store login success in sessionStorage for Index.jsx to display
+        sessionStorage.setItem('loginSuccess', 'true');
+        
         // Check if user is admin and redirect to dashboard
         const user = result?.user;
         const role = user?.user_metadata?.role || 'parkguide';
         
-        if (role === 'admin') {
-          navigate("/dashboard");
-        } else {
-          navigate("/index");
-        }
+        // Delay navigation slightly to show the alert
+        setTimeout(() => {
+          if (role === 'admin') {
+            navigate("/dashboard");
+          } else {
+            navigate("/index");
+          }
+        }, 1500);
       }
     } catch (error) {
       setErrorMessage(error.message);
@@ -119,9 +161,28 @@ const Login = () => {
       <>
         <Top/>
 
-        {/* <div className="text-box-registration">
-          <h1 className="text-title-registration">LOGIN</h1>
-        </div> */}
+        {/* Bootstrap 5 Alert */}
+        {alert.show && (
+          <div className="container mt-3">
+            <div className={`alert alert-${alert.type} alert-dismissible fade show d-flex align-items-center`} role="alert">
+              <div>
+                {alert.type === 'success' ? (
+                  <i className="fas fa-check-circle me-2"></i>
+                ) : (
+                  <i className="fas fa-exclamation-circle me-2"></i>
+                )}
+                {alert.message}
+              </div>
+              <button 
+                type="button" 
+                className="btn-close" 
+                data-bs-dismiss="alert" 
+                aria-label="Close"
+                onClick={() => setAlert(prev => ({ ...prev, show: false }))}
+              ></button>
+            </div>
+          </div>
+        )}
 
         <div className="registration-height-container mt-5">
           <div className="registration-svg-form">
