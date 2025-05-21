@@ -71,7 +71,6 @@ const Login = () => {
     const logoutMessageType = sessionStorage.getItem('logoutMessageType') || 'success';
     
     if (logoutMessage) {
-      // Set the alert
       setAlert({
         show: true,
         message: logoutMessage,
@@ -81,18 +80,22 @@ const Login = () => {
       // Clear the message from sessionStorage
       sessionStorage.removeItem('logoutMessage');
       sessionStorage.removeItem('logoutMessageType');
-      
-      // Auto-hide alert after 3 seconds
-      const timer = setTimeout(() => {
-        setAlert(prev => ({ ...prev, show: false }));
-      }, 3000);
-      
-      // Make sure to clear the timeout if the component unmounts
-      return () => {
-        clearTimeout(timer);
-      };
     }
   }, []); // Run once on component mount
+
+  // Separate useEffect for auto-hiding the alert
+  useEffect(() => {
+    let timer;
+    if (alert.show) {
+      timer = setTimeout(() => {
+        setAlert(prev => ({ ...prev, show: false }));
+      }, 3000);
+    }
+    
+    return () => {
+      if (timer) clearTimeout(timer);
+    };
+  }, [alert.show]);
 
   const onSubmit = async (e) => {
     e.preventDefault();
