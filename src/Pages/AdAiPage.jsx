@@ -1,19 +1,23 @@
 import React from 'react';
+import DextIllustration from '../assets/dextai.png';
 import '../adaipage.css';
 
-export default function AdAiPage() {
+export default function AdaIPage() {
   return (
     <div className="adaipage">
-      {/* Title overlaps the feature box border */}
+      {/* Title overlapping the box border */}
       <h1 className="adaipage__title">DEXT AI</h1>
 
       <div className="adaipage__feature-box">
         <div className="adaipage__green-card">
-          <p>
-            everything is green here<br/>
-            but I can put sticker here
-          </p>
+          {/* Insert the illustration here */}
+          <img
+            src={DextIllustration}
+            alt="Dext AI illustration"
+            className="adaipage__green-card-img"
+          />
         </div>
+
         <div className="adaipage__text-block">
           <h2>Intrusion Detection System</h2>
           <p>
