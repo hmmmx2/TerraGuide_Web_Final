@@ -137,7 +137,7 @@ function AdminTop() {
                 </Link>
               </li>
               <li className="nav-item">
-                <Link to="/aipage" className={`nav-link text-center fs-5 ${location.pathname === '/aipage' ? 'bg-white text-success rounded-3' : 'text-white'}`}>
+                <Link to="/aipage" className={`nav-link text-center fs-5 ${location.pathname === '/aipage' || location.pathname === '/identify' ? 'bg-white text-success rounded-3' : 'text-white'}`}>
                   Dext AI
                 </Link>
               </li>

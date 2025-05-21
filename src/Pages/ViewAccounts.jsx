@@ -14,6 +14,7 @@ const ViewAccounts = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [searchTerm, setSearchTerm] = useState('');
   
   // Toast notification state
   const [toast, setToast] = useState({
@@ -455,7 +456,7 @@ const ViewAccounts = () => {
         </Toast>
       </ToastContainer>
       
-      <div className="container py-5">
+      <div className="container py-5" style={{ minHeight: 'calc(100vh - 160px)' }}>
         <div className="d-flex justify-content-between align-items-center mb-4">
           <h3 className="mb-0">User Accounts</h3>
           <button 
@@ -692,7 +693,11 @@ const ViewAccounts = () => {
                               </button>
                               <button 
                                 className="btn btn-sm btn-outline-danger" 
-                                onClick={() => deleteUser(user.id)}
+                                onClick={() => {
+                                  if (window.confirm(`Are you sure you want to delete ${user.firstName} ${user.lastName}?`)) {
+                                    deleteUser(user.id);
+                                  }
+                                }}
                               >
                                 <i className="bi bi-trash-fill me-1"></i> Delete
                               </button>

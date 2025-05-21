@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import DextIllustration from '../assets/dextai.png';
 import '../adaipage.css';
 import AdminTop from '../components/AdminTop';
@@ -8,11 +9,12 @@ export default function AdaIPage() {
   return (
     <>
       <AdminTop/>
-        <div className="adaipage">
-          {/* Title overlapping the box border */}
-          <h1 className="adaipage__title">DEXT AI</h1>
+      <div className="adaipage" style={{ minHeight: 'calc(100vh - 160px)' }}>
+        {/* Title overlapping the box border */}
+        <h1 className="adaipage__title">DEXT AI</h1>
 
-          <div className="adaipage__feature-box">
+        <Link to="/identify" style={{ textDecoration: 'none', color: 'inherit' }}>
+          <div className="adaipage__feature-box" style={{ cursor: 'pointer', transition: 'transform 0.2s', ':hover': { transform: 'scale(1.02)' } }}>
             <div className="adaipage__green-card">
               {/* Insert the illustration here */}
               <img
@@ -30,7 +32,8 @@ export default function AdaIPage() {
               </p>
             </div>
           </div>
-        </div>
+        </Link>
+      </div>
       <Footer1/>
     </>
   );

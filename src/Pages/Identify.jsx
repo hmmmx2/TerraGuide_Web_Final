@@ -1,16 +1,22 @@
 import { useState, useRef } from "react";
 import Top from "../components/Top";
+import AdminTop from "../components/AdminTop";
 import Footer1 from "../components/Footer1";
 import "../styles.css";
 import UploadIcon from "../assets/upload.svg";
+import { useAuth } from "../contexts/authContext/supabaseAuthContext";
 
 export default function Identify() {
+  const { userRole } = useAuth();
   const [selectedFile, setSelectedFile] = useState(null);
   const [previewURL, setPreviewURL] = useState(null);
   const [predictionResult, setPredictionResult] = useState(null);
   const [dragActive, setDragActive] = useState(false);
   const [showToast, setShowToast] = useState(false);
   const inputRef = useRef(null);
+
+  // Determine which top component to render based on user role
+  const TopComponent = userRole === 'admin' ? AdminTop : Top;
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
@@ -97,7 +103,7 @@ export default function Identify() {
 
   return (
     <>
-      <Top />
+      <TopComponent />
       
       {/* Toast notification for results */}
       {showToast && predictionResult && (
