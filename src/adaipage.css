@@ -1,0 +1,72 @@
+/* Container setup */
+.adaipage {
+  font-family: Arial, sans-serif;
+  padding: 60px 20px;
+  text-align: center;
+  background: #fff;
+}
+
+/* Title styling */
+.adaipage__title {
+  display: inline-block;
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  padding: 0 12px;             
+  background: #fff;            
+  font-size: 2.5rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: -1rem;        
+}
+
+/* The big outlined box */
+.adaipage__feature-box {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem;
+  display: flex;
+  align-items: center;
+  border: 4px solid #000;
+  border-radius: 8px;
+  background: #fff;
+  position: relative;
+}
+
+/* Left green card */
+.adaipage__green-card {
+  flex: 1;
+  background: #27ae60;
+  border-radius: 24px;
+  padding: 1.5rem;
+  margin-right: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 180px;
+}
+
+.adaipage__green-card p {
+  color: #fff;
+  font-size: 1rem;
+  line-height: 1.4;
+  text-align: center;
+}
+
+/* Right text area */
+.adaipage__text-block {
+  flex: 2;
+  text-align: left;
+}
+
+.adaipage__text-block h2 {
+  margin: 0 0 0.5rem;
+  font-size: 1.75rem;
+}
+
+.adaipage__text-block p {
+  margin: 0;
+  color: #27ae60;
+  font-size: 1.125rem;
+  line-height: 1.5;
+}
