@@ -1,0 +1,73 @@
+/* Container setup */
+.adaipage {
+  font-family: Arial, sans-serif;
+  padding: 60px 20px;
+  text-align: center;
+}
+
+/* Title styling */
+.adaipage__title {
+  display: inline-block;
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  padding: 0 12px;
+  background: #fff;
+  font-size: 2.5rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+
+  /* new: lift it up by 10px */
+  top: -10px;       /* pull down to overlap border */
+}
+
+/* The big outlined box */
+.adaipage__feature-box {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem;
+  display: flex;
+  border: 1px solid #ccc;
+  align-items: center;
+  border-radius: 8px;
+  background: #fff;
+  position: relative;
+}
+
+/* Left green card */
+.adaipage__green-card {
+  flex: 1;
+  background: #4E6E4E;
+  border-radius: 24px;
+  padding: 1.5rem;
+  margin-right: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 180px;
+}
+
+/* Make the image scale nicely */
+.adaipage__green-card-img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+/* Right text area */
+.adaipage__text-block {
+  flex: 2;
+  text-align: left;
+}
+
+.adaipage__text-block h2 {
+  margin: 0 0 0.5rem;
+  font-size: 1.75rem;
+  font-weight: bold;   
+}
+
+.adaipage__text-block p {
+  margin: 0;
+  font-size: 1.125rem;
+  line-height: 1.5;
+}

@@ -31,6 +31,7 @@ import Identify from './Pages/Identify';
 import Dashboard from './Pages/Dashboard';
 import ViewAccounts from './Pages/ViewAccounts';
 import Database from './Pages/Database';
+import AdAiPage from './Pages/AdAiPage';
 import React, { useEffect, useState } from 'react';
 import { supabase } from './supabase/supabase';
 
@@ -142,6 +143,7 @@ function App() {
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/database" element={<Database />} />
               <Route path="/dashboard/manage-users/view" element={<ViewAccounts />} />
+              <Route path="/aipage" element={<AdAiPage />} />
               {/* Add other user management routes as needed */}
             </Route>
 
