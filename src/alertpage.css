@@ -1,10 +1,17 @@
-/* src/alertpage.css */
-
-/* overall page constraints */
+/* page wrapper */
 .alerts-page {
   max-width: 800px;
   margin: 2rem auto;
   padding: 0 1rem;
+}
+
+/* make hero / intro / list all the same 500px, centered */
+.alerts-page__hero,
+.alerts-page__intro,
+.alerts-page__list {
+  max-width: 500px;
+  width: 100%;
+  margin: 0 auto 2rem;
 }
 
 /* hero banner */
@@ -16,33 +23,31 @@
   justify-content: center;
   align-items: center;
 }
+
+/* illustration fills the container width, up to a max height */
 .alerts-page__hero-image {
-  max-height: 120px;
-  width: auto;
+  width: 100%;
+  height: auto;
+  max-height: 150px;    /* tweak as needed */
+  object-fit: contain;
 }
 
-/* intro text */
+/* intro text block */
 .alerts-page__intro {
-  margin: 1.5rem 0;
+  text-align: left;    /* or center, if you prefer */
 }
+
 .alerts-page__title {
   margin-bottom: 0.5rem;
   font-size: 1.75rem;
 }
+
 .alerts-page__description {
   color: #555;
   line-height: 1.6;
 }
 
-/* —— new: center + resize the alert-list —— */
+/* alert-list sits in the same 500px container */
 .alerts-page__list {
-  display: flex;
-  justify-content: center;
-  margin: 2rem 0;
-}
-
-.alerts-page__list .alert-list {
-  /* tweak these to your desired card width */
-  max-width: 500px;   /* card will not grow beyond 500px */
-  width: 100%;        /* but will shrink on smaller screens */
+  /* no extra flex needed—AlertList itself will size to 100% of this */
 }

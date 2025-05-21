@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 import AlertList from '../components/AlertList';
 import DextIllustration from '../assets/dextai.png';
 import '../alertpage.css';
+import AdminTop from '../components/AdminTop';
+import Footer1 from '../components/Footer1';
 
 const sampleAlerts = [
   { title: 'Intruder Approaching To The Restricted Area', date: '18/3/2025, 4:00 PM', area: 'Park 1' },
@@ -27,30 +29,36 @@ export default function AlertsPage() {
     : sampleAlerts.slice(0, INITIAL_COUNT);
 
   return (
-    <div className="alerts-page">
-      <div className="alerts-page__hero">
-        <img
-          src={DextIllustration}
-          alt="Dext AI illustration"
-          className="alerts-page__hero-image"
-        />
-      </div>
+    <>
+      <AdminTop/>
+      <div className="alerts-page">
+        <div className="alerts-page__hero">
+          <img
+            src={DextIllustration}
+            alt="Dext AI illustration"
+            className="alerts-page__hero-image"
+          />
+        </div>
 
-      <div className="alerts-page__intro">
-        <h1 className="alerts-page__title">Intrusion Detection System</h1>
-        <p className="alerts-page__description">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut enim ad minim veniam.
-        </p>
-      </div>
+        <div className="alerts-page__intro">
+          <h1 className="alerts-page__title">Intrusion Detection System</h1>
+          <p className="alerts-page__description">
+            Description:<br></br>
 
-      <div className="alerts-page__list">
-        <AlertList
-          alerts={displayedAlerts}
-          title="Alert"
-          linkText={showAll ? 'Show Less' : 'See All'}
-          onLinkClick={() => setShowAll(prev => !prev)}
-        />
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut enim ad minim veniam. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut enim ad minim veniam. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut enim ad minim veniam. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut enim ad minim veniam.
+          </p>
+        </div>
+
+        <div className="alerts-page__list">
+          <AlertList
+            alerts={displayedAlerts}
+            title="Alert"
+            linkText={showAll ? 'Show Less' : 'See All'}
+            onLinkClick={() => setShowAll(prev => !prev)}
+          />
+        </div>
       </div>
-    </div>
+      <Footer1/>
+    </>
   );
 }
