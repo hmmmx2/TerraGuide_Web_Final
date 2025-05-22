@@ -147,7 +147,7 @@ function AdminTop() {
                 </Link>
               </li>
               <li className="nav-item">
-                <Link to="/dashboard/license" className={`nav-link text-center fs-5 ${location.pathname === '/dashboard/license' ? 'bg-white text-success rounded-3' : 'text-white'}`}>
+                <Link to="/license" className={`nav-link text-center fs-5 ${location.pathname === '/dashboard/license' ? 'bg-white text-success rounded-3' : 'text-white'}`}>
                   License
                 </Link>
               </li>

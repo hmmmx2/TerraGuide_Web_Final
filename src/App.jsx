@@ -35,6 +35,7 @@ import AdAiPage from './Pages/AdAiPage';
 import React, { useEffect, useState } from 'react';
 import { supabase } from './supabase/supabase';
 import AlertsPage from "./Pages/AlertsPage";
+import License from "./Pages/License.jsx";
 import { NotificationProvider } from './contexts/NotificationContext';
 
 // More efficient ProtectedRoute using Outlet
@@ -141,6 +142,16 @@ function App() {
                 <Route path="/signup" element={<Register />} />
               </Route>
 
+            {/* Admin/Controller only routes */}
+            <Route element={<AdminRoutes />}>
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/database" element={<Database />} />
+              <Route path="/dashboard/manage-users/view" element={<ViewAccounts />} />
+              <Route path="/aipage" element={<AdAiPage />} />
+              <Route path="/alertspage" element={<AlertsPage />} />
+              <Route path="/license" element={<License />} />
+              {/* Add other user management routes as needed */}
+            </Route>
               {/* Admin/Controller only routes */}
               <Route element={<AdminRoutes />}>
                 <Route path="/dashboard" element={<Dashboard />} />
