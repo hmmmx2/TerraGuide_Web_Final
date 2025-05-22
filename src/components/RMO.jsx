@@ -1,56 +1,103 @@
-import React from 'react';
-import '../rmo.css';
-import SampleAvatar from '../assets/sample.png';  // replace with your real path
-
-const users = [
-  { name: 'Timmy He', email: 'timmyhe@gmail.com', title: 'Senior Manager', role: 'Controller', avatar: SampleAvatar },
-  { name: 'Jimmy He', email: 'jimmyhe@gmail.com', title: 'Manager', role: 'Controller', avatar: SampleAvatar },
-  { name: 'Gimmy He', email: 'gimm yhe@gmail.com', title: 'Business Analyst', role: 'Admin', avatar: SampleAvatar },
-  { name: 'Mimmy He', email: 'Mimmyhe@gmail.com', title: 'Business Analyst', role: 'Admin', avatar: SampleAvatar },
-  { name: 'Himmy He', email: 'Himmyhe@gmail.com', title: 'Business Analyst', role: 'Admin', avatar: SampleAvatar },
-  { name: 'Dimmy He', email: 'Dimmyhe@gmail.com', title: 'Business Analyst', role: 'Admin', avatar: SampleAvatar },
-];
+// src/components/UsersOverviewCard.jsx
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import SampleAvatar from '../assets/sample.png';
+import '../rmo.css';                    // your global styles
+import { supabaseAdmin } from '../supabase/admin-client';
 
 export default function RMO() {
+  const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  // Fetch the list of users from Supabase Admin API
+  useEffect(() => {
+    const fetchUsers = async () => {
+      setLoading(true);
+      try {
+        const { data: authUsers, error } = await supabaseAdmin.auth.admin.listUsers();
+        if (error) throw error;
+
+        // Format into the shape we need
+        const formatted = authUsers.users.map((u) => ({
+          id: u.id,
+          name: `${u.user_metadata?.first_name || ''} ${u.user_metadata?.last_name || ''}`.trim(),
+          email: u.email,
+          role: u.user_metadata?.role || 'parkguide',
+          createdAt: new Date(u.created_at).toLocaleDateString(),
+        }));
+
+        setUsers(formatted);
+      } catch (err) {
+        console.error('Error fetching users:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUsers();
+  }, []);
+
+  // Only show the first six
+  const visible = users.slice(0, 6);
+
   return (
-    <div className="rmo-card">
-      {/* header bar with title and "All roles" link */}
-      <div className="rmo-header-bar">
-        <h2 className="rmo-header-title">Users</h2>
-        <a href="#" className="rmo-header-link">All roles</a>
+    <div className="bg-white shadow-sm rounded-3 p-4">
+      {/* header */}
+      <div className="d-flex justify-content-between align-items-center mb-3">
+        <h5 className="mb-0">Users</h5>
+        <Link to="/dashboard/manage-users/view" className="text-primary">All roles</Link>
       </div>
 
-      {/* column headers */}
-      <div className="rmo-row rmo-col-headers">
-        <div>User Name</div>
-        <div>Email Address</div>
-        <div>Designation</div>
-        <div>Role</div>
-      </div>
-
-      {/* user rows */}
-      {users.map(u => (
-        <div key={u.email} className="rmo-row">
-          <div className="rmo-user-cell">
-            <img src={u.avatar} alt={u.name} className="rmo-avatar" />
-            <span>{u.name}</span>
-          </div>
-          <div>
-            <a href={`mailto:${u.email}`} className="rmo-email">
-              {u.email}
-            </a>
-          </div>
-          <div className="rmo-title">{u.title}</div>
-          <div className="rmo-role-cell">
-            <div className="rmo-select-wrapper">
-              <select defaultValue={u.role} className="rmo-select">
-                <option>Admin</option>
-                <option>Controller</option>
-              </select>
-            </div>
-          </div>
+      {loading ? (
+        <p className="text-center text-muted">Loading users…</p>
+      ) : (
+        <div className="table-responsive">
+          <table className="table table-hover align-middle mb-0">
+            <thead className="bg-light">
+              <tr>
+                <th className="fw-bold">User Name</th>
+                <th className="fw-bold">Email Address</th>
+                <th className="fw-bold">Created</th>
+                <th className="fw-bold">Role</th>
+              </tr>
+            </thead>
+            <tbody>
+              {visible.map(u => (
+                <tr key={u.id}>
+                  <td>
+                    <div className="d-flex align-items-center">
+                      
+                      <span>{u.name || '–'}</span>
+                    </div>
+                  </td>
+                  <td>
+                    <a href={`mailto:${u.email}`} className="text-decoration-none">
+                      {u.email}
+                    </a>
+                  </td>
+                  <td>{u.createdAt}</td>
+                  <td>
+                    <span className={`badge rounded-pill ${
+                      u.role === 'Admin'       ? 'bg-danger' :
+                      u.role === 'Controller'  ? 'bg-warning text-dark' :
+                                                 'bg-success'
+                    }`}>
+                      {u.role}
+                    </span>
+                  </td>
+                </tr>
+              ))}
+              {visible.length === 0 && (
+                <tr>
+                  <td colSpan="4" className="text-center text-muted py-3">
+                    No users to display
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
         </div>
-      ))}
+      )}
     </div>
   );
 }
