@@ -96,10 +96,10 @@ export default function Dashboard() {
         <PC />
         <RMO />
         <AlertList
-        alerts={sampleAlerts}
-        title="Alert"
-        linkText="All alerts"
-        linkTo="/alertspage"
+          title="Alert"
+          linkText="All alerts"
+          linkTo="/alertspage"
+          fetchFromSupabase={true} // Add this prop
         />
       </div>
       <Footer1/>
