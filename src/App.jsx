@@ -35,6 +35,7 @@ import AdAiPage from './Pages/AdAiPage';
 import React, { useEffect, useState } from 'react';
 import { supabase } from './supabase/supabase';
 import AlertsPage from "./Pages/AlertsPage";
+import { NotificationProvider } from './contexts/NotificationContext';
 
 // More efficient ProtectedRoute using Outlet
 function ProtectedRoutes() {
@@ -131,51 +132,53 @@ function IndexRedirect() {
 function App() {
   return (
       <AuthProvider>
-        <Router>
-          <Routes>
-            {/* Public only routes (login/signup) */}
-            <Route element={<PublicOnlyRoutes />}>
-              <Route path="/" element={<Login />} />
-              <Route path="/signup" element={<Register />} />
-            </Route>
+        <NotificationProvider>
+          <Router>
+            <Routes>
+              {/* Public only routes (login/signup) */}
+              <Route element={<PublicOnlyRoutes />}>
+                <Route path="/" element={<Login />} />
+                <Route path="/signup" element={<Register />} />
+              </Route>
 
-            {/* Admin/Controller only routes */}
-            <Route element={<AdminRoutes />}>
-              <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/database" element={<Database />} />
-              <Route path="/dashboard/manage-users/view" element={<ViewAccounts />} />
-              <Route path="/aipage" element={<AdAiPage />} />
-              <Route path="/alertspage" element={<AlertsPage />} />
-              {/* Add other user management routes as needed */}
-            </Route>
+              {/* Admin/Controller only routes */}
+              <Route element={<AdminRoutes />}>
+                <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/database" element={<Database />} />
+                <Route path="/dashboard/manage-users/view" element={<ViewAccounts />} />
+                <Route path="/aipage" element={<AdAiPage />} />
+                <Route path="/alertspage" element={<AlertsPage />} />
+                {/* Add other user management routes as needed */}
+              </Route>
 
-            {/* All protected routes in one group */}
-            <Route element={<ProtectedRoutes />}>
-              {/* Conditional redirect for admin users */}
-              <Route path="/index" element={<IndexRedirect />} />
-              <Route path="/blogmenu" element={<Blogmenu />} />
-              <Route path="/test" element={<Test />} />
-              <Route path="/blogs" element={<Blogs />} />
-              <Route path="/blogs2" element={<Blogs2 />} />
-              <Route path="/template" element={<Template />} />
-              <Route path="/profile" element={<Profile />} />
-              <Route path="/timetable" element={<Timetable />} />
-              <Route path="/guide" element={<Guide />} />
-              <Route path="/parkmap" element={<ParkMap />} />
-              <Route path="/aboutus" element={<Aboutus />} />
-              <Route path="/course1" element={<Course1 />} />
-              <Route path="/mycourses" element={<MyCourses />} />
-              <Route path="/course2" element={<Course2 />} />
-              <Route path="/blogs3" element={<Blogs3 />} />
-              <Route path="/identify" element={<Identify />} />
-              <Route path="/dashboard" element={<Dashboard />} />
-            </Route>
+              {/* All protected routes in one group */}
+              <Route element={<ProtectedRoutes />}>
+                {/* Conditional redirect for admin users */}
+                <Route path="/index" element={<IndexRedirect />} />
+                <Route path="/blogmenu" element={<Blogmenu />} />
+                <Route path="/test" element={<Test />} />
+                <Route path="/blogs" element={<Blogs />} />
+                <Route path="/blogs2" element={<Blogs2 />} />
+                <Route path="/template" element={<Template />} />
+                <Route path="/profile" element={<Profile />} />
+                <Route path="/timetable" element={<Timetable />} />
+                <Route path="/guide" element={<Guide />} />
+                <Route path="/parkmap" element={<ParkMap />} />
+                <Route path="/aboutus" element={<Aboutus />} />
+                <Route path="/course1" element={<Course1 />} />
+                <Route path="/mycourses" element={<MyCourses />} />
+                <Route path="/course2" element={<Course2 />} />
+                <Route path="/blogs3" element={<Blogs3 />} />
+                <Route path="/identify" element={<Identify />} />
+                <Route path="/dashboard" element={<Dashboard />} />
+              </Route>
 
-            {/* Catch-all route */}
-            <Route path="*" element={<Navigate to="/" replace />} />
-          </Routes>
-          <SessionTimeoutManager timeoutDuration={180000} /> {/* 3 minute timeout */}
-        </Router>
+              {/* Catch-all route */}
+              <Route path="*" element={<Navigate to="/" replace />} />
+            </Routes>
+            <SessionTimeoutManager timeoutDuration={180000} /> {/* 3 minute timeout */}
+          </Router>
+        </NotificationProvider>
       </AuthProvider>
   );
 }

@@ -1,36 +1,122 @@
 // src/pages/AlertsPage.jsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import AlertList from '../components/AlertList';
 import DextIllustration from '../assets/dextai.png';
 import '../alertpage.css';
 import AdminTop from '../components/AdminTop';
 import Footer1 from '../components/Footer1';
-
-const sampleAlerts = [
-  { title: 'Intruder Approaching To The Restricted Area', date: '18/3/2025, 4:00 PM', area: 'Park 1' },
-  { title: 'Intruder Approaching To The Restricted Area', date: '17/3/2025, 2:30 PM', area: 'Park 3' },
-  { title: 'Intruder Approaching To The Restricted Area', date: '16/3/2025, 1:35 PM', area: 'Park 6' },
-  { title: 'Intruder Approaching To The Restricted Area', date: '15/3/2025, 12:03 PM', area: 'Park 4' },
-  { title: 'Intruder Approaching To The Restricted Area', date: '14/3/2025, 2:03 AM', area: 'Park 8' },
-  { title: 'Intruder Approaching To The Restricted Area', date: '13/3/2025, 5:03 PM', area: 'Park 9' },
-  { title: 'Intruder Approaching To The Restricted Area', date: '12/3/2025, 3:03 AM', area: 'Park 5' },
-  { title: 'Intruder Approaching To The Restricted Area', date: '11/3/2025, 1:03 AM', area: 'Park 2' },
-
-  // imagine you have more…
-];
+import { supabase } from '../supabase/supabase';
 
 export default function AlertsPage() {
-  const [showAll, setShowAll] = useState(false);
-  const INITIAL_COUNT = 4;  // show only first 2 by default
+  const [alerts, setAlerts] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  // choose which alerts to display
-  const displayedAlerts = showAll
-    ? sampleAlerts
-    : sampleAlerts.slice(0, INITIAL_COUNT);
+  // Fetch alerts from Supabase
+  useEffect(() => {
+    fetchAlerts();
+
+    // Set up real-time subscription
+    const subscription = supabase
+      .channel('intruder-detection-events') // Changed from 'intruder-detection-alerts'
+      .on('postgres_changes', 
+        { 
+          event: 'INSERT', 
+          schema: 'public', 
+          table: 'intruder_detection_events' // Changed from 'intruder_detection_alerts'
+        }, 
+        (payload) => {
+          handleNewAlert(payload.new);
+        }
+      )
+      .subscribe();
+
+    // Cleanup subscription on component unmount
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, []);
+
+  // Format date from ISO to the required format: 'DD/MM/YYYY, h:mm A'
+  const formatDate = (isoDate) => {
+    const date = new Date(isoDate);
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const year = date.getFullYear();
+    const hours = date.getHours();
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+    const formattedHours = hours % 12 || 12;
+    
+    return `${day}/${month}/${year}, ${formattedHours}:${minutes} ${ampm}`;
+  };
+
+  // Fetch alerts from Supabase
+  const fetchAlerts = async () => {
+    try {
+      setLoading(true);
+      const { data, error } = await supabase
+        .from('intruder_detection_events') // Changed from 'intruder_detection_alerts'
+        .select('*')
+        .order('detection_time', { ascending: false });
+
+      if (error) throw error;
+
+      // Transform data to match the expected format
+      const formattedAlerts = data.map(event => ({
+        title: 'Intruder Approaching To The Restricted Area',
+        date: formatDate(event.detection_time),
+        area: 'Park 1',
+        id: event.id,
+        image_url: event.image_url,
+        distance_cm: event.distance_cm
+      }));
+
+      setAlerts(formattedAlerts);
+    } catch (error) {
+      console.error('Error fetching alerts:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Handle new alert from real-time subscription
+  const handleNewAlert = (newEvent) => {
+    const formattedAlert = {
+      title: 'Intruder Approaching To The Restricted Area',
+      date: formatDate(newEvent.detection_time),
+      area: 'Park 1',
+      id: newEvent.id,
+      image_url: newEvent.image_url,
+      distance_cm: newEvent.distance_cm
+    };
+
+    // Add the new alert to the beginning of the array
+    setAlerts(prevAlerts => [formattedAlert, ...prevAlerts]);
+
+    // Show toast notification
+    toast.error(
+      <div>
+        <strong>⚠️ Intruder Detected!</strong>
+        <p>Date-time: {formattedAlert.date}</p>
+        <p>Area: {formattedAlert.area}</p>
+      </div>, 
+      {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true
+      }
+    );
+  };
 
   return (
     <>
       <AdminTop/>
+      <ToastContainer />
       <div className="alerts-page">
         <div className="alerts-page__hero">
           <img
@@ -49,13 +135,17 @@ export default function AlertsPage() {
           </p>
         </div>
 
-        <div className="alerts-page__list">
-          <AlertList
-            alerts={displayedAlerts}
-            title="Alert"
-            linkText={showAll ? 'Show Less' : 'See All'}
-            onLinkClick={() => setShowAll(prev => !prev)}
-          />
+        <div className="alerts-page__list" style={{ maxHeight: '500px', overflowY: 'auto' }}>
+          {loading ? (
+            <div className="text-center p-4">Loading alerts...</div>
+          ) : alerts.length === 0 ? (
+            <div className="text-center p-4">No alerts found</div>
+          ) : (
+            <AlertList
+              alerts={alerts}
+              title="Alert"
+            />
+          )}
         </div>
       </div>
       <Footer1/>
