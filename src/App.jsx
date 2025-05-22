@@ -37,6 +37,7 @@ import { supabase } from './supabase/supabase';
 import AlertsPage from "./Pages/AlertsPage";
 import License from "./Pages/License.jsx";
 import { NotificationProvider } from './contexts/NotificationContext';
+import GlobalNotificationListener from './components/GlobalNotificationListener';
 
 // More efficient ProtectedRoute using Outlet
 function ProtectedRoutes() {
@@ -135,6 +136,7 @@ function App() {
       <AuthProvider>
         <NotificationProvider>
           <Router>
+            <GlobalNotificationListener />
             <Routes>
               {/* Public only routes (login/signup) */}
               <Route element={<PublicOnlyRoutes />}>
