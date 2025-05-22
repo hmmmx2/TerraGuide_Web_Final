@@ -4,114 +4,107 @@
   margin: 2rem auto;
   max-width: 1200px;
 }
-.shadow-sm {
-  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
-}
-.rounded-3 {
-  border-radius: 0.75rem !important;
-}
-.border {
-  border: 1px solid #e2e8f0 !important;
-}
+.shadow-sm { box-shadow: 0 0.125rem 0.25rem rgba(0,0,0,0.075); }
+.rounded-3 { border-radius: 0.75rem; }
+.border     { border: 1px solid #e2e8f0; }
 
-/* ── Table layout ─────────────────────────────────────────────────── */
+/* ── Table & header ───────────────────────────────────────────────── */
 
-.table {
-  width: 100%;
-  border-collapse: collapse;
-}
+.table { width: 100%; border-collapse: collapse; }
 
-/* Header */
 .table thead th {
-  background-color: #ffffff;
+  background: #fff;
   color: #1f2937;
   font-weight: 600;
   padding: 1rem 1.5rem;
   border-bottom: none;
 }
 
-/* Striped body rows */
-.table tbody tr {
-  border-top: 1px solid #e5e7eb;
+/* hero-mode dropdown in header */
+.mode-dropdown {
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid #374151;
+  color: #374151;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  appearance: none;
+  padding: 0 0.25rem;
 }
-.table tbody tr:nth-child(odd) {
-  background-color: #f8fafc;
-}
-.table tbody tr:nth-child(even) {
-  background-color: #ffffff;
-}
+.mode-dropdown:focus { outline: none; }
 
-/* Cells */
+/* ── Body rows ─────────────────────────────────────────────────────── */
+
+.table tbody tr { border-top: 1px solid #e5e7eb; }
+.table tbody tr:nth-child(odd)  { background: #f8fafc; }
+.table tbody tr:nth-child(even) { background: #ffffff; }
+
 .table td {
   padding: 1rem 1.5rem;
   vertical-align: middle;
   color: #4b5563;
 }
 
-/* ── Avatar styling ───────────────────────────────────────────────── */
+/* ── Avatar styling ────────────────────────────────────────────────── */
 
 .rounded-circle {
-  border-radius: 50% !important;
+  border-radius: 50%;
 }
-.bg-light {
-  background-color: #f1f5f9 !important;
-}
-.text-primary {
-  color: #2563eb !important;
-}
-.d-inline-flex {
-  display: inline-flex !important;
-}
-.align-items-center {
-  align-items: center !important;
-}
-.justify-content-center {
-  justify-content: center !important;
-}
-.me-3 {
-  margin-right: 1rem !important;
-}
-.fw-bold {
-  font-weight: 600 !important;
-}
+.bg-light { background: #f1f5f9; }
+.text-primary  { color: #2563eb; }
+.d-inline-flex { display: inline-flex; }
+.align-items-center { align-items: center; }
+.justify-content-center { justify-content: center; }
+.me-3 { margin-right: 1rem; }
+.fw-bold { font-weight: 600; }
 
-/* ── Status dropdown styling ───────────────────────────────────────── */
+/* ── Approval dropdown ─────────────────────────────────────────────── */
 
 .status-dropdown {
-  display: inline-block;
   min-width: 7rem;
   padding: 0.35rem 0.75rem;
   font-size: 0.875rem;
   line-height: 1.2;
   border: 1px solid #d1d5db;
   border-radius: 0.375rem;
-  background-color: #ffffff;
+  background: #fff;
   text-transform: capitalize;
   cursor: pointer;
-  -webkit-appearance: none;
-     -moz-appearance: none;
-          appearance: none;
+  appearance: none;
 }
-
-/* colored backgrounds per status */
 .status-dropdown.approve {
-  background-color: #10b981;
-  border-color:     #10b981;
-  color:            #ffffff;
+  background-color: #10b981; border-color: #10b981; color: #fff;
 }
 .status-dropdown.reject {
-  background-color: #ef4444;
-  border-color:     #ef4444;
-  color:            #ffffff;
+  background-color: #ef4444; border-color: #ef4444; color: #fff;
 }
 .status-dropdown.pending {
-  background-color: #6b7280;
-  border-color:     #6b7280;
-  color:            #ffffff;
+  background-color: #6b7280; border-color: #6b7280; color: #fff;
 }
+.status-dropdown:focus { box-shadow: 0 0 0 0.2rem rgba(255,255,255,0.5); }
 
-/* focus ring */
-.status-dropdown:focus {
-  outline: none;
-  box-shadow: 0 0 0 0.2rem rgba(255,255,255,0.5);
+/* ── Renewal dropdown ─────────────────────────────────────────────── */
+
+.renewal-dropdown {
+  min-width: 7rem;
+  padding: 0.35rem 0.75rem;
+  font-size: 0.875rem;
+  line-height: 1.2;
+  border: 1px solid #d1d5db;
+  border-radius: 0.375rem;
+  background: #fff;
+  text-transform: capitalize;
+  cursor: pointer;
+  appearance: none;
 }
+.renewal-dropdown.renew {
+  background-color: #10b981; border-color: #10b981; color: #fff;
+}
+.renewal-dropdown.no_renew {
+  background-color: #ef4444; border-color: #ef4444; color: #fff;
+}
+.renewal-dropdown.pending {
+  background-color: #6b7280; border-color: #6b7280; color: #fff;
+}
+.renewal-dropdown:focus { box-shadow: 0 0 0 0.2rem rgba(59,153,252,0.25); }
