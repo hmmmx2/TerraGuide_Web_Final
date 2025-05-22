@@ -670,15 +670,15 @@
 .slideshow-map-section {
   display: flex;
   align-items: stretch;
-  /* ← 讓左右兩塊等高並且頂端對齊 */
+  
   gap: 2rem;
-  /* 區塊之間的水平間距 */
+  
   margin: 2rem auto;
-  /* 上下留白、自動置中 */
+ 
   max-width: 1400px;
-  /* 可選：限制最寬度 */
+  
   padding: 1rem;
-  /* 內距 */
+  
   box-sizing: border-box;
 }
 
