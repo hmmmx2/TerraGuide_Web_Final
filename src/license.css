@@ -1,16 +1,12 @@
-/* ── Card container ───────────────────────────────────────────────── */
+/* src/license.css */
 
-.table-responsive {
-  margin: 2rem auto;
-  max-width: 1200px;
-}
-.shadow-sm { box-shadow: 0 0.125rem 0.25rem rgba(0,0,0,0.075); }
-.rounded-3 { border-radius: 0.75rem; }
-.border     { border: 1px solid #e2e8f0; }
-
-/* ── Table & header ───────────────────────────────────────────────── */
-
-.table { width: 100%; border-collapse: collapse; }
+/* ── Wrapper & Table ───────────────────────────────────────────────── */
+.license-wrapper { max-width: 1200px; margin: 2rem auto; }
+.table-responsive { max-width: 100%; }
+.shadow-sm        { box-shadow: 0 0.125rem 0.25rem rgba(0,0,0,0.075); }
+.rounded-3        { border-radius: 0.75rem; }
+.border           { border: 1px solid #e2e8f0; }
+.table            { width: 100%; border-collapse: collapse; }
 
 .table thead th {
   background: #fff;
@@ -20,47 +16,111 @@
   border-bottom: none;
 }
 
-/* hero-mode dropdown in header */
-.mode-dropdown {
-  background: transparent;
-  border: none;
-  border-bottom: 2px solid #374151;
-  color: #374151;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  appearance: none;
-  padding: 0 0.25rem;
-}
-.mode-dropdown:focus { outline: none; }
-
-/* ── Body rows ─────────────────────────────────────────────────────── */
-
 .table tbody tr { border-top: 1px solid #e5e7eb; }
 .table tbody tr:nth-child(odd)  { background: #f8fafc; }
 .table tbody tr:nth-child(even) { background: #ffffff; }
-
 .table td {
   padding: 1rem 1.5rem;
   vertical-align: middle;
   color: #4b5563;
 }
 
-/* ── Avatar styling ────────────────────────────────────────────────── */
-
-.rounded-circle {
-  border-radius: 50%;
+/* ── Header layout ────────────────────────────────────────────────── */
+.header-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
 }
-.bg-light { background: #f1f5f9; }
-.text-primary  { color: #2563eb; }
-.d-inline-flex { display: inline-flex; }
-.align-items-center { align-items: center; }
-.justify-content-center { justify-content: center; }
-.me-3 { margin-right: 1rem; }
-.fw-bold { font-weight: 600; }
+.controls-left {
+  flex: 0 0 auto;
+}
+.search-wrapper {
+  flex: 1;
+  text-align: center;
+}
+.action-buttons {
+  flex: 0 0 auto;
+  display: flex;
+  gap: 0.5rem;
+}
 
-/* ── Approval dropdown ─────────────────────────────────────────────── */
+/* ── Dropdown positioning ─────────────────────────────────────────── */
+.controls-left .dropdown {
+  position: relative;
+  display: inline-block;
+}
+.dropdown-menu {
+  position: absolute;
+  top: calc(100% + 0.25rem);
+  left: 0;
+  min-width: 10rem;
+  background: #fff;
+  border: 1px solid #d1d5db;
+  border-radius: 0.375rem;
+  box-shadow: 0 0.125rem 0.25rem rgba(0,0,0,0.075);
+  padding: 0.25rem 0;
+  display: none;
+  z-index: 100;
+}
+.dropdown-menu.show {
+  display: block;
+}
+.dropdown-item {
+  display: block;
+  width: 100%;
+  padding: 0.5rem 1rem;
+  background: none;
+  border: none;
+  text-align: left;
+  color: #374151;
+}
+.dropdown-item:hover {
+  background-color: #f1f5f9;
+}
 
+/* ── Mode dropdown & arrow ───────────────────────────────────────── */
+.mode-dropdown {
+  position: relative;
+  background: transparent;
+  border: none;
+  padding: 0 0.5rem;
+  color: #374151;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+.mode-dropdown:focus { outline: none; }
+.mode-dropdown::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: -1rem;
+  bottom: -4px;
+  height: 2px;
+  background-color: #374151;
+}
+.dropdown-arrow {
+  display: inline-block;
+  width: 0;
+  height: 0;
+  margin-left: 0.25rem;
+  vertical-align: middle;
+  border-left: 0.35rem solid transparent;
+  border-right: 0.35rem solid transparent;
+  border-top: 0.35rem solid #10b981;
+}
+
+/* ── Search input ─────────────────────────────────────────────────── */
+.table-search {
+  width: 250px;
+  max-width: 80%;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.375rem;
+}
+
+/* ── Status dropdowns ─────────────────────────────────────────────── */
 .status-dropdown {
   min-width: 7rem;
   padding: 0.35rem 0.75rem;
@@ -71,40 +131,53 @@
   background: #fff;
   text-transform: capitalize;
   cursor: pointer;
-  appearance: none;
 }
-.status-dropdown.approve {
-  background-color: #10b981; border-color: #10b981; color: #fff;
-}
-.status-dropdown.reject {
-  background-color: #ef4444; border-color: #ef4444; color: #fff;
-}
-.status-dropdown.pending {
-  background-color: #6b7280; border-color: #6b7280; color: #fff;
-}
-.status-dropdown:focus { box-shadow: 0 0 0 0.2rem rgba(255,255,255,0.5); }
+.status-dropdown.approve { background-color: #10b981; border-color: #10b981; color: #fff; }
+.status-dropdown.reject  { background-color: #ef4444; border-color: #ef4444; color: #fff; }
+.status-dropdown.pending { background-color: #6b7280; border-color: #6b7280; color: #fff; }
+.status-dropdown:focus   { box-shadow: 0 0 0 0.2rem rgba(255,255,255,0.5); }
 
-/* ── Renewal dropdown ─────────────────────────────────────────────── */
-
-.renewal-dropdown {
-  min-width: 7rem;
-  padding: 0.35rem 0.75rem;
-  font-size: 0.875rem;
-  line-height: 1.2;
-  border: 1px solid #d1d5db;
+/* ── Action buttons ───────────────────────────────────────────────── */
+.action-button {
+  background-color: #10b981;
+  border: 1px solid #10b981;
+  color: #fff;
+  padding: 0.5rem 1rem;
   border-radius: 0.375rem;
-  background: #fff;
-  text-transform: capitalize;
+  font-size: 0.875rem;
   cursor: pointer;
-  appearance: none;
 }
-.renewal-dropdown.renew {
-  background-color: #10b981; border-color: #10b981; color: #fff;
+.action-button:hover {
+  background-color: #059669;
+  border-color:   #059669;
 }
-.renewal-dropdown.no_renew {
-  background-color: #ef4444; border-color: #ef4444; color: #fff;
+
+/* ── Delete “X” button ────────────────────────────────────────────── */
+.delete-button {
+  background: transparent;
+  border: none;
+  color: #ef4444;
+  font-size: 1rem;
+  cursor: pointer;
 }
-.renewal-dropdown.pending {
-  background-color: #6b7280; border-color: #6b7280; color: #fff;
+.delete-button:hover {
+  color: #dc2626;
 }
-.renewal-dropdown:focus { box-shadow: 0 0 0 0.2rem rgba(59,153,252,0.25); }
+
+/* ── Save button ─────────────────────────────────────────────────── */
+.save-container {
+  text-align: center;
+  margin: 1.5rem 0;
+}
+.save-button {
+  background-color: #6b7a5f;
+  border: none;
+  color: #fff;
+  padding: 0.75rem 2rem;
+  border-radius: 9999px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+.save-button:hover {
+  background-color: #5d6e53;
+}
