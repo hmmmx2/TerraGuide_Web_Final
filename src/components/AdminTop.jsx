@@ -152,7 +152,7 @@ function AdminTop() {
                 </Link>
               </li>
               <li className="nav-item">
-                <Link to="/dashboard/content" className={`nav-link text-center fs-5 ${location.pathname === '/dashboard/content' ? 'bg-white text-success rounded-3' : 'text-white'}`}>
+                <Link to="/course" className={`nav-link text-center fs-5 ${location.pathname === '/dashboard/content' ? 'bg-white text-success rounded-3' : 'text-white'}`}>
                   Content
                 </Link>
               </li>

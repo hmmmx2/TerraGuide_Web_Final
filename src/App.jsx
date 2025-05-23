@@ -32,6 +32,7 @@ import Dashboard from './Pages/Dashboard';
 import ViewAccounts from './Pages/ViewAccounts';
 import Database from './Pages/Database';
 import AdAiPage from './Pages/AdAiPage';
+import CourseManagement from './Pages/CourseM';
 import React, { useEffect, useState } from 'react';
 import { supabase } from './supabase/supabase';
 import AlertsPage from "./Pages/AlertsPage";
@@ -152,6 +153,7 @@ function App() {
               <Route path="/aipage" element={<AdAiPage />} />
               <Route path="/alertspage" element={<AlertsPage />} />
               <Route path="/license" element={<License />} />
+              <Route path="/course" element={<CourseManagement />} />
               {/* Add other user management routes as needed */}
             </Route>
               {/* Admin/Controller only routes */}
