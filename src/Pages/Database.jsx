@@ -31,7 +31,7 @@ export default function Database() {
     <>
       <AdminTop />
 
-      <div className="container" style={{ minHeight: 'calc(100vh - 160px)' }}>
+      <div className="container" style={{ minHeight: 'calc(90vh - 160px)' }}>
         {/* ==== Top Search ==== */}
         <div className="header">
           <div className="search-box">

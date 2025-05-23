@@ -16,6 +16,10 @@ const ViewAccounts = () => {
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
   
+  // Pagination state
+  const [currentPage, setCurrentPage] = useState(1);
+  const [recordsPerPage, setRecordsPerPage] = useState(10);
+  
   // Toast notification state
   const [toast, setToast] = useState({
     show: false,
@@ -70,6 +74,11 @@ const ViewAccounts = () => {
     
     fetchUsers();
   }, [userRole, navigate]);
+
+  // Reset to first page when search term or records per page changes
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchTerm, recordsPerPage]);
 
   // Fetch all users from Supabase
   const fetchUsers = async () => {
@@ -432,6 +441,48 @@ const ViewAccounts = () => {
     }
   };
 
+  // ... existing code ...
+  
+  // Cancel password change
+  const cancelPasswordChange = () => {
+    setShowPasswordForm(false);
+    setPasswordForm({
+      userId: '',
+      email: '',
+      newPassword: '',
+      confirmPassword: ''
+    });
+  };
+
+  // Get filtered users
+  const filteredUsers = users.filter(user => 
+    user.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    `${user.firstName} ${user.lastName}`.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+  
+  // Get current users for pagination
+  const indexOfLastRecord = currentPage * recordsPerPage;
+  const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
+  const currentUsers = filteredUsers.slice(indexOfFirstRecord, indexOfLastRecord);
+  const totalPages = Math.ceil(filteredUsers.length / recordsPerPage);
+
+  // Change page
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+  // Previous page
+  const previousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  // Next page
+  const nextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
   return (
     <>
       <AdminTop />
@@ -456,11 +507,11 @@ const ViewAccounts = () => {
         </Toast>
       </ToastContainer>
       
-      <div className="container py-5" style={{ minHeight: 'calc(100vh - 160px)' }}>
+      <div className="container py-5" style={{ minHeight: 'calc(90vh - 160px)' }}>
         <div className="d-flex justify-content-between align-items-center mb-4">
-          <h3 className="mb-0">User Accounts</h3>
+          <h1 className="fw-bold mb-0" style={{color: '#4E6E4E'}}>User Accounts</h1>
           <button 
-            className="btn btn-primary shadow-sm rounded-3"
+            className="btn btn-success shadow-sm rounded-3"
             onClick={() => setShowNewUserForm(!showNewUserForm)}
           >
             {showNewUserForm ? 'Cancel' : 'Add New User'}
@@ -469,8 +520,8 @@ const ViewAccounts = () => {
         
         {/* New User Form */}
         {showNewUserForm && (
-          <div className="container mb-4 p-4 bg-white shadow-sm rounded-3 border">
-            <h5 className="border-bottom pb-3 mb-3 text-primary">Add New User</h5>
+          <div className="container mb-4 p-4 bg-light shadow-sm rounded-3 border">
+            <h5 className="border-bottom pb-3 mb-3 text-success">Add New User</h5>
             <form onSubmit={createUser}>
               <div className="row g-3">
                 <div className="col-md-6">
@@ -537,7 +588,7 @@ const ViewAccounts = () => {
                   </button>
                   <button 
                     type="button" 
-                    className="btn btn-secondary shadow-sm" 
+                    className="btn btn-outline-secondary shadow-sm" 
                     onClick={() => setShowNewUserForm(false)}
                   >
                     Cancel
@@ -550,8 +601,8 @@ const ViewAccounts = () => {
         
         {/* Edit User Form */}
         {editingUser && (
-          <div className="container mb-4 p-4 bg-white shadow-sm rounded-3 border">
-            <h5 className="border-bottom pb-3 mb-3 text-primary">Edit User: {editingUser.email}</h5>
+          <div className="container mb-4 p-4 bg-light shadow-sm rounded-3 border">
+            <h5 className="border-bottom pb-3 mb-3 text-success">Edit User: {editingUser.email}</h5>
             <form onSubmit={updateUser}>
               <div className="row g-3">
                 <div className="col-md-6">
@@ -612,12 +663,12 @@ const ViewAccounts = () => {
                   </div>
                 </div>
                 <div className="col-12">
-                  <button type="submit" className="btn btn-primary text-white me-2 shadow-sm" disabled={loading}>
+                  <button type="submit" className="btn btn-success me-2 shadow-sm" disabled={loading}>
                     {loading ? 'Updating...' : 'Update User'}
                   </button>
                   <button 
                     type="button" 
-                    className="btn btn-secondary shadow-sm" 
+                    className="btn btn-outline-secondary shadow-sm" 
                     onClick={cancelEdit}
                   >
                     Cancel
@@ -628,91 +679,260 @@ const ViewAccounts = () => {
           </div>
         )}
         
+        {/* Records per page selector */}
+        <div className="d-flex justify-content-between align-items-center mb-3">
+          <div>
+            <span className="me-2">Show</span>
+              <select 
+                className="form-select form-select-sm d-inline-block" 
+                style={{ width: 'auto' }}
+                value={recordsPerPage}
+                onChange={(e) => setRecordsPerPage(Number(e.target.value))}
+              >
+                <option value="10">10</option>
+                <option value="25">25</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+              </select>
+              <span className="ms-2">entries</span>
+            </div>
+            <div>
+          </div>
+        </div>
+        
+        {/* Search Bar */}
+        <div className="mb-4">
+          <div className="input-group">
+            <span className="input-group-text bg-success text-white">
+              <i className="bi bi-search"></i>
+            </span>
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Search users by name or email..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </div>
+        </div>
+        
         {/* Users Table */}
-        <div className="container p-0">
-          <div className="row">
-            <div className="col-12">
-              <div className="table-responsive shadow-sm rounded-3 border">
-                <table className="table table-hover align-middle mb-0">
-                  <thead className="bg-light">
-                    <tr>
-                      <th className="border-0 px-4 py-3 text-center fw-bold" style={{ fontWeight: 600 }}>Name</th>
-                      <th className="border-0 px-4 py-3 text-center fw-bold" style={{ fontWeight: 600 }}>Email</th>
-                      <th className="border-0 px-4 py-3 text-center fw-bold" style={{ fontWeight: 600 }}>Role</th>
-                      <th className="border-0 px-4 py-3 text-center fw-bold" style={{ fontWeight: 600 }}>Created</th>
-                      <th className="border-0 px-4 py-3 text-center fw-bold" style={{ fontWeight: 600 }}>Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {loading && users.length === 0 ? (
-                      <tr>
-                        <td colSpan="5" className="text-center py-5">
-                          <div className="spinner-border text-primary" role="status">
-                            <span className="visually-hidden">Loading...</span>
-                          </div>
-                          <p className="mt-2 text-muted">Loading users...</p>
-                        </td>
-                      </tr>
-                    ) : users.length === 0 ? (
-                      <tr>
-                        <td colSpan="5" className="text-center py-5">
-                          <p className="text-muted mb-0">No users found</p>
-                        </td>
-                      </tr>
-                    ) : (
-                      users.map(user => (
-                        <tr key={user.id}>
-                          <td className="px-4 py-3 text-center">
-                            <div className="d-flex align-items-center">
-                              <div className="avatar-initial rounded-circle bg-light text-primary me-3 d-flex align-items-center justify-content-center" style={{ width: '40px', height: '40px' }}>
-                                {user.firstName.charAt(0)}{user.lastName.charAt(0)}
-                              </div>
-                              <div>
-                                <h6 className="mb-0">{user.firstName} {user.lastName}</h6>
-                              </div>
-                            </div>
-                          </td>
-                          <td className="px-4 py-3 text-center">{user.email}</td>
-                          <td className="px-4 py-3 text-center">
-                            <span className={`badge rounded-pill ${
-                              user.role === 'admin' ? 'bg-danger' : 
-                              user.role === 'controller' ? 'bg-warning text-dark' : 
-                              'bg-success'
-                            }`}>
-                              {user.role}
-                            </span>
-                          </td>
-                          <td className="px-4 py-3 text-center">{user.createdAt}</td>
-                          <td className="px-4 py-3 text-center">
-                            <div className="btn-group shadow-sm">
-                              <button 
-                                className="btn btn-sm btn-outline-primary" 
-                                onClick={() => startEdit(user)}
-                              >
-                                <i className="bi bi-pencil-fill me-1"></i> Edit
-                              </button>
-                              <button 
-                                className="btn btn-sm btn-outline-danger" 
-                                onClick={() => {
-                                  if (window.confirm(`Are you sure you want to delete ${user.firstName} ${user.lastName}?`)) {
-                                    deleteUser(user.id);
-                                  }
-                                }}
-                              >
-                                <i className="bi bi-trash-fill me-1"></i> Delete
-                              </button>
-                            </div>
-                          </td>
-                        </tr>
-                      ))
-                    )}
-                  </tbody>
-                </table>
+        <div className="table-responsive bg-light rounded-3 shadow-sm">
+          <table className="table table-hover mb-0">
+            <thead className="bg-success text-white">
+              <tr>
+                <th width="50">No.</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Created At</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {loading ? (
+                <tr>
+                  <td colSpan="6" className="text-center py-4">
+                    <div className="spinner-border text-success" role="status">
+                      <span className="visually-hidden">Loading...</span>
+                    </div>
+                  </td>
+                </tr>
+              ) : error ? (
+                <tr>
+                  <td colSpan="6" className="text-center text-danger py-4">
+                    Error loading users: {error}
+                  </td>
+                </tr>
+              ) : filteredUsers.length === 0 ? (
+                <tr>
+                  <td colSpan="6" className="text-center py-4">
+                    No users found matching your search.
+                  </td>
+                </tr>
+              ) : (
+                currentUsers.map((user, index) => (
+                  <tr key={user.id}>
+                    <td className="text-center">{indexOfFirstRecord + index + 1}</td>
+                    <td>{user.firstName} {user.lastName}</td>
+                    <td>{user.email}</td>
+                    <td>
+                      <span className={`badge ${
+                        user.role === 'admin' ? 'bg-danger' : 
+                        user.role === 'controller' ? 'bg-warning text-dark' : 
+                        'bg-success'
+                      }`}>
+                        {user.role === 'parkguide' ? 'Park Guide' : 
+                         user.role === 'admin' ? 'Admin' : 
+                         'Controller'}
+                      </span>
+                    </td>
+                    <td>{user.createdAt}</td>
+                    <td>
+                      <div className="btn-group btn-group-sm">
+                        <button 
+                          className="btn btn-outline-success"
+                          onClick={() => startEdit(user)}
+                        >
+                          <i className="bi bi-pencil"></i>
+                        </button>
+                        <button 
+                          className="btn btn-outline-danger"
+                          onClick={() => deleteUser(user.id)}
+                        >
+                          <i className="bi bi-trash"></i>
+                        </button>
+                        {/* <button 
+                          className="btn btn-outline-secondary"
+                          onClick={() => {
+                            setPasswordForm({
+                              userId: user.id,
+                              email: user.email,
+                              newPassword: '',
+                              confirmPassword: ''
+                            });
+                            setShowPasswordForm(true);
+                          }}
+                        >
+                          <i className="bi bi-key"></i>
+                        </button> */}
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
+        
+        {/* Pagination */}
+        {!loading && !error && filteredUsers.length > 0 && (
+          <div className="d-flex justify-content-between align-items-center mt-3">
+            <div>
+              Showing {indexOfFirstRecord + 1} to {Math.min(indexOfLastRecord, filteredUsers.length)} of {filteredUsers.length} entries
+            </div>
+            <div aria-label="User accounts pagination">
+              <ul className="pagination pagination-sm mb-0">
+                <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
+                  <button 
+                    className="page-link" 
+                    onClick={previousPage}
+                    aria-label="Previous"
+                    style={{ color: '#4E6E4E', cursor: 'pointer' }}
+                  >
+                    <span aria-hidden="true">&laquo;</span>
+                  </button>
+                </li>
+                {Array.from({ length: Math.min(5, totalPages) }).map((_, index) => {
+                  // Show pages around current page
+                  let pageNum;
+                  if (totalPages <= 5) {
+                    // If 5 or fewer pages, show all
+                    pageNum = index + 1;
+                  } else if (currentPage <= 3) {
+                    // If near start, show first 5 pages
+                    pageNum = index + 1;
+                  } else if (currentPage >= totalPages - 2) {
+                    // If near end, show last 5 pages
+                    pageNum = totalPages - 4 + index;
+                  } else {
+                    // Otherwise show current page and 2 pages on each side
+                    pageNum = currentPage - 2 + index;
+                  }
+                  
+                  return (
+                    <li key={pageNum} className={`page-item ${currentPage === pageNum ? 'active' : ''}`}>
+                      <button 
+                        className="page-link" 
+                        onClick={() => paginate(pageNum)}
+                        style={{ 
+                          backgroundColor: currentPage === pageNum ? '#4E6E4E' : '',
+                          borderColor: currentPage === pageNum ? '#4E6E4E' : '',
+                          color: currentPage === pageNum ? 'white' : '#4E6E4E',
+                          cursor: 'pointer'
+                        }}
+                      >
+                        {pageNum}
+                      </button>
+                    </li>
+                  );
+                })}
+                <li className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}>
+                  <button 
+                    className="page-link" 
+                    onClick={nextPage}
+                    aria-label="Next"
+                    style={{ color: '#4E6E4E', cursor: 'pointer' }}
+                  >
+                    <span aria-hidden="true">&raquo;</span>
+                  </button>
+                </li>
+              </ul>
+            </div>
+          </div>
+        )}
+      </div>
+      
+      {/* Password Change Modal */}
+      {/* {showPasswordForm && (
+        <div className="modal show d-block" tabIndex="-1" style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}>
+          <div className="modal-dialog">
+            <div className="modal-content">
+              <div className="modal-header bg-success text-white">
+                <h5 className="modal-title">Change Password for {passwordForm.email}</h5>
+                <button 
+                  type="button" 
+                  className="btn-close btn-close-white" 
+                  onClick={() => setShowPasswordForm(false)}
+                ></button>
               </div>
+              <form onSubmit={changePassword}>
+                <div className="modal-body">
+                  <div className="mb-3">
+                    <label htmlFor="newPassword" className="form-label">New Password</label>
+                    <input
+                      type="password"
+                      className="form-control"
+                      id="newPassword"
+                      value={passwordForm.newPassword}
+                      onChange={(e) => setPasswordForm({...passwordForm, newPassword: e.target.value})}
+                      required
+                    />
+                    <div className="form-text">Password must be at least 8 characters long.</div>
+                  </div>
+                  <div className="mb-3">
+                    <label htmlFor="confirmPassword" className="form-label">Confirm Password</label>
+                    <input
+                      type="password"
+                      className="form-control"
+                      id="confirmPassword"
+                      value={passwordForm.confirmPassword}
+                      onChange={(e) => setPasswordForm({...passwordForm, confirmPassword: e.target.value})}
+                      required
+                    />
+                  </div>
+                </div>
+                <div className="modal-footer">
+                  <button 
+                    type="button" 
+                    className="btn btn-outline-secondary" 
+                    onClick={() => setShowPasswordForm(false)}
+                  >
+                    Cancel
+                  </button>
+                  <button 
+                    type="submit" 
+                    className="btn btn-success" 
+                    disabled={loading}
+                  >
+                    {loading ? 'Updating...' : 'Update Password'}
+                  </button>
+                </div>
+              </form>
             </div>
           </div>
         </div>
-      </div>
+      )} */}
       
       <Footer1 />
     </>
