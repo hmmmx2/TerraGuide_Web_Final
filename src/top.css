@@ -245,4 +245,41 @@ nav {
     transform: translateX(-50%);
   }
   .auth-buttons { margin-left: auto; }
+  
+  .navbar-collapse {
+    background-color: #4E6E4E; /* Darker green for better contrast */
+    padding: 1rem;
+    border-radius: 0 0 0.5rem 0.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    margin-top: 0.5rem;
+  }
+  
+  .navbar-nav .nav-item {
+    margin-bottom: 0.5rem;
+  }
+  
+  .navbar-nav .nav-link {
+    padding: 0.75rem 1rem;
+    border-radius: 0.25rem;
+    color: white !important; /* Ensure text is white for contrast */
+  }
+  
+  .navbar-nav .nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+  }
+  
+  /* Style for active nav items in mobile view */
+  .navbar-nav .nav-link.bg-white {
+    background-color: #5a8a5a !important; /* Lighter green for active items */
+    color: white !important;
+    font-weight: bold;
+  }
+  
+  /* Hamburger button styling */
+  .navbar-toggler {
+    background-color: #3a533a; /* Darker green background */
+    border: 1px solid white; /* White border for contrast */
+    padding: 0.5rem;
+    box-shadow: 0 0 5px rgba(0,0,0,0.2); /* Subtle shadow for depth */
+  }
 }

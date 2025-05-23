@@ -123,8 +123,8 @@ function Top() {
     <header>
       <nav className="navbar navbar-expand-lg navbar-dark shadow" style={{backgroundColor: '#4E6E4E', width: '100%'}}>
         <div className="container">
-          <Link to="/index" className="navbar-brand">
-            <img src={terraguideLogo} alt="TerraGuide Logo" height="60" />
+          <Link to="/index" className="navbar-brand d-flex align-items-center">
+            <img src={terraguideLogo} alt="TerraGuide Logo" className="img-fluid" style={{maxHeight: "60px", width: "auto"}} />
           </Link>
           
           <button 
@@ -137,7 +137,7 @@ function Top() {
             <span className="navbar-toggler-icon"></span>
           </button>
           
-          <div className={`collapse navbar-collapse ${navbarCollapsed ? '' : 'show'}`}>
+          <div className={`collapse navbar-collapse ${navbarCollapsed ? '' : 'show'} rounded-3`}>
             <ul className="navbar-nav justify-content-center w-100 mb-2 mb-lg-0">
               <li className="nav-item">
                 <Link 
@@ -189,7 +189,7 @@ function Top() {
               </li>
             </ul>
             
-            <div className="d-flex align-items-center">
+            <div className="container d-flex justify-content-between align-items-center">
               {userLoggedIn ? (
                 <div className="position-relative" ref={dropdownRef}>
                   <div className="d-flex align-items-center">

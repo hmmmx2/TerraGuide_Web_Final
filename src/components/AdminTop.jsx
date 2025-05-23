@@ -110,8 +110,8 @@ function AdminTop() {
     <header>
       <nav className="navbar navbar-expand-lg navbar-dark shadow" style={{backgroundColor: '#4E6E4E', width: '100%'}}>
         <div className="container">
-          <Link to="/dashboard" className="navbar-brand">
-            <img src={terraguideLogo} alt="TerraGuide Logo" height="60" />
+          <Link to="/dashboard" className="navbar-brand d-flex align-items-center">
+            <img src={terraguideLogo} alt="TerraGuide Logo" className="img-fluid" style={{maxHeight: "60px", width: "auto"}} />
           </Link>
           
           <button 
@@ -158,7 +158,7 @@ function AdminTop() {
               </li>
             </ul>
             
-            <div className="d-flex align-items-center">
+            <div className="container d-flex justify-content-between align-items-center">
               {userLoggedIn ? (
                 <div className="position-relative" ref={dropdownRef}>
                   <div className="d-flex align-items-center">
