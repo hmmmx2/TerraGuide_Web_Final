@@ -180,9 +180,9 @@ function AdminTop() {
                       </div>
                     </div>
                     
-                    <div className="me-3 text-white">
+                    <Link to="/notification" className="me-3 text-white" style={{ textDecoration: 'none' }}>
                       <i className="fas fa-bell"></i>
-                    </div>
+                    </Link>
                     
                     {/* Username display */}
                     <div className="me-3 text-white" style={{whiteSpace: 'nowrap', lineHeight: '1.2'}}>

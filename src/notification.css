@@ -1,0 +1,125 @@
+:root {
+  /* bumped up spacing & sizing for desktop */
+  --page-bg: #F2F8F7;
+  --header-bg: #E6F9EE;
+  --card-bg: #FFFFFF;
+  --icon-bg: #D6F0E5;
+  --text-primary: #2C3E3A;
+  --text-secondary: #6B7D7A;
+  --accent: #2E7D32;
+  --border-radius: 12px;
+  --spacing: 24px;
+  --font-family: sans-serif;
+  --panel-max-width: 800px;
+  --icon-size: 60px;
+  --title-font: 1.3rem;
+  --desc-font: 1rem;
+}
+
+/* wrapper to center on wider screens */
+.notification-wrapper--large {
+  background-color: var(--page-bg);
+  padding: var(--spacing);
+  display: flex;
+  justify-content: center;
+}
+
+/* panel */
+.notification-panel--large {
+  width: 100%;
+  max-width: var(--panel-max-width);
+}
+
+/* header */
+.notification-header--large {
+  position: sticky;
+  top: 0;
+  background: var(--header-bg);
+  padding: var(--spacing) 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.notification-header--large .back {
+  position: absolute;
+  left: var(--spacing);
+  color: var(--accent);
+  font-size: 1.5rem;
+  text-decoration: none;
+}
+.notification-header--large h2 {
+  color: var(--text-primary);
+  font-size: 1.5rem;
+}
+
+/* sections */
+.section--large {
+  margin-top: var(--spacing);
+}
+.section-header--large {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 var(--spacing);
+  margin-bottom: calc(var(--spacing) / 2);
+}
+.section-header--large .title {
+  font-weight: bold;
+  color: var(--text-primary);
+  font-size: var(--title-font);
+}
+
+/* the new button style */
+.mark-all-btn {
+  background: none;
+  border: none;
+  color: var(--accent);
+  font-size: 1rem;
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 0;
+}
+
+/* notification items */
+.notif-list--large {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.notif-item--large {
+  background: var(--card-bg);
+  border-radius: var(--border-radius);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  display: flex;
+  align-items: flex-start;
+  padding: var(--spacing);
+  margin: 0 var(--spacing) var(--spacing) var(--spacing);
+}
+.notif-icon--large {
+  flex-shrink: 0;
+  width: var(--icon-size);
+  height: var(--icon-size);
+  background: var(--icon-bg);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent);
+  font-size: 2rem; /* icon itself */
+  margin-right: var(--spacing);
+}
+.notif-content--large .title {
+  font-size: var(--title-font);
+  color: var(--text-primary);
+  margin-bottom: 8px;
+}
+.notif-content--large .desc {
+  font-size: var(--desc-font);
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+/* extra spacing between sections */
+.section--large + .section--large {
+  margin-top: calc(var(--spacing) * 1.5);
+}
