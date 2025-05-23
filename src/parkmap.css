@@ -49,9 +49,9 @@
   width: 100%;
   max-width: 500px;
   padding: 8px 12px;
-  background: rgba(255,255,255,0.8); /* semi-transparent white */
+  background: rgba(255,255,255,0.8);
   border: 1px solid #aaa;
-  border-radius: 999px;             /* pill shape */
+  border-radius: 999px;
   box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
 
@@ -84,16 +84,14 @@
 /* Map wrapper (16:9, blue border) */
 .map-wrapper {
   position: relative;
-  width: 1000px;      /* map width */
-  height: 620px;      /* map height */
-  /* remove padding-bottom */
+  width: 1000px;
+  height: 620px;
   overflow: hidden;
   border: 3px solid #40a9ff;
   border-radius: 12px;
-  margin: 0 auto 30px; /* centers it horizontally */
+  margin: 0 auto 30px;
 }
 
-/* Map fills its container */
 .map-element {
   position: absolute;
   top: 0;
@@ -102,7 +100,7 @@
   height: 100%;
 }
 
-
+/* Popular spots grid */
 .P-container {
   max-width: 1000px; 
   margin: auto;
@@ -125,10 +123,11 @@
   gap: 20px;
   justify-content: center; 
   margin-top: 20px;
+  
 }
 
 .card {
-  background-color: #4E6B50; 
+  background-color: #4E6E4E !important;
   border-radius: 10px;
   padding: 15px;
   width: 300px;
@@ -179,7 +178,6 @@
   display: none;
 }
 
-
 .tgl-btn {
   cursor: pointer;
   color: #4d6b4a;
@@ -187,6 +185,7 @@
   font-size: 14px;
 }
 
+/* PDF map section */
 .pdf-map-container {
   padding: 20px;
   border-radius: 10px;
@@ -213,19 +212,19 @@
   font-size: 0.9rem;
   text-decoration: none;
   color: #3A4D39;
-  margin-left: auto; 
 }
 
+/* UPDATED: Enlarged map-box with fluid 16:9 ratio */
 .map-box {
-  background-color: #4E6B50; 
+  background-color: #4E6B50;
   border-radius: 10px;
-  width: 50%; 
-  max-width: 500px; 
-  height: 300px; 
+  width: 80%;                /* fill 80% of PDF section */
+  max-width: 1000px;         /* cap width */
+  aspect-ratio: 16 / 9;      /* auto height */
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 20px auto; 
+  margin: 20px auto;
   border: 2px solid #22543D;
 }
 
@@ -236,146 +235,143 @@
   object-fit: cover; 
 }
 
-/* container to hold the Back link, left-aligned */
+/* Back button */
 .back-button-container {
   width: 100%;
   max-width: 1200px;
-  margin: 20px auto 0;       /* 20px top, auto left/right, 0 bottom */
+  margin: 20px auto 0;
   display: flex;
-  justify-content: flex-start;  /* push it to the left */
+  justify-content: flex-start;
 }
 
-/* the pill-shaped Back button */
 .back-button {
   padding: 8px 24px;
   font-size: 1rem;
   font-weight: bold;
-  color: #2f314a;              /* dark green text */
+  color: #2f314a;
   text-decoration: none;
   background: transparent;
-  border: 2px solid #2f314a;   /* match the text color */
-  border-radius: 999px;         /* full pill shape */
+  border: 2px solid #2f314a;
+  border-radius: 999px;
   transition: background 0.2s, color 0.2s;
 }
 
-/* hover effect */
 .back-button:hover {
   background: #2f314a;
-  color: #ffffff;
+  color: #fff;
 }
 
-/* ————————————————————————————————
-   Tablet (large phones / small tablets)
-   ———————————————————————————————— */
-   @media (max-width: 1024px) {
-    .semenggoh-park-map-section {
-      padding: 40px 16px;
-    }
-    .semenggoh-title {
-      font-size: 1.75rem;
-    }
-    .semenggoh-title::before {
-      width: 200px;
-    }
-    .search-box {
-      max-width: 400px;
-      padding: 6px 10px;
-    }
-    .map-search-box {
-      font-size: 0.9rem;
-    }
-    .map-wrapper {
-      max-width: 100%;
-      height: auto;
-      aspect-ratio: 16 / 9;
-      margin-bottom: 24px;
-    }
-    .P-container {
-      max-width: 100%;
-      padding: 0 16px;
-    }
-    .pm-grid {
-      grid-template-columns: repeat(2, 1fr);
-      gap: 16px;
-    }
-    .card {
-      width: auto;
-      height: auto;
-      padding: 12px;
-    }
-    .pdf-map-container {
-      width: 100%;
-      padding: 16px;
-    }
-    .map-box {
-      max-width: 100%;
-      height: auto;
-    }
-    .back-button {
-      padding: 6px 20px;
-      font-size: 0.9rem;
-    }
+/* — Tablet (large phones / small tablets) — */
+@media (max-width: 1024px) {
+  .semenggoh-park-map-section {
+    padding: 40px 16px;
   }
-  
-  /* ————————————————————————————————
-     Mobile phones
-     ———————————————————————————————— */
-  @media (max-width: 768px) {
-    .semenggoh-park-map-section {
-      padding: 24px 12px;
-    }
-    .semenggoh-title {
-      font-size: 1.5rem;
-    }
-    .semenggoh-title::before {
-      width: 120px;
-    }
-    .search-box {
-      max-width: 100%;
-      width: 100%;
-      padding: 6px 8px;
-    }
-    .map-search-box {
-      font-size: 0.85rem;
-    }
-    .map-wrapper {
-      width: 100%;
-      padding-bottom: 56.25%;
-      border-width: 2px;
-      margin-bottom: 20px;
-    }
-    .P-container h3 {
-      font-size: 1.1rem;
-    }
-    .pm-grid {
-      grid-template-columns: 1fr;
-      gap: 12px;
-    }
-    .card {
-      padding: 10px;
-    }
-    .card-image,
-    .image-container {
-      width: 80px;
-      height: 80px;
-    }
-    .card-title {
-      font-size: 1rem;
-      margin-top: 12px;
-    }
-    .card-description {
-      font-size: 0.85rem;
-    }
-    .pdf-map-container {
-      margin: 16px auto;
-      padding: 12px;
-    }
-    .map-image {
-      border-radius: 6px;
-    }
-    .back-button {
-      padding: 6px 16px;
-      font-size: 0.85rem;
-    }
+  .semenggoh-title {
+    font-size: 1.75rem;
   }
-  
+  .semenggoh-title::before {
+    width: 200px;
+  }
+  .search-box {
+    max-width: 400px;
+    padding: 6px 10px;
+  }
+  .map-search-box {
+    font-size: 0.9rem;
+  }
+  .map-wrapper {
+    max-width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    margin-bottom: 24px;
+  }
+  .P-container {
+    max-width: 100%;
+    padding: 0 16px;
+  }
+  .pm-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+  .card {
+    width: auto;
+    height: auto;
+    padding: 12px;
+  }
+  .pdf-map-container {
+    width: 100%;
+    padding: 16px;
+  }
+  .map-box {
+    max-width: 100%;
+    aspect-ratio: 16 / 9;
+  }
+  .back-button {
+    padding: 6px 20px;
+    font-size: 0.9rem;
+  }
+}
+
+/* — Mobile phones — */
+@media (max-width: 768px) {
+  .semenggoh-park-map-section {
+    padding: 24px 12px;
+  }
+  .semenggoh-title {
+    font-size: 1.5rem;
+  }
+  .semenggoh-title::before {
+    width: 120px;
+  }
+  .search-box {
+    max-width: 100%;
+    width: 100%;
+    padding: 6px 8px;
+  }
+  .map-search-box {
+    font-size: 0.85rem;
+  }
+  .map-wrapper {
+    width: 100%;
+    padding-bottom: 56.25%;
+    border-width: 2px;
+    margin-bottom: 20px;
+  }
+  .P-container h3 {
+    font-size: 1.1rem;
+  }
+  .pm-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .card {
+    padding: 10px;
+  }
+  .card-image,
+  .image-container {
+    width: 80px;
+    height: 80px;
+  }
+  .card-title {
+    font-size: 1rem;
+    margin-top: 12px;
+  }
+  .card-description {
+    font-size: 0.85rem;
+  }
+  .pdf-map-container {
+    margin: 16px auto;
+    padding: 12px;
+  }
+  .map-box {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+  }
+  .map-image {
+    border-radius: 6px;
+  }
+  .back-button {
+    padding: 6px 16px;
+    font-size: 0.85rem;
+  }
+}

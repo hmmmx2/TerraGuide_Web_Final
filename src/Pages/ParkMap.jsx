@@ -5,10 +5,12 @@ import Footer1 from "../components/Footer1";
 import "../parkmap.css";
 import { Link } from 'react-router-dom';
 // ← make sure these paths & extensions match your files!
-import cherryImg from "../assets/cherry.jpeg";
-import forestImg from "../assets/forest.jpeg";
-import lakeImg   from "../assets/lake.jpg";
-
+import Blogs2Image from "../assets/smg2.png"
+import OrchidImg from "../assets/Orchid.jpg";
+import DurianImg   from "../assets/Durian.jpeg";
+// PDF map and cover image
+import pdfMap   from "../assets/semenggoh-map.pdf";
+import mapCover from "../assets/semenggoh-map.jpg";
 export default function ParkMap() {
   const mapRef = useRef(null);
   const [searchText, setSearchText] = useState("");
@@ -73,40 +75,21 @@ export default function ParkMap() {
   // 👇 Define your spots array explicitly:
   const spots = [
     {
-      title: "Cherry Garden",
-      description: "Famous for its spring blossoms",
-      img: cherryImg,
+      title: "Orang Utan Feeding Platform",
+      description: "Come witness rescued orangutans up close in their natural habitat. ",
+      img: Blogs2Image,
     },
     {
-      title: "Enchanted Forest",
-      description: "Famous place to play Dead by Daylight",
-      img: forestImg,
+      title: "Wild Orchids Garden",
+      description: "Stroll through a vibrant display of native orchids, featuring delicate blooms in every shade. .",
+      img: OrchidImg,
     },
     {
-      title: "Emerald Lake",
-      description: "Famous for fishing",
-      img: lakeImg,
+      title: "Wild Fruits Garden",
+      description: "Wander among tropical fruit trees bearing durian, rambutan, and langsat.",
+      img: DurianImg ,
     },
-    {
-      title: "Emerald Lake",
-      description: "Famous for fishing",
-      img: lakeImg,
-    },
-    {
-      title: "Emerald Lake",
-      description: "Famous for fishing",
-      img: lakeImg,
-    },
-    {
-      title: "Emerald Lake",
-      description: "Famous for fishing",
-      img: lakeImg,
-    },
-    {
-      title: "Emerald Lake",
-      description: "Famous for fishing",
-      img: lakeImg,
-    },
+   
     // add more spot objects here as needed
   ];
 
@@ -179,19 +162,19 @@ export default function ParkMap() {
           <div className="map-header">
             <h3 className="pdf-map-title">View Tourist Map</h3>
             <a
-              href="/path/to/your-map.pdf"
-              className="view-pdf"
+              href={pdfMap}                   
               target="_blank"
               rel="noopener noreferrer"
+              className="view-pdf"
             >
               View in PDF
             </a>
           </div>
           <div className="map-box">
             <img
-              src="/path/to/your-map-image.jpg"
-              alt="Tourist Map"
-              className="map-image"
+               src={mapCover}                
+                alt="Tourist Map Cover"
+                className="map-image"
             />
           </div>
         </div>
