@@ -34,6 +34,7 @@ import Database from './Pages/Database';
 import AdAiPage from './Pages/AdAiPage';
 import CourseManagement from './Pages/CourseM';
 import Notification from './Pages/Notification';
+import SettingsPage from './Pages/SettingsPage';
 import React, { useEffect, useState } from 'react';
 import { supabase } from './supabase/supabase';
 import AlertsPage from "./Pages/AlertsPage";
@@ -156,6 +157,7 @@ function App() {
               <Route path="/license" element={<License />} />
               <Route path="/course" element={<CourseManagement />} />
               <Route path="/notification" element={<Notification />} />
+              <Route path="/settings" element={<SettingsPage />} />
               {/* Add other user management routes as needed */}
             </Route>
               {/* Admin/Controller only routes */}

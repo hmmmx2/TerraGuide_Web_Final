@@ -1,0 +1,117 @@
+:root {
+  --page-bg: #F2F8F7;
+  --header-bg: #E6F9EE;
+  --card-bg: #FFFFFF;
+  --text-primary: #2C3E3A;
+  --text-secondary: #6B7D7A;
+  --accent: #2E7D32;
+  --border-radius: 8px;
+  --spacing: 16px;
+  --panel-max-width: 600px;
+  --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Make body use the light page color */
+body {
+  margin: 0;
+  font-family: var(--font-family);
+  background: var(--page-bg);
+}
+
+/* Full-height flex container so footer hugs bottom */
+.settings-page-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Center the panel and give top + bottom padding */
+main.settings-wrapper {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  padding: 40px  var(--spacing) 150px;
+}
+
+/* The white card */
+.settings-panel {
+  width: 100%;
+  max-width: var(--panel-max-width);
+  background: var(--card-bg);
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Header bar */
+.settings-header {
+  display: flex;
+  align-items: center;
+  background: var(--header-bg);
+  padding: var(--spacing);
+}
+.settings-back {
+  color: var(--text-primary);
+  font-size: 1.25rem;
+  margin-right: var(--spacing);
+  text-decoration: none;
+}
+.settings-title {
+  display: flex;
+  align-items: center;
+  font-size: 1.25rem;
+  color: var(--text-primary);
+  margin: 0;
+}
+.settings-cog {
+  margin-right: 8px;
+  color: var(--accent);
+}
+
+/* Menu list */
+.settings-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.settings-item {
+  border-top: 1px solid #E0E0E0;
+}
+
+/* Links & buttons */
+.settings-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: calc(var(--spacing) * 0.75) var(--spacing);
+  width: 100%;
+  background: none;
+  border: none;
+  color: var(--text-primary);
+  text-decoration: none;
+  cursor: pointer;
+}
+.settings-link:hover {
+  background: #F9F9F9;
+}
+.logout-btn {
+  text-align: left;
+}
+
+/* Icon + text */
+.settings-item-left {
+  display: flex;
+  align-items: center;
+}
+.settings-item-icon {
+  font-size: 1.25rem;
+  color: var(--accent);
+  margin-right: 12px;
+}
+.settings-item-text {
+  font-size: 1rem;
+}
+.settings-item-arrow {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
