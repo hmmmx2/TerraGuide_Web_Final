@@ -36,7 +36,6 @@ import CourseManagement from './Pages/CourseM';
 import Notification from './Pages/Notification';
 import SettingsPage from './Pages/SettingsPage';
 import React, { useEffect, useState } from 'react';
-import { supabase } from './supabase/supabase';
 import AlertsPage from "./Pages/AlertsPage";
 import License from "./Pages/License.jsx";
 import { NotificationProvider } from './contexts/NotificationContext';
