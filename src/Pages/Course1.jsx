@@ -1,6 +1,6 @@
 import Top from '../components/Top'
 import Footer1 from '../components/Footer1';
-import "../course1.css";
+import "../styles.css";
 import { useState } from 'react';
 
 export default function Course1() {
@@ -12,7 +12,7 @@ export default function Course1() {
 
   const exam = {
     type: 'exam',
-    title: 'Exam: Park Guide Mastery', // This will be used at the top
+    title: 'Exam: Park Guide Mastery',
     duration: 3600, // 60 minutes in seconds
     course: 'Park Guide Mastery',
     questions: [
@@ -207,58 +207,53 @@ export default function Course1() {
     <>
       <Top />
       <div className="exam-container">
-        {/* These elements are always visible at the top, consistent with screenshot */}
         <h1 className="exam-title">{exam.title}</h1>
-        {/* Using exam-duration class for the period text */}
-        <p className="exam-duration">Period: {Math.floor(exam.duration / 60)} mins</p> 
+        <p className="exam-course">Course: {exam.course}</p>
+        <p className="exam-duration">Duration: {Math.floor(exam.duration / 60)} minutes</p>
 
         {!showResult ? (
-          <>
-            <div className="question-container">
-              <h2 className="question-text">
-                {exam.questions[currentQuestion].question}
-              </h2>
-              <div className="options-container">
-                {exam.questions[currentQuestion].options.map((option, index) => (
-                  <div
-                    key={index}
-                    className={`option ${selectedOption === option.value ? 'selected' : ''}`}
-                    onClick={() => handleOptionSelect(option.value)}
-                  >
-                    {option.label}
-                  </div>
-                ))}
-              </div>
-              <div className="navigation-buttons">
-                <button
-                  onClick={handlePreviousQuestion}
-                  disabled={currentQuestion === 0}
+          <div className="question-container">
+            <h2 className="question-text">
+              {exam.questions[currentQuestion].question}
+            </h2>
+            <div className="options-container">
+              {exam.questions[currentQuestion].options.map((option, index) => (
+                <div
+                  key={index}
+                  className={`option ${selectedOption === option.value ? 'selected' : ''}`}
+                  onClick={() => handleOptionSelect(option.value)}
                 >
-                  Previous
-                </button>
-                <button
-                  onClick={handleNextQuestion}
-                  disabled={!selectedOption}
-                >
-                  {currentQuestion === exam.questions.length - 1 ? 'Finish Exam' : 'Next'}
-                </button>
-              </div>
+                  {option.label}
+                </div>
+              ))}
+            </div>
+            <div className="navigation-buttons">
+              <button
+                onClick={handlePreviousQuestion}
+                disabled={currentQuestion === 0}
+              >
+                Previous
+              </button>
+              <button
+                onClick={handleNextQuestion}
+                disabled={!selectedOption}
+              >
+                {currentQuestion === exam.questions.length - 1 ? 'Finish Exam' : 'Next'}
+              </button>
             </div>
             <div className="progress">
-              Questions: {currentQuestion + 1}/{exam.questions.length}
+              Question {currentQuestion + 1} of {exam.questions.length}
             </div>
-          </>
+          </div>
         ) : (
-          <div className="result-container"> {/* This is the large green box */}
-            <p className="score-summary">
-              You have scored {score} out of {exam.questions.length} questions
-            </p>
-            <p className="percentage-label">Percentage</p>
-            <p className="final-percentage">
-              {Math.round((score / exam.questions.length) * 100)}%
+          <div className="result-container">
+            <h2>Exam Results</h2>
+            <p className="score">
+              You scored {score} out of {exam.questions.length} (
+              {Math.round((score / exam.questions.length) * 100)}%)
             </p>
             <button onClick={restartExam} className="restart-button">
-              Redo
+              Retake Exam
             </button>
           </div>
         )}
