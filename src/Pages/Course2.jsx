@@ -1,6 +1,6 @@
 import Top from '../components/Top'
 import Footer1 from '../components/Footer1';
-import "../styles.css";
+import "../course1.css";
 import { useState } from 'react';
 
 export default function Course1() {

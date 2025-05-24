@@ -1,0 +1,162 @@
+/*--------------------Course1------------------*/
+
+/* Exam styles */
+.exam-container {
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 20px;
+  font-family: sans-serif;
+  background-color: white;
+  border-radius: 10px;
+}
+
+.exam-title {
+  color: #333;
+  text-align: left;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.exam-duration {
+  display: inline-block;
+  padding: 5px 15px;
+  background-color: #e0e0b8;
+  border-radius: 20px;
+  color: #333;
+  margin-bottom: 30px;
+  text-decoration: none;
+  font-size: 0.9em;
+  position: relative;
+}
+
+.exam-duration::after {
+  content: "";
+  position: absolute;
+  bottom: -5px;
+  left: -5px; /* Extends left */
+  right: -640px; /* Extends right */
+  height: 1px;
+  background-color: #777;
+}
+
+.question-container {
+  background-color: #587e5f;
+  border-radius: 15px;
+  padding: 30px;
+  margin-bottom: 20px;
+}
+
+.question-text {
+  color: white;
+  margin-bottom: 25px;
+  font-size: 1.1em;
+}
+
+.options-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.option {
+  padding: 15px 20px;
+  background-color: white;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  color: #080808;
+}
+
+.option:hover {
+  background-color: #e0e0b8;
+}
+
+.option.selected {
+  background-color: #E6ECD6;
+  color: #333;
+}
+
+.navigation-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
+}
+
+.navigation-buttons button {
+  padding: 12px 25px;
+  background-color: #f5f5dc;
+  color: #333;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-size: 1em;
+}
+
+.navigation-buttons button:hover {
+  background-color: #e0e0b8;
+}
+
+.navigation-buttons button:disabled {
+  background-color: #ddd;
+  color: #777;
+  cursor: not-allowed;
+}
+
+.progress {
+  text-align: left;
+  margin-top: 20px;
+  color: #333; /* Changed from #777 to make it more visible */
+  font-size: 0.9em;
+  background-color: transparent; /* Ensure no background */
+  padding: 0; /* Remove any padding */
+}
+
+/* --- Result Screen Styles --- */
+.result-container {
+  text-align: center;
+  padding: 40px;
+  background-color: #587e5f;
+  border-radius: 15px;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.result-container .score-summary {
+  font-size: 1.2em;
+  margin-bottom: 20px;
+  color: white;
+}
+
+.result-container .percentage-label {
+  font-size: 1.5em;
+  font-weight: bold;
+  margin-top: 30px;
+  margin-bottom: 10px;
+  color: white;
+}
+
+.result-container .final-percentage {
+  font-size: 5em;
+  font-weight: bold;
+  color: white;
+  margin-bottom: 40px;
+}
+
+.restart-button {
+  padding: 15px 40px;
+  background-color: #718f57;
+  color: white;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-size: 1.1em;
+}
+
+.restart-button:hover {
+  background-color: #73a745;
+}
