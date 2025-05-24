@@ -41,7 +41,7 @@
 
 .question-container {
   background-color: #587e5f;
-  border-radius: 15px;
+  border-radius: 20px;
   padding: 30px;
   margin-bottom: 20px;
 }
@@ -61,7 +61,7 @@
 .option {
   padding: 15px 20px;
   background-color: white;
-  border-radius: 10px;
+  border-radius: 20px;
   cursor: pointer;
   transition: background-color 0.3s ease;
   color: #080808;
