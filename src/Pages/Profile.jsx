@@ -31,93 +31,121 @@ export default function Profile() {
   });
 
   // Fetch user profile data
-  useEffect(() => {
-    async function fetchProfile() {
-      if (!currentUser) return;
-      
-      try {
-        setLoading(true);
-        
-        // Fetch park guide data
-        const { data: parkGuideData, error: parkGuideError } = await supabase
-          .from('park_guides')
-          .select('*')
-          .eq('supabase_uid', currentUser.id)
-          .single();
-        
-        if (parkGuideError && parkGuideError.code !== 'PGRST116') {
-          console.error('Error fetching park guide data:', parkGuideError);
-          return;
-        }
-        
-        if (parkGuideData) {
-          // Parse working hours (format: "9:00 AM - 5:00 PM")
-          let workingHours = parkGuideData.working_hours || "9:00 AM - 5:00 PM";
-          let [startTime, endTime] = workingHours.split(' - ');
-          let [startHour, startPeriod] = startTime.split(' ');
-          let [endHour, endPeriod] = endTime.split(' ');
-          
-          // Parse working days from designation if available
-          const workingDaysObj = {
-            Mon: false,
-            Tue: false,
-            Wed: false,
-            Thu: false,
-            Fri: false
-          };
-          
-          if (parkGuideData.designation) {
-            const days = parkGuideData.designation.split(',');
-            days.forEach(day => {
-              const trimmedDay = day.trim();
-              if (workingDaysObj.hasOwnProperty(trimmedDay)) {
-                workingDaysObj[trimmedDay] = true;
-              }
-            });
-          }
-          
-          // Update profile state
-          setProfile({
-            firstName: currentUser.user_metadata?.first_name || "",
-            lastName: currentUser.user_metadata?.last_name || "",
-            bio: parkGuideData.bio || "",
-            parkArea: parkGuideData.park_area || "Park 1",
-            workingDays: workingDaysObj,
-            startTime: startHour,
-            startPeriod: startPeriod,
-            endTime: endHour,
-            endPeriod: endPeriod
-          });
-          
-          // Fetch avatar
-          await fetchAvatar(parkGuideData.user_id);
-        } else {
-          // Set default values from user metadata if available
-          setProfile(prev => ({
-            ...prev,
-            firstName: currentUser.user_metadata?.first_name || "",
-            lastName: currentUser.user_metadata?.last_name || ""
-          }));
-        }
-      } catch (error) {
-        console.error('Error fetching profile:', error);
-      } finally {
-        setLoading(false);
-      }
-    }
+  const fetchProfile = async () => {
+    if (!currentUser) return;
     
+    try {
+      setLoading(true);
+      
+      // Fetch park guide data
+      const { data: parkGuideData, error: parkGuideError } = await supabase
+        .from('park_guides')
+        .select('*')
+        .eq('supabase_uid', currentUser.id)
+        .single();
+      
+      if (parkGuideError && parkGuideError.code !== 'PGRST116') {
+        console.error('Error fetching park guide data:', parkGuideError);
+        return;
+      }
+      
+      if (parkGuideData) {
+        // Parse working hours (format: "9:00 AM - 5:00 PM")
+        let workingHours = parkGuideData.working_hours || "9:00 AM - 5:00 PM";
+        let startTime = "09:00";
+        let endTime = "05:00";
+        let startHour = "09:00";
+        let startPeriod = "AM";
+        let endHour = "05:00";
+        let endPeriod = "PM";
+        
+        try {
+          const parts = workingHours.split(' - ');
+          if (parts.length === 2) {
+            [startTime, endTime] = parts;
+            
+            const startParts = startTime.split(' ');
+            if (startParts.length === 2) {
+              [startHour, startPeriod] = startParts;
+            }
+            
+            const endParts = endTime.split(' ');
+            if (endParts.length === 2) {
+              [endHour, endPeriod] = endParts;
+            }
+          }
+        } catch (error) {
+          console.error('Error parsing working hours:', error);
+          // Use default values already set above
+        }
+        
+        // Parse working days from working_days if available
+        const workingDaysObj = {
+          Mon: false,
+          Tue: false,
+          Wed: false,
+          Thu: false,
+          Fri: false
+        };
+        
+        if (parkGuideData.working_days) {
+          const days = parkGuideData.working_days.split(',');
+          days.forEach(day => {
+            const trimmedDay = day.trim();
+            if (workingDaysObj.hasOwnProperty(trimmedDay)) {
+              workingDaysObj[trimmedDay] = true;
+            }
+          });
+        }
+        // Update profile state
+        setProfile({
+          firstName: currentUser.user_metadata?.first_name || "",
+          lastName: currentUser.user_metadata?.last_name || "",
+          bio: parkGuideData.bio || "",
+          parkArea: parkGuideData.park_area || "Park 1",
+          workingDays: workingDaysObj,
+          startTime: startHour,
+          startPeriod: startPeriod,
+          endTime: endHour,
+          endPeriod: endPeriod
+        });
+        
+        // Check if avatar_url exists in the database first
+        if (parkGuideData.avatar_url) {
+          // Add cache-busting query parameter
+          setAvatarUrl(`${parkGuideData.avatar_url}?t=${new Date().getTime()}`);
+        } else {
+          // Fallback to fetching from storage if no avatar_url is stored
+          await fetchAvatar(currentUser.id);
+        }
+      } else {
+        // Set default values from user metadata if available
+        setProfile(prev => ({
+          ...prev,
+          firstName: currentUser.user_metadata?.first_name || "",
+          lastName: currentUser.user_metadata?.last_name || ""
+        }));
+      }
+    } catch (error) {
+      console.error('Error fetching profile:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
     fetchProfile();
   }, [currentUser]);
   
-  // Fetch avatar from Supabase storage
-  async function fetchAvatar(userId) {
+  // Fetch avatar from Supabase storage - modified to use parkguides folder
+  async function fetchAvatar(supabaseUid) {
     try {
-      if (!userId) return;
+      if (!supabaseUid) return;
       
       const { data, error } = await supabase
         .storage
-        .from('avatar_images')
-        .list(userId);
+        .from('avatar-images')
+        .list(`parkguides/${supabaseUid}`);
       
       if (error) {
         console.error('Error fetching avatar:', error);
@@ -133,11 +161,12 @@ export default function Profile() {
         // Get public URL
         const { data: urlData } = await supabase
           .storage
-          .from('avatar_images')
-          .getPublicUrl(`${userId}/${avatarFile.name}`);
+          .from('avatar-images')
+          .getPublicUrl(`parkguides/${supabaseUid}/${avatarFile.name}`);
           
         if (urlData) {
-          setAvatarUrl(urlData.publicUrl);
+          // Add cache-busting query parameter
+          setAvatarUrl(`${urlData.publicUrl}?t=${new Date().getTime()}`);
         }
       }
     } catch (error) {
@@ -145,46 +174,158 @@ export default function Profile() {
     }
   }
 
-  // Handle profile picture change - modified to use parkguides folder
-  const handlePictureChange = async (e) => {
+  // Handle profile picture change
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [previewUrl, setPreviewUrl] = useState(null);
+  
+  const handlePictureChange = (e) => {
     if (!e.target.files || e.target.files.length === 0) return;
     
+    const file = e.target.files[0];
+    setSelectedFile(file);
+    
+    // Create a local preview URL
+    const objectUrl = URL.createObjectURL(file);
+    setPreviewUrl(objectUrl);
+    
+    // Update the avatarUrl for preview only (not saved to database yet)
+    setAvatarUrl(objectUrl);
+  };
+  
+  // Handle form submission
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+  
+    if (!currentUser) {
+      alert("You must be logged in to save your profile.");
+      return;
+    }
+  
     try {
       setUploading(true);
-      const file = e.target.files[0];
-      const fileExt = file.name.split('.').pop();
-      const fileName = `${Math.random().toString(36).substring(2, 15)}.${fileExt}`;
-      const filePath = `parkguides/${currentUser.id}/${fileName}`;
-      
-      // Upload to Supabase storage
-      const { error: uploadError } = await supabase
-        .storage
-        .from('avatar_images')
-        .upload(filePath, file, {
-          upsert: true
-        });
-        
-      if (uploadError) {
-        throw uploadError;
+      let finalAvatarUrl = avatarUrl;
+  
+      // If there's a new file selected, upload it
+      if (selectedFile) {
+        const fileExt = selectedFile.name.split('.').pop();
+        const fileName = `${Math.random().toString(36).substring(2, 15)}.${fileExt}`;
+        const filePath = `parkguides/${currentUser.id}/${fileName}`;
+  
+        // Upload to Supabase storage
+        const { error: uploadError } = await supabase
+          .storage
+          .from('avatar-images')
+          .upload(filePath, selectedFile, {
+            upsert: true
+          });
+  
+        if (uploadError) {
+          console.error('Upload error details:', uploadError);
+          throw new Error(`Upload failed: ${uploadError.message || 'Unknown error'}`);
+        }
+  
+        // Get public URL
+        const { data: urlData, error: urlError } = await supabase
+          .storage
+          .from('avatar-images')
+          .getPublicUrl(filePath);
+  
+        if (urlError) {
+          console.error('URL retrieval error:', urlError);
+          throw new Error(`Failed to get image URL: ${urlError.message || 'Unknown error'}`);
+        }
+  
+        if (urlData) {
+          finalAvatarUrl = `${urlData.publicUrl}?t=${new Date().getTime()}`; // Add cache-busting
+          
+          // Clean up the local preview URL
+          if (previewUrl) {
+            URL.revokeObjectURL(previewUrl);
+            setPreviewUrl(null);
+          }
+  
+          // Reset the selected file
+          setSelectedFile(null);
+        } else {
+          throw new Error('Failed to get image URL: No data returned');
+        }
       }
-      
-      // Get public URL
-      const { data: urlData } = await supabase
-        .storage
-        .from('avatar_images')
-        .getPublicUrl(filePath);
-        
-      if (urlData) {
-        setAvatarUrl(urlData.publicUrl);
+  
+      // Format working hours
+      const workingHours = `${profile.startTime} ${profile.startPeriod} - ${profile.endTime} ${profile.endPeriod}`;
+  
+      // Format working days
+      const workingDays = Object.entries(profile.workingDays)
+        .filter(([_, isSelected]) => isSelected)
+        .map(([day]) => day)
+        .join(', ');
+  
+      // Fetch the user_id from the users table based on supabase_uid
+      const { data: userData, error: userError } = await supabase
+        .from('users')
+        .select('id')
+        .eq('supabase_uid', currentUser.id)
+        .single();
+  
+      if (userError || !userData) {
+        console.error('Error fetching user_id:', userError);
+        throw new Error('Could not find user in the users table.');
       }
+  
+      const validUserId = userData.id;
+  
+      // Update or insert park guide data
+      const { error } = await supabase
+        .from('park_guides')
+        .upsert({
+          user_id: validUserId,
+          supabase_uid: currentUser.id,
+          username: `${profile.firstName} ${profile.lastName}`,
+          bio: profile.bio,
+          park_area: profile.parkArea,
+          working_hours: workingHours,
+          working_days: workingDays,
+          avatar_url: finalAvatarUrl,
+          updated_at: new Date().toISOString()
+        }, { onConflict: 'supabase_uid' });
+  
+      if (error) {
+        console.error('Upsert error:', error);
+        throw error;
+      }
+  
+      // Update user metadata
+      await supabase.auth.updateUser({
+        data: {
+          first_name: profile.firstName,
+          last_name: profile.lastName
+        }
+      });
+  
+      // Update the avatarUrl state with the final URL
+      setAvatarUrl(finalAvatarUrl);
+  
+      // Refresh profile data to ensure the latest avatar_url is fetched
+      await fetchProfile();
+  
+      alert("Profile saved successfully!");
     } catch (error) {
-      console.error('Error uploading avatar:', error);
-      alert('Error uploading avatar. Please try again.');
+      console.error("Error saving profile:", error);
+      alert("Failed to save profile. Please try again.");
     } finally {
       setUploading(false);
     }
   };
 
+  useEffect(() => {
+    // Cleanup function to revoke object URLs when component unmounts
+    return () => {
+      if (previewUrl) {
+        URL.revokeObjectURL(previewUrl);
+      }
+    };
+  }, [previewUrl]);
+  
   // Handle form field changes
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -203,54 +344,6 @@ export default function Profile() {
         [day]: !prev.workingDays[day]
       }
     }));
-  };
-
-  // Handle form submission
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    
-    if (!currentUser) {
-      alert("You must be logged in to save your profile.");
-      return;
-    }
-    
-    try {
-      // Format working hours
-      const workingHours = `${profile.startTime} ${profile.startPeriod} - ${profile.endTime} ${profile.endPeriod}`;
-      
-      // Format working days
-      const workingDays = Object.entries(profile.workingDays)
-        .filter(([_, isSelected]) => isSelected)
-        .map(([day]) => day)
-        .join(', ');
-      
-      // Update or insert park guide data
-      const { error } = await supabase
-        .from('park_guides')
-        .upsert({
-          supabase_uid: currentUser.id,
-          username: `${profile.firstName} ${profile.lastName}`,
-          bio: profile.bio,
-          park_area: profile.parkArea,
-          working_hours: workingHours,
-          designation: workingDays
-        }, { onConflict: 'supabase_uid' });
-      
-      if (error) throw error;
-      
-      // Update user metadata
-      await supabase.auth.updateUser({
-        data: {
-          first_name: profile.firstName,
-          last_name: profile.lastName
-        }
-      });
-      
-      alert("Profile saved successfully!");
-    } catch (error) {
-      console.error("Error saving profile:", error);
-      alert("Failed to save profile. Please try again.");
-    }
   };
 
   // Terra-Guide theme color
@@ -524,4 +617,3 @@ export default function Profile() {
     </>
   );
 }
-  

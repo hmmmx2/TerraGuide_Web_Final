@@ -6,7 +6,7 @@ import terraguideLogo from '../assets/TerraGuide_Logo.png';
 import user_sample from '../assets/sample.png';
 import guest_avatar from '../assets/guest_user.jpeg';
 import { doSignOut } from '../supabase/auth.js';
-import { supabase } from '../supabase/supabase'; // Add this import
+import { supabase } from '../supabase/supabase';
 
 function Top() {
   const { currentUser, userLoggedIn, isGuestMode, exitGuestMode } = useAuth();
@@ -16,58 +16,137 @@ function Top() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [isActive, setIsActive] = useState(false);
   const [navbarCollapsed, setNavbarCollapsed] = useState(true);
-  const [username, setUsername] = useState(null); // Change to null instead of empty string
+  const [username, setUsername] = useState(null);
+  const [avatarUrl, setAvatarUrl] = useState(null);
   const searchRef = useRef(null);
   const dropdownRef = useRef(null);
 
-  // Fetch username when currentUser changes
+  // Fetch username and avatar when currentUser changes
   useEffect(() => {
     let isMounted = true;
-    
-    const fetchUsername = async () => {
-      if (currentUser && currentUser.id) {
+
+    const fetchUserData = async () => {
+      if (currentUser && currentUser.id && !isGuestMode) {
         try {
-          // Check if we have username in sessionStorage first
           const cachedUsername = sessionStorage.getItem('terraGuideUsername');
           if (cachedUsername) {
             setUsername(cachedUsername);
           }
-          
-          // Still fetch from database to ensure we have the latest
-          const { data, error } = await supabase
-            .from('users')
-            .select('username')
+
+          const cachedAvatar = sessionStorage.getItem('terraGuideAvatar');
+          if (cachedAvatar) {
+            setAvatarUrl(cachedAvatar);
+          }
+
+          const { data: parkGuideData, error: parkGuideError } = await supabase
+            .from('park_guides')
+            .select('username, avatar_url')
             .eq('supabase_uid', currentUser.id)
             .single();
-          
+
           if (isMounted) {
-            if (data && data.username) {
-              setUsername(data.username);
-              // Cache the username in sessionStorage
-              sessionStorage.setItem('terraGuideUsername', data.username);
-            } else if (currentUser.user_metadata?.first_name) {
-              // Fallback to first name from metadata if username not found
-              setUsername(currentUser.user_metadata.first_name);
-              // Cache the username in sessionStorage
-              sessionStorage.setItem('terraGuideUsername', currentUser.user_metadata.first_name);
+            if (parkGuideError && parkGuideError.code !== 'PGRST116') {
+              console.error('Error fetching park guide data:', parkGuideError);
+              return;
+            }
+
+            if (parkGuideData) {
+              if (parkGuideData.username) {
+                setUsername(parkGuideData.username);
+                sessionStorage.setItem('terraGuideUsername', parkGuideData.username);
+              } else if (currentUser.user_metadata?.first_name) {
+                setUsername(currentUser.user_metadata.first_name);
+                sessionStorage.setItem('terraGuideUsername', currentUser.user_metadata.first_name);
+              }
+
+              if (parkGuideData.avatar_url) {
+                const avatarWithCacheBust = `${parkGuideData.avatar_url}?t=${new Date().getTime()}`;
+                setAvatarUrl(avatarWithCacheBust);
+                sessionStorage.setItem('terraGuideAvatar', avatarWithCacheBust);
+              } else {
+                await fetchAvatarFromStorage(currentUser.id);
+              }
+            } else {
+              const { data: userData, error: userError } = await supabase
+                .from('users')
+                .select('username')
+                .eq('supabase_uid', currentUser.id)
+                .single();
+
+              if (userError) {
+                console.error('Error fetching username:', userError);
+              }
+
+              if (userData?.username) {
+                setUsername(userData.username);
+                sessionStorage.setItem('terraGuideUsername', userData.username);
+              } else if (currentUser.user_metadata?.first_name) {
+                setUsername(currentUser.user_metadata.first_name);
+                sessionStorage.setItem('terraGuideUsername', currentUser.user_metadata.first_name);
+              }
+
+              await fetchAvatarFromStorage(currentUser.id);
             }
           }
         } catch (error) {
-          console.error('Error fetching username:', error);
+          console.error('Error fetching user data:', error);
         }
       } else if (isGuestMode) {
         setUsername('Guest');
+        setAvatarUrl(guest_avatar);
+      } else {
+        setUsername(null);
+        setAvatarUrl(null);
       }
     };
-    
-    fetchUsername();
-    
-    // Cleanup function to prevent state updates if component unmounts
+
+    fetchUserData();
+
     return () => {
       isMounted = false;
     };
   }, [currentUser, isGuestMode]);
-  
+
+  // Function to fetch avatar from Supabase storage
+  const fetchAvatarFromStorage = async (supabaseUid) => {
+    try {
+      const { data, error } = await supabase
+        .storage
+        .from('avatar-images')
+        .list(`parkguides/${supabaseUid}`);
+
+      if (error) {
+        console.error('Error fetching avatar:', error);
+        setAvatarUrl(user_sample);
+        return;
+      }
+
+      if (data && data.length > 0) {
+        const avatarFile = data.sort((a, b) => 
+          new Date(b.created_at) - new Date(a.created_at)
+        )[0];
+
+        const { data: urlData } = await supabase
+          .storage
+          .from('avatar-images')
+          .getPublicUrl(`parkguides/${supabaseUid}/${avatarFile.name}`);
+
+        if (urlData?.publicUrl) {
+          const avatarWithCacheBust = `${urlData.publicUrl}?t=${new Date().getTime()}`;
+          setAvatarUrl(avatarWithCacheBust);
+          sessionStorage.setItem('terraGuideAvatar', avatarWithCacheBust);
+        } else {
+          setAvatarUrl(user_sample);
+        }
+      } else {
+        setAvatarUrl(user_sample);
+      }
+    } catch (error) {
+      console.error('Error fetching avatar from storage:', error);
+      setAvatarUrl(user_sample);
+    }
+  };
+
   // Close search when clicking outside
   useEffect(() => {
     function handleClickOutside(e) {
@@ -94,20 +173,18 @@ function Top() {
     if (!window.confirm('Are you sure you want to log out?')) return;
     try {
       await doSignOut();
-      
-      // Only navigate with logout message if we're not already on the login page
+      sessionStorage.removeItem('terraGuideUsername');
+      sessionStorage.removeItem('terraGuideAvatar');
       if (location.pathname !== '/') {
         navigate('/', { 
           state: { 
             message: 'Logout successful!', 
-            type: 'danger' // Using danger type for red color
+            type: 'danger'
           } 
         });
       } else {
-        // Just navigate to login without message if we're already there
         navigate('/');
       }
-      
       setDropdownOpen(false);
     } catch (err) {
       console.error('Logout error:', err);
@@ -115,7 +192,6 @@ function Top() {
     }
   };
 
-  // Check if current path is login or register
   const isLoginPage = location.pathname === '/';
   const isRegisterPage = location.pathname === '/signup';
 
@@ -221,8 +297,6 @@ function Top() {
                       </span>
                     )}
                     
-                    {/* Add username display */}
-                    {/* Username display with line break */}
                     <div className="me-3 text-white" style={{whiteSpace: 'nowrap', lineHeight: '1.2'}}>
                       <div>Welcome,</div>
                       <div>
@@ -238,13 +312,15 @@ function Top() {
                       onClick={() => setDropdownOpen(!dropdownOpen)} 
                       style={{cursor: 'pointer'}}
                     >
-                      <img 
-                        src={isGuestMode ? guest_avatar : user_sample} 
-                        alt="Profile" 
-                        className="rounded-circle" 
-                        width="40" 
-                        height="40" 
-                      />
+                      <div className="rounded-circle overflow-hidden" style={{width: '40px', height: '40px'}}>
+                        <img 
+                          src={avatarUrl || (isGuestMode ? guest_avatar : user_sample)} 
+                          alt="Profile" 
+                          className="w-100 h-100 rounded-circle" 
+                          style={{ objectFit: 'cover' }} 
+                          onError={(e) => { e.target.src = user_sample; }}
+                        />
+                      </div>
                     </div>
                   </div>
                   
