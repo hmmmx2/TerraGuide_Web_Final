@@ -362,7 +362,7 @@ function Top() {
                             onError={() => setAvatarUrl(null)}
                           />
                         ) : (
-                          <i className="fas fa-spinner fa-spin fa-2x text-white" />
+                          <i className="fas fa-user-circle fa-2x text-white" />
                         )}
                       </div>
                     </div>

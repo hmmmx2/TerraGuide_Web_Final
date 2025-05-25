@@ -16,7 +16,7 @@ export default function Profile() {
     firstName: "",
     lastName: "",
     bio: "",
-    parkArea: "Park 1",
+    parkArea: "Not assigned",
     workingDays: {
       Mon: false,
       Tue: false,
@@ -462,6 +462,7 @@ export default function Profile() {
                           value={profile.parkArea}
                           onChange={handleChange}
                         >
+                          <option value="">Not assigned</option>
                           <option value="Park 1">Park 1</option>
                           <option value="Park 2">Park 2</option>
                           <option value="Park 3">Park 3</option>
