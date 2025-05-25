@@ -40,6 +40,7 @@ import License from "./Pages/License.jsx";
 import { NotificationProvider } from './contexts/NotificationContext';
 import GlobalNotificationListener from './components/GlobalNotificationListener';
 import CourseMv2 from "./Pages/CourseMv2.jsx";
+import TimetableManagement from './Pages/TimetableManagement';
 
 // More efficient ProtectedRoute using Outlet
 function ProtectedRoutes() {
@@ -169,6 +170,7 @@ function App() {
               <Route path="/course" element={<CourseManagement />} />
               <Route path="/notification" element={<Notification />} />
               <Route path="/settings" element={<SettingsPage />} />
+              <Route path="/timetable-management" element={<TimetableManagement />} />
               {/* Add other user management routes as needed */}
             </Route>
 

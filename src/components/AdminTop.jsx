@@ -198,6 +198,11 @@ function AdminTop() {
                   Content
                 </Link>
               </li>
+              <li className="nav-item">
+                <Link to="/timetable-management" className={`nav-link text-center fs-5 ${location.pathname === '/timetable-management' ? 'bg-white text-success rounded-3' : 'text-white'}`}>
+                  Timetable
+                </Link>
+              </li>
             </ul>
             
             <div className="d-flex align-items-center">

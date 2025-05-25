@@ -1,9 +1,51 @@
 import React from "react";
 import Top from "../components/Top";
 import Footer1 from "../components/Footer1";
+import { useTimetableData } from "../data/timetableData";
 import "../styles.css";
 
-export default function Index() {
+export default function Timetable() {
+  // Use the timetable data hook
+  const { timetables, loading, error } = useTimetableData();
+  
+  // If loading or error, show appropriate message
+  if (loading) {
+    return (
+      <>
+        <Top />
+        <div className="timetable-page-container">
+          <div className="text-center" style={{padding: "50px 0"}}>
+            <div className="spinner-border text-success" role="status">
+              <span className="visually-hidden">Loading...</span>
+            </div>
+            <p className="mt-3">Loading timetable data...</p>
+          </div>
+        </div>
+        <Footer1 />
+      </>
+    );
+  }
+
+  if (error) {
+    return (
+      <>
+        <Top />
+        <div className="timetable-page-container">
+          <div className="alert alert-danger" role="alert">
+            Error loading timetable: {error}
+          </div>
+        </div>
+        <Footer1 />
+      </>
+    );
+  }
+  
+  // Group timetables into rows of 3
+  const rows = [];
+  for (let i = 0; i < timetables?.length || 0; i += 3) {
+    rows.push(timetables.slice(i, i + 3));
+  }
+
   return (
     <>
       <Top />
@@ -11,102 +53,28 @@ export default function Index() {
       <div className="timetable-page-container">
         <h1 className="timetable-page-title">Timetable</h1>
 
-        <div className="timetable-container">
-          <div className="timetable-box">
-            <div className="time-badge">9:00am</div>
-            <h3>Morning Briefing &amp; Preparation</h3>
-            <p>
-              Start your day with a comprehensive briefing about the park,
-              safety guidelines, and what to expect during your visit.
-            </p>
+        {rows.map((row, rowIndex) => (
+          <div
+            key={rowIndex}
+            className="timetable-container"
+            style={{ marginTop: rowIndex > 0 ? "40px" : 0, marginBottom: rowIndex === rows.length - 1 ? "60px" : 0 }}
+          >
+            {row.map((timetable) => (
+              <div key={timetable.id} className="timetable-box">
+                <div className="time-badge">{timetable.time}</div>
+                <h3>{timetable.title}</h3>
+                <p>{timetable.description}</p>
+              </div>
+            ))}
           </div>
-
-          <div className="timetable-box">
-            <div className="time-badge">10:30am</div>
-            <h3>Morning Guided Nature Walk</h3>
-            <p>
-              Explore the lush rainforest with our experienced guides who will
-              point out interesting flora and fauna along the way.
-            </p>
+        ))}
+        
+        {/* Show message if no timetable entries */}
+        {(!timetables || timetables.length === 0) && (
+          <div className="alert alert-info text-center my-5">
+            No timetable entries found. Please check back later.
           </div>
-
-          <div className="timetable-box">
-            <div className="time-badge">12:00pm</div>
-            <h3>Break &amp; Rest</h3>
-            <p>
-              Take some time to relax, have lunch, and recharge for the
-              afternoon activities. Enjoy the peaceful surroundings of the park.
-            </p>
-          </div>
-        </div>
-
-        <div
-          className="timetable-container"
-          style={{ marginTop: "40px" }}
-        >
-          <div className="timetable-box">
-            <div className="time-badge">2:00pm</div>
-            <h3>Orangutan Feeding Session</h3>
-            <p>
-              Witness the orangutans during their feeding time. Learn about
-              their diet, behavior, and conservation efforts to protect these
-              amazing primates.
-            </p>
-          </div>
-
-          <div className="timetable-box">
-            <div className="time-badge">3:30pm</div>
-            <h3>Conservation Talk</h3>
-            <p>
-              Join our conservation experts for an informative session about
-              the challenges facing Borneo’s wildlife and how we can help
-              protect them.
-            </p>
-          </div>
-
-          <div className="timetable-box">
-            <div className="time-badge">4:30pm</div>
-            <h3>Afternoon Nature Walk</h3>
-            <p>
-              Experience the rainforest as it transitions into evening.
-              Different wildlife becomes active during this time, offering new
-              sightings.
-            </p>
-          </div>
-        </div>
-
-        <div
-          className="timetable-container"
-          style={{ marginTop: "40px", marginBottom: "60px" }}
-        >
-          <div className="timetable-box">
-            <div className="time-badge">6:00pm</div>
-            <h3>Evening Briefing</h3>
-            <p>
-              Gather for a summary of the day’s activities and prepare for any
-              evening programs if you’re staying overnight at the park.
-            </p>
-          </div>
-
-          <div className="timetable-box">
-            <div className="time-badge">7:30pm</div>
-            <h3>Night Safari (Optional)</h3>
-            <p>
-              For overnight guests, join our guided night safari to spot
-              nocturnal creatures and experience the rainforest after dark.
-            </p>
-          </div>
-
-          <div className="timetable-box">
-            <div className="time-badge">9:00pm</div>
-            <h3>Stargazing Session</h3>
-            <p>
-              End your day by observing the stars from our viewing platform.
-              Learn about constellations and enjoy the peaceful night
-              atmosphere.
-            </p>
-          </div>
-        </div>
+        )}
       </div>
 
       <Footer1 />
