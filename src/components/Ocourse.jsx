@@ -1,11 +1,15 @@
 import React, { useState } from 'react'
-import Blogs1Image from '../assets/MasterParkGuide.png'
+import OC1Image from '../assets/onlineC1.png'
+import OC2Image from '../assets/onlineC2.png'
+import OC3Image from '../assets/onlineC3.png'
+import OC4Image from '../assets/onlineC4.png'
+import OC5Image from '../assets/MasterParkGuide.png'
 import '../cardoc.css'
 
 const COURSE_DATA = [
   {
     id: 1,
-    image: Blogs1Image,
+    image: OC1Image,
     title: 'Introduction to Park Guide',
     rating: '★ 4.8',
     count: '7,983 Students',
@@ -15,54 +19,45 @@ const COURSE_DATA = [
   },
   {
     id: 2,
-    image: Blogs1Image,
-    title: 'Introduction to Park Guide',
-    rating: '★ 4.8',
-    count: '7,983 Students',
-    instructor: 'Jason Lee',
+    image: OC2Image,
+    title: 'Nature Guide Fundamentals',
+    rating: '★ 4.7',
+    count: '7,761 Students',
+    instructor: 'Nur Natasha',
     category: 'Park Guide',
     badge: 'Free'
   },
   {
     id: 3,
-    image: Blogs1Image,
-    title: 'Introduction to Park Guide',
-    rating: '★ 4.8',
-    count: '7,983 Students',
+    image: OC3Image,
+    title: 'Eco-Guide Trainig: Field & ...',
+    rating: '★ 4.7',
+    count: '6,383 Students',
     instructor: 'Jason Lee',
     category: 'Park Guide',
     badge: 'Free'
   },
   {
     id: 4,
-    image: Blogs1Image,
-    title: 'Introduction to Park Guide',
-    rating: '★ 4.8',
-    count: '7,983 Students',
-    instructor: 'Jason Lee',
+    image: OC4Image,
+    title: 'Advanced Park Guiding',
+    rating: '★ 4.6',
+    count: '5,561 Students',
+    instructor: 'Melvin Wong',
     category: 'Park Guide',
     badge: 'Free'
   },
   {
     id: 5,
-    image: Blogs1Image,
-    title: 'Introduction to Park Guide',
-    rating: '★ 4.8',
-    count: '7,983 Students',
-    instructor: 'Jason Lee',
+    image: OC5Image,
+    title: 'Master Park Guide Certification',
+    rating: '★ 4.6',
+    count: '4,683 Students',
+    instructor: 'William Eng',
     category: 'Park Guide',
     badge: 'Free'
   },
-  {
-    id: 6,
-    image: Blogs1Image,
-    title: 'Introduction to Park Guide',
-    rating: '★ 4.8',
-    count: '7,983 Students',
-    instructor: 'Jason Lee',
-    category: 'Park Guide',
-    badge: 'Free'
-  }
+  
 ]
 
 export default function Ocourse() {

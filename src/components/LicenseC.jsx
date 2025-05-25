@@ -1,11 +1,11 @@
 import React from 'react'
-import SarawakLogo from '../assets/MasterParkGuide.png'  // ← swap in your real logo file
+import License from '../assets/License.png'  // ← swap in your real logo file
 import '../cardoc.css'
 
 const LICENSE_DATA = [
   {
     id: 1,
-    image: SarawakLogo,
+    image: License,
     title: 'License Park Guides',
     instructor: 'Organized by Sarawak Forestry',
     category: 'Exam Based',

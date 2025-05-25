@@ -4,8 +4,6 @@ import AdminTop from "../components/AdminTop";
 import Footer1 from "../components/Footer1";
 import ProgressSummary from "../components/ProgressSummary";
 import Ocourse from "../components/Ocourse";
-import Blogs1Image from "../assets/MasterParkGuide.png";
-import Blogs2Image from "../assets/Nature_Guide.png";
 import "../coursem.css";
 import LicenseC from "../components/LicenseC";
 import MentorP from "../components/MentorP";

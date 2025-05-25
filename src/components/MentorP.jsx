@@ -1,11 +1,12 @@
 import React from 'react'
-import Blogs1Image from '../assets/MasterParkGuide.png'
+import mp1 from '../assets/MP1.png'
+import mp2 from '../assets/MP2.png'
 import '../cardoc.css'
 
 const MENTOR_DATA = [
   {
     id: 1,
-    image: Blogs1Image,
+    image: mp1,
     title: 'Park Guide in Training',
     rating: '★ 4.8',
     count: '7,983 Students',
@@ -15,11 +16,11 @@ const MENTOR_DATA = [
   },
   {
     id: 2,
-    image: Blogs1Image,
-    title: 'Park Guide in Training',
-    rating: '★ 4.8',
-    count: '7,983 Students',
-    instructor: 'Melvin Wang',
+    image: mp2,
+    title: 'Explore & Lead: Park Guide..',
+    rating: '★ 4.6',
+    count: '5,561 Students',
+    instructor: 'Caleb Eng',
     category: 'Park Guide',
     badge: 'Free'
   }
