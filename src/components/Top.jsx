@@ -268,10 +268,10 @@ function Top() {
               {!isGuestMode && (
                 <li className="nav-item">
                   <Link 
-                    to="/identify" 
-                    className={`nav-link text-center fs-5 text-white ${location.pathname === '/identify' ? 'rounded-3' : ''}`}
+                    to="/aipage" 
+                    className={`nav-link text-center fs-5 text-white ${location.pathname === '/aipage' || location.pathname === '/identify' ? 'rounded-3' : ''}`}
                     style={{
-                      backgroundColor: location.pathname === '/identify' ? '#72986f' : '',
+                      backgroundColor: location.pathname === '/aipage' || location.pathname === '/identify' ? '#72986f' : '',
                       transition: 'all 0.3s'
                     }}
                   >
@@ -362,7 +362,7 @@ function Top() {
                             onError={() => setAvatarUrl(null)}
                           />
                         ) : (
-                          <i className="fas fa-user-circle fa-2x text-white" />
+                          <i className="fas fa-spinner fa-spin fa-2x text-white" />
                         )}
                       </div>
                     </div>

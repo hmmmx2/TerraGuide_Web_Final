@@ -163,7 +163,7 @@ function App() {
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/database" element={<Database />} />
               <Route path="/dashboard/manage-users/view" element={<ViewAccounts />} />
-              <Route path="/aipage" element={<AdAiPage />} />
+              {/* <Route path="/aipage" element={<AdAiPage />} /> */}
               <Route path="/alertspage" element={<AlertsPage />} />
               <Route path="/license" element={<License />} />
               <Route path="/course" element={<CourseManagement />} />
@@ -195,6 +195,7 @@ function App() {
             {/* Protected routes accessible only to non-guest authenticated users */}
             <Route element={<ProtectedNonGuestRoutes />}>
               <Route path="/mycourses" element={<MyCourses />} />
+              <Route path="/aipage" element={<AdAiPage />} />
               <Route path="/identify" element={<Identify />} />
             </Route>
 
