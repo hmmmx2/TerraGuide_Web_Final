@@ -1,0 +1,112 @@
+/* page background + centering */
+.course-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 0;
+  background-color: #e6ecd6;
+}
+
+/* progress card sizing */
+.progress-wrapper {
+  width: 90%;           /* take up to 90% of viewport */
+  max-width: 780px;     /* but never exceed 780px */
+  margin: 0 auto 48px;
+}
+
+/* container for “My Courses” */
+.c-container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* section heading */
+.c-container h3 {
+  width: 100%;
+  font-size: 1.5rem;
+  margin-bottom: 16px;
+  border-bottom: 2px solid #333;
+  padding-bottom: 4px;
+  color: #2f314a;
+}
+
+/* responsive 3-column (or auto-fit) grid */
+.course-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  justify-items: center;
+}
+
+/* reset link styles on cards */
+.course-card-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  width: 100%;
+}
+
+/* shared card styles */
+.course-card,
+.coming-soon-card {
+  background-color: #3a553a;
+  border-radius: 12px;
+  overflow: hidden;
+  width: 100%;
+  max-width: 320px;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+}
+
+/* images */
+.course-image-container {
+  width: 100%;
+  height: 180px;
+  overflow: hidden;
+}
+.course-card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* text content */
+.course-content {
+  padding: 16px;
+  flex-grow: 1;
+}
+.course-card-title {
+  font-size: 1.25rem;
+  margin: 0 0 8px;
+}
+.course-card-description {
+  font-size: 0.95rem;
+  line-height: 1.4;
+  margin: 0;
+}
+
+/* “Coming Soon” card variant */
+.coming-soon-card {
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 24px 16px;
+}
+.coming-soon-box {
+  background: rgba(255, 255, 255, 0.2);
+  padding: 12px 0;
+  width: 80%;
+  margin: 0 auto 16px;
+  font-weight: bold;
+  border-radius: 6px;
+}
+.coming-soon-title {
+  font-size: 1.25rem;
+  margin: 0 0 8px;
+}
+.coming-soon-text {
+  font-size: 0.95rem;
+  opacity: 0.8;
+}
