@@ -1,0 +1,71 @@
+/* Center this component in the page */
+.progress-summary {
+  /* size & centering */
+  max-width:  780px;
+  padding: 72px;
+  margin: auto;              /* horizontally center if parent is flex or block */
+  /* box style */
+  background-color: #4E6E4E; /* dark olive-green */
+  border: 3px solid black; 
+  border-radius: 28px;
+  /* text */
+  color: #fff;
+  font-family: sans-serif;
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+}
+
+/* header row */
+.ps-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 16px;   
+}
+.ps-title {
+  font-weight: 600;
+  font-size: 40px;   
+}
+.ps-perc {
+  font-weight: 700;
+  font-size: 70px;
+}
+
+/* body text */
+.ps-body {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.ps-course {
+  font-size: 25px;
+}
+.ps-course-link {
+  color: #fff;
+  text-decoration: underline;
+  font-weight: 600;
+}
+.ps-msg {
+  font-size: 22px;
+  opacity: 0.9;
+}
+
+/* pill-shaped button */
+.ps-btn {
+  align-self: flex-end;
+  margin-top: 20px;
+  padding: 15px 40px;
+  background: rgba(255,255,255,0.2);
+  border: none;
+  border-radius: 60px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff;
+  cursor: pointer;
+  text-transform: uppercase;
+}
+.ps-btn:hover {
+  background: rgba(255,255,255,0.3);
+}

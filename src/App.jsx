@@ -40,6 +40,7 @@ import AlertsPage from "./Pages/AlertsPage";
 import License from "./Pages/License.jsx";
 import { NotificationProvider } from './contexts/NotificationContext';
 import GlobalNotificationListener from './components/GlobalNotificationListener';
+import CourseMv2 from "./Pages/CourseMv2.jsx";
 
 // More efficient ProtectedRoute using Outlet
 function ProtectedRoutes() {
@@ -189,6 +190,7 @@ function App() {
                 <Route path="/blogs3" element={<Blogs3 />} />
                 <Route path="/identify" element={<Identify />} />
                 <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/testc" element={<CourseMv2 />} />
               </Route>
 
               {/* Catch-all route */}

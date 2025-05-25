@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Top from '../components/Top';
 import Footer1 from '../components/Footer1';
-import ExampleImage from "../assets/parkguide_example.jpg";
+import ExampleImage from "../assets/sample.png";
 import { useAuth } from '../contexts/authContext/supabaseAuthContext';
 import { supabase } from '../supabase/supabase';
 
