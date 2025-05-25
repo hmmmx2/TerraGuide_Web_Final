@@ -196,7 +196,7 @@ function App() {
 
             {/* Protected routes accessible only to non-guest authenticated users */}
             <Route element={<ProtectedNonGuestRoutes />}>
-              <Route path="/mycourses" element={<MyCourses />} />
+              <Route path="/mycourses" element={<CourseMv2 />} />
               <Route path="/aipage" element={<AdAiPage />} />
               <Route path="/identify" element={<Identify />} />
             </Route>

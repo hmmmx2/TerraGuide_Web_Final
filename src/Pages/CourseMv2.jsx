@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import AdminTop from "../components/AdminTop";
+import Top from "../components/Top";
 import Footer1 from "../components/Footer1";
 import ProgressSummary from "../components/ProgressSummary";
 import Ocourse from "../components/Ocourse";
@@ -16,8 +16,8 @@ export default function CourseMv2() {
 
   return (
     <>
-      <AdminTop />
-
+      <Top />
+      <div className="mt-3 mb-3 p-4">
       
         {/* Progress card */}
           <ProgressSummary
@@ -32,6 +32,8 @@ export default function CourseMv2() {
         <LicenseC/>
         
         <MentorP/>
+
+      </div>
       <Footer1/>
 
     </>
