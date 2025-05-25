@@ -3,7 +3,6 @@ import { useAuth } from '../contexts/authContext/supabaseAuthContext';
 import { useNavigate, Link, useLocation } from 'react-router-dom';
 import '../top.css';
 import terraguideLogo from '../assets/TerraGuide_Logo.png';
-import user_sample from '../assets/sample.png';
 import guest_avatar from '../assets/guest_user.jpeg';
 import { doSignOut } from '../supabase/auth.js';
 import { supabase } from '../supabase/supabase';
@@ -107,6 +106,19 @@ function Top() {
     };
   }, [currentUser, isGuestMode]);
 
+  // Show "Logged in as Guest" alert when guest mode is active
+  useEffect(() => {
+    if (isGuestMode && userLoggedIn) {
+      navigate(location.pathname, {
+        state: {
+          message: 'Logged in as Guest',
+          type: 'warning'
+        },
+        replace: true
+      });
+    }
+  }, [isGuestMode, userLoggedIn, navigate, location.pathname]);
+
   // Function to fetch avatar from Supabase storage
   const fetchAvatarFromStorage = async (supabaseUid) => {
     try {
@@ -117,7 +129,7 @@ function Top() {
 
       if (error) {
         console.error('Error fetching avatar:', error);
-        setAvatarUrl(user_sample);
+        setAvatarUrl(null); // Set to null to show spinner
         return;
       }
 
@@ -136,14 +148,14 @@ function Top() {
           setAvatarUrl(avatarWithCacheBust);
           sessionStorage.setItem('terraGuideAvatar', avatarWithCacheBust);
         } else {
-          setAvatarUrl(user_sample);
+          setAvatarUrl(null); // Set to null to show spinner
         }
       } else {
-        setAvatarUrl(user_sample);
+        setAvatarUrl(null); // Set to null to show spinner
       }
     } catch (error) {
       console.error('Error fetching avatar from storage:', error);
-      setAvatarUrl(user_sample);
+      setAvatarUrl(null); // Set to null to show spinner
     }
   };
 
@@ -218,7 +230,11 @@ function Top() {
               <li className="nav-item">
                 <Link 
                   to="/index" 
-                  className={`nav-link text-center fs-5 ${location.pathname === '/index' ? 'bg-white text-success rounded-3' : 'text-white'}`}
+                  className={`nav-link text-center fs-5 text-white ${location.pathname === '/index' ? 'rounded-3' : ''}`}
+                  style={{
+                    backgroundColor: location.pathname === '/index' ? '#72986f' : '',
+                    transition: 'all 0.3s'
+                  }}
                 >
                   Home
                 </Link>
@@ -226,31 +242,51 @@ function Top() {
               <li className="nav-item">
                 <Link 
                   to="/aboutus" 
-                  className={`nav-link text-center fs-5 ${location.pathname === '/aboutus' ? 'bg-white text-success rounded-3' : 'text-white'}`}
+                  className={`nav-link text-center fs-5 text-white ${location.pathname === '/aboutus' ? 'rounded-3' : ''}`}
+                  style={{
+                    backgroundColor: location.pathname === '/aboutus' ? '#72986f' : '',
+                    transition: 'all 0.3s'
+                  }}
                 >
                   About Us
                 </Link>
               </li>
-              <li className="nav-item">
-                <Link 
-                  to="/mycourses" 
-                  className={`nav-link text-center fs-5 ${location.pathname === '/mycourses' ? 'bg-white text-success rounded-3' : 'text-white'}`}
-                >
-                  My Courses
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link 
-                  to="/identify" 
-                  className={`nav-link text-center fs-5 ${location.pathname === '/identify' ? 'bg-white text-success rounded-3' : 'text-white'}`}
-                >
-                  Dext AI
-                </Link>
-              </li>
+              {!isGuestMode && (
+                <li className="nav-item">
+                  <Link 
+                    to="/mycourses" 
+                    className={`nav-link text-center fs-5 text-white ${location.pathname === '/mycourses' ? 'rounded-3' : ''}`}
+                    style={{
+                      backgroundColor: location.pathname === '/mycourses' ? '#72986f' : '',
+                      transition: 'all 0.3s'
+                    }}
+                  >
+                    My Courses
+                  </Link>
+                </li>
+              )}
+              {!isGuestMode && (
+                <li className="nav-item">
+                  <Link 
+                    to="/identify" 
+                    className={`nav-link text-center fs-5 text-white ${location.pathname === '/identify' ? 'rounded-3' : ''}`}
+                    style={{
+                      backgroundColor: location.pathname === '/identify' ? '#72986f' : '',
+                      transition: 'all 0.3s'
+                    }}
+                  >
+                    Dext AI
+                  </Link>
+                </li>
+              )}
               <li className="nav-item">
                 <Link 
                   to="/blogmenu" 
-                  className={`nav-link text-center fs-5 ${location.pathname === '/blogmenu' ? 'bg-white text-success rounded-3' : 'text-white'}`}
+                  className={`nav-link text-center fs-5 text-white ${location.pathname === '/blogmenu' ? 'rounded-3' : ''}`}
+                  style={{
+                    backgroundColor: location.pathname === '/blogmenu' ? '#72986f' : '',
+                    transition: 'all 0.3s'
+                  }}
                 >
                   Blogs
                 </Link>
@@ -258,7 +294,11 @@ function Top() {
               <li className="nav-item">
                 <Link 
                   to="/guide" 
-                  className={`nav-link text-center fs-5 ${location.pathname === '/guide' ? 'bg-white text-success rounded-3' : 'text-white'}`}
+                  className={`nav-link text-center fs-5 text-white ${location.pathname === '/guide' ? 'rounded-3' : ''}`}
+                  style={{
+                    backgroundColor: location.pathname === '/guide' ? '#72986f' : '',
+                    transition: 'all 0.3s'
+                  }}
                 >
                   Park Guide
                 </Link>
@@ -312,14 +352,18 @@ function Top() {
                       onClick={() => setDropdownOpen(!dropdownOpen)} 
                       style={{cursor: 'pointer'}}
                     >
-                      <div className="rounded-circle overflow-hidden" style={{width: '40px', height: '40px'}}>
-                        <img 
-                          src={avatarUrl || (isGuestMode ? guest_avatar : user_sample)} 
-                          alt="Profile" 
-                          className="w-100 h-100 rounded-circle" 
-                          style={{ objectFit: 'cover' }} 
-                          onError={(e) => { e.target.src = user_sample; }}
-                        />
+                      <div className="rounded-circle overflow-hidden" style={{width: '40px', height: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#4E6E4E'}}>
+                        {avatarUrl ? (
+                          <img 
+                            src={avatarUrl} 
+                            alt="Profile" 
+                            className="w-100 h-100 rounded-circle" 
+                            style={{ objectFit: 'cover' }} 
+                            onError={() => setAvatarUrl(null)}
+                          />
+                        ) : (
+                          <i className="fas fa-user-circle fa-2x text-white" />
+                        )}
                       </div>
                     </div>
                   </div>
@@ -355,18 +399,25 @@ function Top() {
                   )}
                 </div>
               ) : (
-                <div className="d-flex">
+                <div className="d-flex align-items-center">
                   <Link 
                     to="/signup" 
-                    className="btn btn-outline-light me-2"
-                    style={{ backgroundColor: isRegisterPage ? 'white' : 'transparent', color: isRegisterPage ? '#198754' : 'white' }}
+                    className={`btn px-4 py-2 text-white fs-5 text-nowrap rounded-3`}
+                    style={{
+                      backgroundColor: isRegisterPage ? '#72986f' : '',
+                      transition: 'all 0.3s'
+                    }}
                   >
                     Sign Up
                   </Link>
+                  <span className="text-white mx-2 fs-2">|</span>
                   <Link 
                     to="/" 
-                    className="btn btn-light"
-                    style={{ backgroundColor: isLoginPage ? 'white' : 'transparent', color: isLoginPage ? '#198754' : 'white' }}
+                    className={`btn px-4 py-2 text-white fs-5 text-nowrap rounded-3`}
+                    style={{
+                      backgroundColor: isLoginPage ? '#72986f' : '',
+                      transition: 'all 0.3s'
+                    }}
                   >
                     Log In
                   </Link>

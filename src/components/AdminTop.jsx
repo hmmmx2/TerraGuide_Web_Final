@@ -127,32 +127,74 @@ function AdminTop() {
           <div className={`collapse navbar-collapse ${navbarCollapsed ? '' : 'show'}`}>
             <ul className="navbar-nav justify-content-center w-100 mb-2 mb-lg-0">
               <li className="nav-item">
-                <Link to="/dashboard" className={`nav-link text-center fs-5 ${location.pathname === '/dashboard' ? 'bg-white text-success rounded-3' : 'text-white'}`}>
+                <Link 
+                  to="/dashboard" 
+                  className={`nav-link text-center fs-5 text-white ${location.pathname === '/dashboard' ? 'rounded-3' : ''}`}
+                  style={{
+                    backgroundColor: location.pathname === '/dashboard' ? '#72986f' : '',
+                    transition: 'all 0.3s'
+                  }}
+                >
                   Dashboard
                 </Link>
               </li>
               <li className="nav-item">
-                <Link to="/database" className={`nav-link text-center fs-5 ${location.pathname === '/database' ? 'bg-white text-success rounded-3' : 'text-white'}`}>
+                <Link 
+                  to="/database" 
+                  className={`nav-link text-center fs-5 text-white ${location.pathname === '/database' ? 'rounded-3' : ''}`}
+                  style={{
+                    backgroundColor: location.pathname === '/database' ? '#72986f' : '',
+                    transition: 'all 0.3s'
+                  }}
+                >
                   Database
                 </Link>
               </li>
               <li className="nav-item">
-                <Link to="/aipage" className={`nav-link text-center fs-5 ${location.pathname === '/aipage' || location.pathname === '/identify' ? 'bg-white text-success rounded-3' : 'text-white'}`}>
+                <Link 
+                  to="/aipage" 
+                  className={`nav-link text-center fs-5 text-white ${location.pathname === '/aipage' || location.pathname === '/identify' ? 'rounded-3' : ''}`}
+                  style={{
+                    backgroundColor: location.pathname === '/aipage' || location.pathname === '/identify' ? '#72986f' : '',
+                    transition: 'all 0.3s'
+                  }}
+                >
                   Dext AI
                 </Link>
               </li>
               <li className="nav-item">
-                <Link to="/dashboard/manage-users/view" className={`nav-link text-center fs-5 ${location.pathname === '/dashboard/manage-users/view' ? 'bg-white text-success rounded-3' : 'text-white'}`}>
+                <Link 
+                  to="/dashboard/manage-users/view" 
+                  className={`nav-link text-center fs-5 text-white ${location.pathname === '/dashboard/manage-users/view' ? 'rounded-3' : ''}`}
+                  style={{
+                    backgroundColor: location.pathname === '/dashboard/manage-users/view' ? '#72986f' : '',
+                    transition: 'all 0.3s'
+                  }}
+                >
                   User
                 </Link>
               </li>
               <li className="nav-item">
-                <Link to="/license" className={`nav-link text-center fs-5 ${location.pathname === '/dashboard/license' ? 'bg-white text-success rounded-3' : 'text-white'}`}>
+                <Link 
+                  to="/license" 
+                  className={`nav-link text-center fs-5 text-white ${location.pathname === '/license' ? 'rounded-3' : ''}`}
+                  style={{
+                    backgroundColor: location.pathname === '/license' ? '#72986f' : '',
+                    transition: 'all 0.3s'
+                  }}
+                >
                   License
                 </Link>
               </li>
               <li className="nav-item">
-                <Link to="/course" className={`nav-link text-center fs-5 ${location.pathname === '/dashboard/content' ? 'bg-white text-success rounded-3' : 'text-white'}`}>
+                <Link 
+                  to="/course" 
+                  className={`nav-link text-center fs-5 text-white ${location.pathname === '/course' ? 'rounded-3' : ''}`}
+                  style={{
+                    backgroundColor: location.pathname === '/course' ? '#72986f' : '',
+                    transition: 'all 0.3s'
+                  }}
+                >
                   Content
                 </Link>
               </li>

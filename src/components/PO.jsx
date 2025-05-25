@@ -1,4 +1,3 @@
-// src/components/PO.jsx
 import React from 'react';
 import {
   LineChart, Line, XAxis, YAxis,
@@ -17,19 +16,9 @@ const data = [
 
 export default function PO() {
   return (
-    <div
-      style={{
-        background: '#f0fdf4',
-        borderRadius: '16px',
-        padding: '24px',
-        boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
-        width: '100%',
-      }}
-    >
-      <h2 style={{ marginBottom: '16px', fontSize: '18px', fontWeight: 600 }}>
-        Performance Overview
-      </h2>
-      <div style={{ width: '100%', height: 300 }}>
+    <div className="d-flex bg-white p-4 w-100 h-100 rounded-4 shadow-sm">
+      <h2 className="mb-3 fs-5 fw-semibold">Performance Overview</h2>
+      <div style={{ height: 300 }} className="w-100">
         <ResponsiveContainer width="100%" height="100%">
           <LineChart data={data} margin={{ top: 10, right: 20, left: 0, bottom: 0 }}>
             <CartesianGrid strokeDasharray="3 3" />

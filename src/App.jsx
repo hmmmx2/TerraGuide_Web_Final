@@ -3,7 +3,6 @@ import { HashRouter as Router, Routes, Route, Navigate, Outlet } from "react-rou
 import { AuthProvider, useAuth } from "./contexts/authContext/supabaseAuthContext";
 // Import custom SCSS instead of Bootstrap CSS
 import './custom.scss';
-// Import Bootstrap JS (optional, only if you need interactive components)
 // Import Bootstrap CSS
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
@@ -16,7 +15,7 @@ import Test from "./Pages/Test";
 import Blogs from "./Pages/blogs";
 import Blogs2 from "./Pages/blogs2";
 import Template from "./Pages/Template";
-import Index from "./Pages/index";
+import Index from "./Pages/Index";
 import Profile from "./Pages/Profile";
 import Timetable from "./Pages/Timetable";
 import Guide from "./Pages/Guide";
@@ -52,6 +51,18 @@ function ProtectedRoutes() {
 
   // Check userLoggedIn which handles both regular users and guest mode
   return userLoggedIn ? <Outlet /> : <Navigate to="/" replace />;
+}
+
+// New ProtectedNonGuestRoutes to prevent guest users from accessing certain routes
+function ProtectedNonGuestRoutes() {
+  const { loading, userLoggedIn, isGuestMode } = useAuth();
+
+  if (loading) {
+    return <div>Loading...</div>; // Show loading state while checking auth
+  }
+
+  // Allow access only if user is logged in and not in guest mode
+  return userLoggedIn && !isGuestMode ? <Outlet /> : <Navigate to="/index" replace />;
 }
 
 // New AdminRoutes component for admin/controller only pages
@@ -136,16 +147,16 @@ function IndexRedirect() {
 
 function App() {
   return (
-      <AuthProvider>
-        <NotificationProvider>
-          <Router>
-            <GlobalNotificationListener />
-            <Routes>
-              {/* Public only routes (login/signup) */}
-              <Route element={<PublicOnlyRoutes />}>
-                <Route path="/" element={<Login />} />
-                <Route path="/signup" element={<Register />} />
-              </Route>
+    <AuthProvider>
+      <NotificationProvider>
+        <Router>
+          <GlobalNotificationListener />
+          <Routes>
+            {/* Public only routes (login/signup) */}
+            <Route element={<PublicOnlyRoutes />}>
+              <Route path="/" element={<Login />} />
+              <Route path="/signup" element={<Register />} />
+            </Route>
 
             {/* Admin/Controller only routes */}
             <Route element={<AdminRoutes />}>
@@ -160,46 +171,40 @@ function App() {
               <Route path="/settings" element={<SettingsPage />} />
               {/* Add other user management routes as needed */}
             </Route>
-              {/* Admin/Controller only routes */}
-              <Route element={<AdminRoutes />}>
-                <Route path="/dashboard" element={<Dashboard />} />
-                <Route path="/database" element={<Database />} />
-                <Route path="/dashboard/manage-users/view" element={<ViewAccounts />} />
-                <Route path="/aipage" element={<AdAiPage />} />
-                <Route path="/alertspage" element={<AlertsPage />} />
-                {/* Add other user management routes as needed */}
-              </Route>
 
-              {/* All protected routes in one group */}
-              <Route element={<ProtectedRoutes />}>
-                {/* Conditional redirect for admin users */}
-                <Route path="/index" element={<IndexRedirect />} />
-                <Route path="/blogmenu" element={<Blogmenu />} />
-                <Route path="/test" element={<Test />} />
-                <Route path="/blogs" element={<Blogs />} />
-                <Route path="/blogs2" element={<Blogs2 />} />
-                <Route path="/template" element={<Template />} />
-                <Route path="/profile" element={<Profile />} />
-                <Route path="/timetable" element={<Timetable />} />
-                <Route path="/guide" element={<Guide />} />
-                <Route path="/parkmap" element={<ParkMap />} />
-                <Route path="/aboutus" element={<Aboutus />} />
-                <Route path="/course1" element={<Course1 />} />
-                <Route path="/mycourses" element={<MyCourses />} />
-                <Route path="/course2" element={<Course2 />} />
-                <Route path="/blogs3" element={<Blogs3 />} />
-                <Route path="/identify" element={<Identify />} />
-                <Route path="/dashboard" element={<Dashboard />} />
-                <Route path="/testc" element={<CourseMv2 />} />
-              </Route>
+            {/* Protected routes accessible to all authenticated users (including guests) */}
+            <Route element={<ProtectedRoutes />}>
+              {/* Conditional redirect for admin users */}
+              <Route path="/index" element={<IndexRedirect />} />
+              <Route path="/blogmenu" element={<Blogmenu />} />
+              <Route path="/test" element={<Test />} />
+              <Route path="/blogs" element={<Blogs />} />
+              <Route path="/blogs2" element={<Blogs2 />} />
+              <Route path="/template" element={<Template />} />
+              <Route path="/profile" element={<Profile />} />
+              <Route path="/timetable" element={<Timetable />} />
+              <Route path="/guide" element={<Guide />} />
+              <Route path="/parkmap" element={<ParkMap />} />
+              <Route path="/aboutus" element={<Aboutus />} />
+              <Route path="/course1" element={<Course1 />} />
+              <Route path="/course2" element={<Course2 />} />
+              <Route path="/blogs3" element={<Blogs3 />} />
+              <Route path="/testc" element={<CourseMv2 />} />
+            </Route>
 
-              {/* Catch-all route */}
-              <Route path="*" element={<Navigate to="/" replace />} />
-            </Routes>
-            <SessionTimeoutManager timeoutDuration={180000} /> {/* 3 minute timeout */}
-          </Router>
-        </NotificationProvider>
-      </AuthProvider>
+            {/* Protected routes accessible only to non-guest authenticated users */}
+            <Route element={<ProtectedNonGuestRoutes />}>
+              <Route path="/mycourses" element={<MyCourses />} />
+              <Route path="/identify" element={<Identify />} />
+            </Route>
+
+            {/* Catch-all route */}
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+          <SessionTimeoutManager timeoutDuration={180000} /> {/* 3 minute timeout */}
+        </Router>
+      </NotificationProvider>
+    </AuthProvider>
   );
 }
 
