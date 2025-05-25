@@ -9,6 +9,7 @@ import ExampleImage from "../assets/parkguide_example.jpg";
 import ExampleImage4 from "../assets/jz.jpg";
 import ExampleImage3 from "../assets/des1.jpg";
 import { useEffect, useState } from 'react';
+import { getHomepageTimetableData, useTimetableData } from '../data/timetableData';
 
 export default function Index() {
   const [alert, setAlert] = useState({
@@ -17,6 +18,9 @@ export default function Index() {
     type: 'success'
   });
   const location = useLocation();
+  const [timetables, setTimetables] = useState([]);
+  const [loadingTimetable, setLoadingTimetable] = useState(true);
+  const [timetableError, setTimetableError] = useState(null);
   
   useEffect(() => {
     // Check if user just logged in
@@ -59,6 +63,24 @@ export default function Index() {
       if (timer) clearTimeout(timer);
     };
   }, [alert.show]);
+  
+  // Fetch timetable data from database
+  useEffect(() => {
+    const fetchTimetableData = async () => {
+      try {
+        setLoadingTimetable(true);
+        const data = await getHomepageTimetableData();
+        setTimetables(data);
+      } catch (error) {
+        console.error("Error fetching timetable data:", error);
+        setTimetableError(error.message);
+      } finally {
+        setLoadingTimetable(false);
+      }
+    };
+
+    fetchTimetableData();
+  }, []);
   
   return (
     <>
@@ -121,35 +143,31 @@ export default function Index() {
           </div>
           
           <div className="row g-4">
-            <div className="col-md-4">
-              <div className="card h-100 shadow-sm border-0">
-                <div className="card-body">
-                  <div className="badge bg-success text-white mb-2">9:00am</div>
-                  <h4 className="card-title">Morning Briefing & Preparation</h4>
-                  <p className="card-text text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut erat et metus varius.</p>
+            {loadingTimetable ? (
+              <div className="col-12 text-center">
+                <div className="spinner-border text-success" role="status">
+                  <span className="visually-hidden">Loading...</span>
                 </div>
               </div>
-            </div>
-            
-            <div className="col-md-4">
-              <div className="card h-100 shadow-sm border-0">
-                <div className="card-body">
-                  <div className="badge bg-success text-white mb-2">10:30am</div>
-                  <h4 className="card-title">Morning Guided Nature Walk</h4>
-                  <p className="card-text text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut erat et metus varius.</p>
+            ) : timetableError ? (
+              <div className="col-12">
+                <div className="alert alert-danger" role="alert">
+                  Error loading timetable: {timetableError}
                 </div>
               </div>
-            </div>
-            
-            <div className="col-md-4">
-              <div className="card h-100 shadow-sm border-0">
-                <div className="card-body">
-                  <div className="badge bg-success text-white mb-2">12:00pm</div>
-                  <h4 className="card-title">Break & Rest</h4>
-                  <p className="card-text text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut erat et metus varius. Nulla vitae et amet.</p>
+            ) : (
+              timetables.map((timetable) => (
+                <div key={timetable.id} className="col-md-4">
+                  <div className="card h-100 shadow-sm border-0">
+                    <div className="card-body">
+                      <div className="badge bg-success text-white mb-2">{timetable.time}</div>
+                      <h4 className="card-title">{timetable.title}</h4>
+                      <p className="card-text text-muted">{timetable.description}</p>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
+              ))
+            )}
           </div>
         </div>
         
