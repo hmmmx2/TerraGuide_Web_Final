@@ -140,6 +140,7 @@ const ViewAccounts = () => {
         user_metadata: {
           first_name: newUser.firstName,
           last_name: newUser.lastName,
+          username: `${newUser.firstName} ${newUser.lastName}`, // Added username to user_metadata
           role: newUser.role
         }
       });
@@ -309,16 +310,16 @@ const ViewAccounts = () => {
   // Update user
   const updateUser = async (e) => {
     e.preventDefault();
-    
+
     if (!editingUser) return;
-    
+
     try {
       setLoading(true);
-      
+
       let finalAvatarUrl = editForm.avatarUrl;
 
       if (editForm.selectedFile) {
-        const fileExt = editForm.selectedFile.namePLIT('.').pop();
+        const fileExt = editForm.selectedFile.name.split('.').pop();
         const fileName = `${Math.random().toString(36).substring(2, 15)}.${fileExt}`;
         const filePath = `parkguides/${editingUser.id}/${fileName}`;
 
@@ -364,52 +365,82 @@ const ViewAccounts = () => {
           user_metadata: {
             first_name: editForm.firstName,
             last_name: editForm.lastName,
+            username: `${editForm.firstName} ${editForm.lastName}`, // Added username to user_metadata
             role: editForm.role
           },
           ...(editForm.password && { password: editForm.password })
         }
       );
-      
+
       if (updateError) throw updateError;
 
-      if (editForm.role === 'parkguide') {
-        const { error: parkGuideError } = await supabase
-          .from('park_guides')
-          .upsert({
+      // Ensure a users record exists and get its id
+      let userRecordId;
+      const { data: existingUser, error: userError } = await supabase
+        .from('users')
+        .select('id')
+        .eq('supabase_uid', editingUser.id)
+        .single();
+
+      if (userError && userError.code !== 'PGRST116') {
+        throw userError;
+      }
+
+      if (!existingUser) {
+        const { data: newUser, error: insertError } = await supabase
+          .from('users')
+          .insert([{
             supabase_uid: editingUser.id,
-            username: `${editForm.firstName} ${editForm.lastName}`.toLowerCase(),
-            bio: editForm.bio,
-            park_area: editForm.parkArea,
-            working_hours: workingHours,
-            working_days: workingDays,
-            avatar_url: finalAvatarUrl,
-            updated_at: new Date().toISOString()
-          }, { onConflict: 'supabase_uid' });
+            username: `${editForm.firstName} ${editForm.lastName}`,
+            email: editingUser.email,
+            role: editForm.role
+          }])
+          .select('id')
+          .single();
+
+        if (insertError) throw insertError;
+        userRecordId = newUser.id;
+      } else {
+        userRecordId = existingUser.id;
+      }
+
+      if (editForm.role === 'parkguide') {
+        const { error: parkGuideError } = await supabase.rpc('update_park_guide', {
+          p_user_id: userRecordId, // Use the users.id, not the Supabase user ID
+          p_supabase_uid: editingUser.id,
+          p_username: `${editForm.firstName} ${editForm.lastName}`,
+          p_bio: editForm.bio,
+          p_park_area: editForm.parkArea,
+          p_working_hours: workingHours,
+          p_working_days: workingDays,
+          p_avatar_url: finalAvatarUrl,
+          p_designation: 'Park Guide'
+        });
 
         if (parkGuideError) {
-          console.error('Park guide upsert error:', parkGuideError);
+          console.error('Park guide update error:', parkGuideError);
           throw parkGuideError;
         }
       }
 
       if (editForm.role !== editingUser.role) {
         await updateRoleTables(
-          editingUser.id, 
-          editingUser.email, 
-          editForm.firstName, 
-          editForm.lastName, 
-          editForm.role, 
+          editingUser.id,
+          editingUser.email,
+          editForm.firstName,
+          editForm.lastName,
+          editForm.role,
           editingUser.role
         );
       }
-      
+
       cancelEdit();
       await fetchUsers();
-      
+
       showToast('User updated successfully');
     } catch (error) {
       console.error('Error updating user:', error);
-      showToast(`Failed to update user: ${error.message}`, 'danger');
+      showToast(`Failed to update user: ${error.message} (Constraint: ${error.constraint || 'unknown'})`, 'danger');
     } finally {
       setLoading(false);
     }
@@ -418,88 +449,96 @@ const ViewAccounts = () => {
   // Function to update role-specific tables
   const updateRoleTables = async (userId, email, firstName, lastName, newRole, oldRole) => {
     try {
+      let userRecordId;
       const { data: existingUser, error: checkError } = await supabase
         .from('users')
         .select('id')
         .eq('supabase_uid', userId)
         .single();
-      
+
       if (checkError && checkError.code !== 'PGRST116') {
         throw checkError;
       }
-      
+
       if (!existingUser) {
-        const { error: insertError } = await supabase
+        const { data: newUser, error: insertError } = await supabase
           .from('users')
           .insert([{
             supabase_uid: userId,
-            username: `${firstName}${lastName}`.toLowerCase(),
+            username: `${firstName} ${lastName}`,
             email: email,
             role: newRole
-          }]);
-        
+          }])
+          .select('id')
+          .single();
+
         if (insertError) throw insertError;
+        userRecordId = newUser.id;
+      } else {
+        userRecordId = existingUser.id;
       }
-      
+
       if (oldRole === 'parkguide') {
         const { error: deleteError } = await supabase
           .from('park_guides')
           .delete()
           .eq('supabase_uid', userId);
-        
+
         if (deleteError) throw deleteError;
       }
-      
+
       if (oldRole === 'admin') {
         const { error: deleteError } = await supabase
           .from('admins')
           .delete()
           .eq('supabase_uid', userId);
-        
+
         if (deleteError) throw deleteError;
       }
-      
+
       if (oldRole === 'controller') {
         const { error: deleteError } = await supabase
           .from('controllers')
           .delete()
           .eq('supabase_uid', userId);
-        
+
         if (deleteError) throw deleteError;
       }
-      
+
       if (newRole === 'parkguide') {
         const { error: insertError } = await supabase
-          .from('park_guides')
-          .insert([{
-            supabase_uid: userId,
-            username: `${firstName}${lastName}`.toLowerCase(),
-            park_area: 'Default Area',
-            working_hours: '9 AM - 5 PM',
-            designation: 'Park Guide',
-            bio: ''
-          }]);
-        
+          .rpc('update_park_guide', {
+            p_user_id: userRecordId,
+            p_supabase_uid: userId,
+            p_username: `${firstName} ${lastName}`,
+            p_park_area: 'Default Area',
+            p_working_hours: '9 AM - 5 PM',
+            p_working_days: '',
+            p_avatar_url: null,
+            p_bio: '',
+            p_designation: 'Park Guide'
+          });
+
         if (insertError) throw insertError;
       } else if (newRole === 'admin') {
         const { error: insertError } = await supabase
           .from('admins')
           .insert([{
             supabase_uid: userId,
-            username: `${firstName}${lastName}`.toLowerCase(),
+            username: `${firstName} ${lastName}`,
             designation: 'Administrator'
           }]);
-        
+
         if (insertError) throw insertError;
       } else if (newRole === 'controller') {
         const { error: insertError } = await supabase
           .from('controllers')
           .insert([{
             supabase_uid: userId,
-            username: `${firstName}${lastName}`.toLowerCase(),
+            username: `${firstName} ${lastName}`,
             designation: 'Controller'
           }]);
-        
+
         if (insertError) throw insertError;
       }
     } catch (error) {
@@ -1004,7 +1043,7 @@ const ViewAccounts = () => {
                   </>
                 )}
                 <div className="col-12 d-flex">
-                    <button 
+                  <button 
                     type="submit" 
                     className="btn text-white rounded-pill px-4 me-2 shadow-sm"
                     style={{ backgroundColor: terraGreen }}
