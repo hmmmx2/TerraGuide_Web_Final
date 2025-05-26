@@ -69,18 +69,22 @@ export default function Ocourse() {
     <div className="b-containerCM">
       <div className="b-headerCM">
         <h3>Online Course</h3>
-        <a
+        {/* This could also be a <Link> if you want to reflect in the URL */}
+        <button
           className="see-all-link"
           onClick={() => setShowAll(x => !x)}
         >
           {showAll ? 'See less' : 'See all'}
-        </a>
+        </button>
       </div>
 
       <div className={`blog-gridCM ${showAll ? '' : 'one-row'}`}>
-        {/* real courses */}
         {COURSE_DATA.map(course => (
-          <div key={course.id} className="b-cardCM">
+          <Link
+            key={course.id}
+            to={course.link}
+            className="b-cardCM"
+          >
             <div className="b-image-containerCM">
               <img
                 className="b-card-imageCM"
@@ -102,10 +106,9 @@ export default function Ocourse() {
                 {course.category}
               </div>
             </div>
-          </div>
+          </Link>
         ))}
 
-        {/* Coming Soon placeholder — only when expanded */}
         {showAll && (
           <div className="b-cardCM coming-soon-card">
             <div className="b-image-containerCM">

@@ -1,47 +1,46 @@
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import Top from '../components/Top';
 import Footer1 from '../components/Footer1';
 import "../courseabout.css"; // Ensure this path is correct
-import courseBanner from "../assets/onlineC1.png"; // Use the actual screenshot as the banner
-import instructorAvatar from "../assets/ang.jpg"; // Re-using for dummy avatars
-import videoThumbnail1 from "../assets/onlineC2.png"; // Placeholder, create this image
-import videoThumbnail2 from "../assets/onlineC3.png"; // Placeholder, create this image
-
-import { useState } from 'react'; // Import useState
+import courseBanner from "../assets/onlineC1.png";
+import instructorAvatar from "../assets/ang.jpg";
+import videoThumbnail1 from "../assets/onlineC2.png";
+import videoThumbnail2 from "../assets/onlineC3.png";
 
 export default function CourseAbout() {
-  const [activeTab, setActiveTab] = useState('About'); // State for active tab
+  const [activeTab, setActiveTab] = useState('About');
 
-  // Data for lessons (existing)
+  // Lessons data
   const lessons = [
-    { id: 1, type: 'video', title: 'Basics of Park Guiding', duration: '45 mins', thumbnail: videoThumbnail1, completed: true },
-    { id: 2, type: 'video', title: 'Understanding the Environ...', duration: '45 mins', thumbnail: videoThumbnail2, completed: true },
-    { id: 3, type: 'exercise', title: 'Exercise', duration: '15 mins', completed: true },
-    { id: 4, type: 'quiz', title: 'Quiz', duration: '45 mins', completed: true },
-    { id: 5, type: 'survey', title: 'Survey', duration: '45 mins', completed: false },
+    { id: 1, type: 'video',    title: 'Basics of Park Guiding',     duration: '45 mins', thumbnail: videoThumbnail1, completed: true },
+    { id: 2, type: 'video',    title: 'Understanding the Environ...', duration: '45 mins', thumbnail: videoThumbnail2, completed: true },
+    { id: 3, type: 'exercise', title: 'Exercise',                    duration: '15 mins', completed: true },
+    { id: 4, type: 'quiz',     title: 'Quiz',                        duration: '45 mins', completed: true },
+    { id: 5, type: 'survey',   title: 'Survey',                      duration: '45 mins', completed: false },
   ];
 
-  // NEW: Data for Reviews
+  // Reviews data
   const reviews = [
     {
       id: 1,
       name: 'Jimmy He',
       time: '1 hour ago',
-      rating: 4, // out of 5
-      avatar: instructorAvatar, // Use your actual avatar path for Jimmy
-      text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut enim ad minim veniam. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut enim ad minim veniam.',
+      rating: 4,
+      avatar: instructorAvatar,
+      text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut enim ad minim veniam...',
     },
     {
       id: 2,
       name: 'Timmy He',
       time: '1 hour ago',
-      rating: 4, // out of 5
-      avatar: instructorAvatar, // Use your actual avatar path for Timmy
-      text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut enim ad minim veniam. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut enim ad minim veniam.',
+      rating: 4,
+      avatar: instructorAvatar,
+      text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut enim ad minim veniam...',
     },
-    // Add more dummy reviews here if you want to see more in the list
   ];
 
-  // NEW: Data for Rating Distribution
+  // Rating distribution data
   const ratingDistribution = [
     { stars: 5, percentage: 70 },
     { stars: 4, percentage: 55 },
@@ -50,6 +49,7 @@ export default function CourseAbout() {
     { stars: 1, percentage: 10 },
   ];
 
+  // Render star icons
   const renderStars = (rating) => {
     const totalStars = 5;
     let stars = [];
@@ -63,73 +63,72 @@ export default function CourseAbout() {
     return stars;
   };
 
+  // Map lesson type to route
+  const getLessonLink = (lesson) => {
+    switch (lesson.type) {
+      case 'exercise': return '/course1';
+      case 'quiz':     return '/course2';
+      // you can add video/survey routes here if needed
+      default:         return '#';
+    }
+  };
+
   return (
     <>
       <Top />
+
       <div className="course-about-page-container">
-        {/* Header Image Section */}
+        {/* Banner */}
         <div className="course-banner-container">
           <img
-            src={courseBanner} // The main course image
+            src={courseBanner}
             alt="Park Ranger Course Banner"
             className="course-banner-image"
           />
           <span className="course-free-tag">Free</span>
         </div>
 
-        {/* Course Main Info */}
+        {/* Main info */}
         <div className="course-main-info">
           <h1 className="course-title">Introduction to Park Guide</h1>
           <p className="course-rating">
             <span className="star-icon">★</span> 4.8 (2,678 reviews) | Park Guide
           </p>
-
-          {/* Info Cards */}
           <div className="info-cards-container">
             <div className="info-card">
-              <div className="info-icon">👥</div> {/* Placeholder for students icon */}
+              <div className="info-icon">👥</div>
               <p className="info-text">7,983 students</p>
             </div>
             <div className="info-card">
-              <div className="info-icon">🕒</div> {/* Placeholder for hours icon */}
+              <div className="info-icon">🕒</div>
               <p className="info-text">3.5 hours</p>
             </div>
             <div className="info-card">
-              <div className="info-icon">🏆</div> {/* Placeholder for sponsored icon */}
+              <div className="info-icon">🏆</div>
               <p className="info-text">Sponsored</p>
             </div>
           </div>
         </div>
 
-        {/* Navigation Tabs */}
+        {/* Tabs */}
         <div className="course-tabs-container">
-          <div
-            className={`course-tab ${activeTab === 'About' ? 'active' : ''}`}
-            onClick={() => setActiveTab('About')}
-          >
-            About
-          </div>
-          <div
-            className={`course-tab ${activeTab === 'Lessons' ? 'active' : ''}`}
-            onClick={() => setActiveTab('Lessons')}
-          >
-            Lessons
-          </div>
-          <div
-            className={`course-tab ${activeTab === 'Reviews' ? 'active' : ''}`}
-            onClick={() => setActiveTab('Reviews')}
-          >
-            Reviews
-          </div>
+          {['About','Lessons','Reviews'].map(tab => (
+            <div
+              key={tab}
+              className={`course-tab ${activeTab === tab ? 'active' : ''}`}
+              onClick={() => setActiveTab(tab)}
+            >
+              {tab}
+            </div>
+          ))}
         </div>
 
-        {/* Conditional Content Rendering */}
+        {/* About Tab */}
         {activeTab === 'About' && (
           <>
-            {/* Instructor Section */}
             <div className="instructor-section">
               <img
-                src={instructorAvatar} // Instructor's image
+                src={instructorAvatar}
                 alt="Steven He"
                 className="instructor-avatar"
               />
@@ -138,35 +137,40 @@ export default function CourseAbout() {
                 <p className="instructor-role">Park Ranger</p>
               </div>
             </div>
-
-            {/* About Course Content */}
             <div className="about-course-content">
               <h2 className="section-title">About Course</h2>
               <p className="course-description">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut enim ad minim veniam.
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut enim ad minim veniam.
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut enim ad minim veniam...
               </p>
               <button className="enroll-button">Enroll For Free</button>
             </div>
           </>
         )}
 
+        {/* Lessons Tab */}
         {activeTab === 'Lessons' && (
           <div className="lessons-list-container">
             {lessons.map(lesson => (
-              <div key={lesson.id} className="lesson-item">
+              <Link
+                key={lesson.id}
+                to={getLessonLink(lesson)}
+                className="lesson-item"
+              >
                 <div className="lesson-icon-container">
                   {lesson.type === 'video' ? (
                     <>
-                      <img src={lesson.thumbnail} alt={lesson.title} className="video-thumbnail" />
-                      <div className="play-button-overlay">▶</div> {/* Play button overlay */}
+                      <img
+                        src={lesson.thumbnail}
+                        alt={lesson.title}
+                        className="video-thumbnail"
+                      />
+                      <div className="play-button-overlay">▶</div>
                     </>
                   ) : (
                     <div className={`generic-lesson-icon ${lesson.type}-icon`}>
-                      {/* Icons for Exercise, Quiz, Survey */}
-                      {lesson.type === 'exercise' && '📄'} {/* Document icon */}
-                      {lesson.type === 'quiz' && '📝'} {/* Quiz icon */}
-                      {lesson.type === 'survey' && '📋'} {/* Survey icon */}
+                      {lesson.type === 'exercise' && '📄'}
+                      {lesson.type === 'quiz'     && '📝'}
+                      {lesson.type === 'survey'   && '📋'}
                     </div>
                   )}
                 </div>
@@ -174,48 +178,46 @@ export default function CourseAbout() {
                   <p className="lesson-title">{lesson.title}</p>
                   <p className="lesson-duration">{lesson.duration}</p>
                 </div>
-                <div className={`lesson-checkbox ${lesson.completed ? 'completed' : ''}`}>
-                  {lesson.completed && '✔'} {/* Checkmark */}
-                </div>
-              </div>
+                {lesson.completed && (
+                  <div className="lesson-checkbox completed">✔</div>
+                )}
+              </Link>
             ))}
             <button className="enroll-button">Enroll For Free</button>
           </div>
         )}
 
-        {/* NEW: Reviews Tab Content */}
+        {/* Reviews Tab */}
         {activeTab === 'Reviews' && (
           <div className="reviews-section">
             <div className="overall-rating-section">
               <div className="overall-rating-summary">
                 <p className="overall-rating-number">4.8</p>
                 <div className="star-rating-display">
-                  {renderStars(4.8)} {/* Assuming 4.8 is the average, pass it here */}
+                  {renderStars(5)} {/* show 5 filled stars here */}
                 </div>
               </div>
               <div className="rating-distribution">
-                {ratingDistribution.map((dist) => (
+                {ratingDistribution.map(dist => (
                   <div key={dist.stars} className="rating-bar-row">
-                    <span className="rating-label">{dist.stars}</span>
+                    <span className="rating-label">{dist.stars}★</span>
                     <div className="rating-bar-bg">
                       <div
                         className="rating-bar-fill"
                         style={{ width: `${dist.percentage}%` }}
-                      ></div>
+                      />
                     </div>
                     <span className="rating-percentage">{dist.percentage}%</span>
                   </div>
                 ))}
               </div>
             </div>
-
             <div className="reviews-header">
               <p className="reviews-count">Reviews ({reviews.length})</p>
               <button className="write-review-button">Write Review</button>
             </div>
-
             <div className="individual-reviews-list">
-              {reviews.map((review) => (
+              {reviews.map(review => (
                 <div key={review.id} className="review-card">
                   <div className="reviewer-info">
                     <img
@@ -239,9 +241,7 @@ export default function CourseAbout() {
         )}
       </div>
 
-      <footer>
-        <Footer1 />
-      </footer>
+      <Footer1 />
     </>
   );
 }
