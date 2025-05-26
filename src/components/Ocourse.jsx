@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { Link } from 'react-router-dom';
 import OC1Image from '../assets/onlineC1.png'
 import OC2Image from '../assets/onlineC2.png'
 import OC3Image from '../assets/onlineC3.png'
@@ -16,6 +17,7 @@ const COURSE_DATA = [
     instructor: 'Jason Lee',
     category: 'Park Guide',
     badge: 'Free'
+    link: ''
   },
   {
     id: 2,
