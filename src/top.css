@@ -1,19 +1,54 @@
-/* Reset */
+/* top.css */
+
+/* ── Reset ──────────────────────────────────────────────────────────────── */
 * {
   font-family: Arial, sans-serif;
-  margin: 0; padding: 0;
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
 }
 
-/* Nav scales with viewport width */
-nav {
-  background-color: #4E6E4E;
-  height: 8vw;
-  width: 100vw;
+/* ── Navbar (flex, auto-height) ─────────────────────────────────────────── */
+nav.navbar {
+  background-color: #4E6E4E !important;
+  /* let it grow to fit its contents, but never shrink below 60px */
+  height: auto !important;
+  min-height: 60px;
   padding: 0 2vw;
-  position: relative; z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  z-index: 1000;
+  box-sizing: border-box;
+  /* allow child dropdowns to show outside */
+  overflow: visible;
 }
 
+/* Brand logo */
+.navbar-brand img {
+  height: 50px;
+  max-height: 60px;
+  width: auto;
+}
+
+/* Hamburger toggler */
+.navbar-toggler {
+  padding: 0.5rem;
+  border: none;
+  margin-left: auto;
+}
+.navbar-toggler-icon {
+  /* enlarge the built-in icon */
+  background-size: 1.5em 1.5em;
+}
+
+/* Keep the collapsed panel from overflowing */
+.collapse.navbar-collapse {
+  box-sizing: border-box;
+}
+
+/* ── Nav links & grid if still in use ──────────────────────────────────── */
 .navbar-container {
   display: grid;
   grid-template-columns: auto 1fr auto;
@@ -21,13 +56,6 @@ nav {
   column-gap: 4vw;
   height: 100%;
 }
-
-/* Logo */
-.logo img {
-  height: 4vw;
-}
-
-/* Links */
 .nav-links {
   display: flex;
   justify-content: center;
@@ -44,8 +72,10 @@ nav {
   color: #D4E09B;
 }
 
-/* My Courses dropdown (unchanged) */
-.dropdown { position: relative; }
+/* ── Dropdown menus ──────────────────────────────────────────────────────── */
+.dropdown {
+  position: relative;
+}
 .dropdown > a::after {
   content: "▼";
   font-size: 1vw;
@@ -54,12 +84,14 @@ nav {
 .dropdown-content {
   display: none;
   position: absolute;
-  top: 100%; left: 0;
+  top: 100%;
+  margin-top: 0.5rem;
+  left: 0;
   background: white;
   min-width: 12vw;
   box-shadow: 0 0.5vw 1vw rgba(0,0,0,0.1);
   border-radius: 0.5vw;
-  z-index: 10;
+  z-index: 2000;
 }
 .dropdown:hover .dropdown-content {
   display: block;
@@ -76,7 +108,7 @@ nav {
   color: #0066cc;
 }
 
-/* Auth buttons */
+/* ── Auth buttons ───────────────────────────────────────────────────────── */
 .auth-buttons {
   display: flex;
   align-items: center;
@@ -111,7 +143,7 @@ nav {
   opacity: 0.8;
 }
 
-/* Icon bar & search */
+/* ── Icon bar & search ──────────────────────────────────────────────────── */
 .icon-bar {
   display: flex;
   align-items: center;
@@ -145,7 +177,7 @@ nav {
   cursor: pointer;
 }
 
-/* Profile dropdown — now purely via .open class */
+/* ── Profile dropdown (TerraGuide user menu) ───────────────────────────── */
 .profile-menu {
   display: flex;
   align-items: center;
@@ -153,40 +185,22 @@ nav {
   position: relative;
   z-index: 1000;
 }
-/* Always render menu, but hide by default */
 .dropdown-menu {
   position: absolute;
-  top: 5vw;
+  top: 100%;
+  margin-top: 0.5rem;
   right: 0;
   background: white;
   border: 0.1vw solid #ccc;
   border-radius: 0.5vw;
   box-shadow: 0 0.5vw 1vw rgba(0,0,0,0.1);
   min-width: 12vw;
+  z-index: 2000;
   display: none;
 }
-/* When state is open, show it */
 .profile-menu.open .dropdown-menu {
   display: block;
 }
-
-.profile-circle {
-  width: 4vw; height: 4vw;
-  border-radius: 50%;
-  overflow: hidden;
-  border: 0.3vw solid #fff;
-  cursor: pointer;
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-.profile-circle:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0.5vw 1vw rgba(0,0,0,0.15);
-}
-.profile-circle img {
-  width: 100%; height: 100%;
-  object-fit: cover;
-}
-
 .dropdown-item {
   display: block;
   padding: 1vw 1.5vw;
@@ -199,18 +213,23 @@ nav {
 }
 .dropdown-item button {
   width: 100%;
-  background: none; border: none;
-  color: #333; font: inherit;
-  text-align: left; cursor: pointer;
+  background: none;
+  border: none;
+  color: #333;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
 }
 
-/* Hamburger for mobile */
+/* ── Mobile hamburger (legacy if still used) ────────────────────────────── */
 .hamburger {
   display: none;
-  cursor: pointer; z-index: 100;
+  cursor: pointer;
+  z-index: 100;
 }
 .hamburger div {
-  width: 4vw; height: 0.5vw;
+  width: 4vw;
+  height: 0.5vw;
   background: white;
   margin: 1vw 0;
   transition: all 0.3s;
@@ -218,18 +237,22 @@ nav {
 .hamburger.active div:nth-child(1) {
   transform: rotate(-45deg) translate(-1vw, 1vw);
 }
-.hamburger.active div:nth-child(2) { opacity: 0; }
+.hamburger.active div:nth-child(2) {
+  opacity: 0;
+}
 .hamburger.active div:nth-child(3) {
   transform: rotate(45deg) translate(-1vw, -1vw);
 }
 
-/* Show nav-links on hamburger click */
+/* ── Mobile media queries ───────────────────────────────────────────────── */
 @media (max-width: 920px) {
   .hamburger { display: block; }
   .nav-links {
     position: fixed;
-    top: 0; right: -100%;
-    width: 70%; height: 100vh;
+    top: 0;
+    right: -100%;
+    width: 70%;
+    height: 100vh;
     background: #6D7E5E;
     flex-direction: column;
     align-items: center;
@@ -245,41 +268,33 @@ nav {
     transform: translateX(-50%);
   }
   .auth-buttons { margin-left: auto; }
-  
+
   .navbar-collapse {
-    background-color: #4E6E4E; /* Darker green for better contrast */
+    background-color: #4E6E4E;
     padding: 1rem;
     border-radius: 0 0 0.5rem 0.5rem;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
     margin-top: 0.5rem;
   }
-  
-  .navbar-nav .nav-item {
-    margin-bottom: 0.5rem;
-  }
-  
+
+  .navbar-nav .nav-item { margin-bottom: 0.5rem; }
   .navbar-nav .nav-link {
     padding: 0.75rem 1rem;
     border-radius: 0.25rem;
-    color: white !important; /* Ensure text is white for contrast */
-  }
-  
-  .navbar-nav .nav-link:hover {
-    background-color: rgba(255, 255, 255, 0.15);
-  }
-  
-  /* Style for active nav items in mobile view */
-  .navbar-nav .nav-link.bg-white {
-    background-color: #5a8a5a !important; /* Lighter green for active items */
     color: white !important;
+  }
+  .navbar-nav .nav-link:hover {
+    background-color: rgba(255,255,255,0.15);
+  }
+  .navbar-nav .nav-link.bg-white {
+    background-color: #5a8a5a !important;
     font-weight: bold;
   }
-  
-  /* Hamburger button styling */
+
   .navbar-toggler {
-    background-color: #3a533a; /* Darker green background */
-    border: 1px solid white; /* White border for contrast */
+    background-color: #3a533a;
+    border: 1px solid white;
     padding: 0.5rem;
-    box-shadow: 0 0 5px rgba(0,0,0,0.2); /* Subtle shadow for depth */
+    box-shadow: 0 0 5px rgba(0,0,0,0.2);
   }
 }
