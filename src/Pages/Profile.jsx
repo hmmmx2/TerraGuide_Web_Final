@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Top from '../components/Top';
 import Footer1 from '../components/Footer1';
-import ExampleImage from "../assets/sample.png";
 import { useAuth } from '../contexts/authContext/supabaseAuthContext';
 import { supabase } from '../supabase/supabase';
 
@@ -215,9 +214,7 @@ export default function Profile() {
         const { error: uploadError } = await supabase
           .storage
           .from('avatar-images')
-          .upload(filePath, selectedFile, {
-            upsert: true
-          });
+          .upload(filePath, selectedFile);
   
         if (uploadError) {
           console.error('Upload error details:', uploadError);
@@ -377,26 +374,56 @@ export default function Profile() {
                     {/* Profile Picture Section - Nature-themed styling */}
                     <div className="text-center mb-5">
                       <div className="position-relative d-inline-block">
-                        <div className="shadow-sm rounded-circle overflow-hidden border border-3 border-opacity-25" style={{ width: "160px", height: "160px", borderColor: terraGreen }}>
-                          <img 
-                            src={avatarUrl || ExampleImage} 
-                            className="w-100 h-100" 
-                            alt="Profile Picture" 
-                            style={{ objectFit: "cover" }} 
-                          />
+                        <div
+                          className="shadow-sm rounded-circle overflow-hidden border border-3 border-opacity-25"
+                          style={{
+                            width: "160px",
+                            height: "160px",
+                            borderColor: terraGreen,
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            backgroundColor: "#f8f9fa" // Light background for icon
+                          }}
+                        >
+                          {avatarUrl ? (
+                            <img
+                              src={avatarUrl}
+                              className="w-100 h-100"
+                              alt="Profile Picture"
+                              style={{ objectFit: "cover" }}
+                              onError={(e) => {
+                                e.target.style.display = 'none';
+                                e.target.parentElement.innerHTML = `<i class="fas fa-user fa-3x" style="color: ${terraGreen};"></i>`;
+                              }}
+                            />
+                          ) : (
+                            <i className="fas fa-user fa-3x" style={{ color: terraGreen }}></i>
+                          )}
                         </div>
-                        <label htmlFor="profile-picture" className="position-absolute bottom-0 end-0 bg-gradient text-white rounded-circle d-flex align-items-center justify-content-center shadow" style={{ width: "45px", height: "45px", cursor: "pointer", transform: "translate(5px, -5px)", backgroundColor: terraGreen, transition: "all 0.2s ease" }}>
+                        <label
+                          htmlFor="profile-picture"
+                          className="position-absolute bottom-0 end-0 bg-gradient text-white rounded-circle d-flex align-items-center justify-content-center shadow"
+                          style={{
+                            width: "45px",
+                            height: "45px",
+                            cursor: "pointer",
+                            transform: "translate(5px, -5px)",
+                            backgroundColor: terraGreen,
+                            transition: "all 0.2s ease"
+                          }}
+                        >
                           {uploading ? (
                             <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                           ) : (
                             <i className="fas fa-pencil-alt"></i>
                           )}
-                          <input 
-                            type="file" 
-                            id="profile-picture" 
-                            accept="image/*" 
-                            className="d-none" 
-                            onChange={handlePictureChange} 
+                          <input
+                            type="file"
+                            id="profile-picture"
+                            accept="image/*"
+                            className="d-none"
+                            onChange={handlePictureChange}
                             disabled={uploading}
                           />
                         </label>
@@ -407,10 +434,10 @@ export default function Profile() {
                     <div className="row g-4 mb-4">
                       <div className="col-md-6">
                         <div className="form-floating">
-                          <input 
-                            type="text" 
+                          <input
+                            type="text"
                             className="form-control rounded-3 bg-light shadow-sm"
-                            id="firstName" 
+                            id="firstName"
                             name="firstName"
                             value={profile.firstName}
                             onChange={handleChange}
@@ -422,10 +449,10 @@ export default function Profile() {
                       </div>
                       <div className="col-md-6">
                         <div className="form-floating">
-                          <input 
-                            type="text" 
-                            className="form-control rounded-3 bg-light shadow-sm" 
-                            id="lastName" 
+                          <input
+                            type="text"
+                            className="form-control rounded-3 bg-light shadow-sm"
+                            id="lastName"
                             name="lastName"
                             value={profile.lastName}
                             onChange={handleChange}
@@ -440,9 +467,9 @@ export default function Profile() {
                     {/* Bio Field - Terra-Guide themed */}
                     <div className="mb-4">
                       <div className="form-floating">
-                        <textarea 
-                          className="form-control rounded-3 bg-light shadow-sm" 
-                          id="bio" 
+                        <textarea
+                          className="form-control rounded-3 bg-light shadow-sm"
+                          id="bio"
                           name="bio"
                           placeholder="Tell us about yourself"
                           value={profile.bio}
@@ -455,9 +482,9 @@ export default function Profile() {
                     {/* Park Area Selection - Terra-Guide themed */}
                     <div className="mb-4">
                       <div className="form-floating">
-                        <select 
-                          className="form-select rounded-3 bg-light shadow-sm" 
-                          id="parkArea" 
+                        <select
+                          className="form-select rounded-3 bg-light shadow-sm"
+                          id="parkArea"
                           name="parkArea"
                           value={profile.parkArea}
                           onChange={handleChange}
@@ -479,9 +506,9 @@ export default function Profile() {
                       </label>
                       <div className="d-flex flex-wrap gap-2">
                         {['Mon', 'Tue', 'Wed', 'Thu', 'Fri'].map(day => (
-                          <button 
+                          <button
                             key={day}
-                            type="button" 
+                            type="button"
                             className={`btn ${profile.workingDays[day] ? 'shadow text-white' : 'bg-white shadow-sm'} rounded-pill px-4 py-2`}
                             style={{
                               backgroundColor: profile.workingDays[day] ? terraGreen : 'white',
@@ -507,8 +534,8 @@ export default function Profile() {
                       <div className="row g-3 align-items-center bg-white p-3 rounded-3 shadow-sm">
                         <div className="col-md-2 col-6">
                           <div className="form-floating">
-                            <select 
-                              className="form-select rounded-3 bg-light" 
+                            <select
+                              className="form-select rounded-3 bg-light"
                               name="startTime"
                               value={profile.startTime}
                               onChange={handleChange}
@@ -527,8 +554,8 @@ export default function Profile() {
                         </div>
                         <div className="col-md-2 col-6">
                           <div className="form-floating">
-                            <select 
-                              className="form-select rounded-3 bg-light" 
+                            <select
+                              className="form-select rounded-3 bg-light"
                               name="startPeriod"
                               value={profile.startPeriod}
                               onChange={handleChange}
@@ -544,8 +571,8 @@ export default function Profile() {
                         </div>
                         <div className="col-md-2 col-6">
                           <div className="form-floating">
-                            <select 
-                              className="form-select rounded-3 bg-light" 
+                            <select
+                              className="form-select rounded-3 bg-light"
                               name="endTime"
                               value={profile.endTime}
                               onChange={handleChange}
@@ -564,8 +591,8 @@ export default function Profile() {
                         </div>
                         <div className="col-md-2 col-6">
                           <div className="form-floating">
-                            <select 
-                              className="form-select rounded-3 bg-light" 
+                            <select
+                              className="form-select rounded-3 bg-light"
                               name="endPeriod"
                               value={profile.endPeriod}
                               onChange={handleChange}
@@ -581,10 +608,10 @@ export default function Profile() {
 
                     {/* Save Button - Terra-Guide themed */}
                     <div className="text-center">
-                      <button 
-                        type="submit" 
-                        className="btn btn-lg px-5 py-3 rounded-pill shadow text-white" 
-                        style={{ 
+                      <button
+                        type="submit"
+                        className="btn btn-lg px-5 py-3 rounded-pill shadow text-white"
+                        style={{
                           backgroundColor: terraGreen,
                           transition: "all 0.3s ease",
                           transform: "scale(1)"
