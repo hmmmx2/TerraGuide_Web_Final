@@ -17,7 +17,7 @@ const COURSE_DATA = [
     instructor: 'Jason Lee',
     category: 'Park Guide',
     badge: 'Free',
-    link: ''
+    link: '/courseabout'
   },
   {
     id: 2,
