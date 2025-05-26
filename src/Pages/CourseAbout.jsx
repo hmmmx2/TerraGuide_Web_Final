@@ -2,7 +2,7 @@ import Top from '../components/Top';
 import Footer1 from '../components/Footer1';
 import "../courseabout.css"; // Ensure this path is correct
 import courseBanner from "../assets/onlineC1.png"; // Use the actual screenshot as the banner
-import instructorAvatar from "../assets/ang.jpg"; // You'll need to add an image for Steven He
+import instructorAvatar from "../assets/ang.jpg"; // Re-using for dummy avatars
 import videoThumbnail1 from "../assets/onlineC2.png"; // Placeholder, create this image
 import videoThumbnail2 from "../assets/onlineC3.png"; // Placeholder, create this image
 
@@ -11,7 +11,7 @@ import { useState } from 'react'; // Import useState
 export default function CourseAbout() {
   const [activeTab, setActiveTab] = useState('About'); // State for active tab
 
-  // Data for lessons
+  // Data for lessons (existing)
   const lessons = [
     { id: 1, type: 'video', title: 'Basics of Park Guiding', duration: '45 mins', thumbnail: videoThumbnail1, completed: true },
     { id: 2, type: 'video', title: 'Understanding the Environ...', duration: '45 mins', thumbnail: videoThumbnail2, completed: true },
@@ -19,6 +19,49 @@ export default function CourseAbout() {
     { id: 4, type: 'quiz', title: 'Quiz', duration: '45 mins', completed: true },
     { id: 5, type: 'survey', title: 'Survey', duration: '45 mins', completed: false },
   ];
+
+  // NEW: Data for Reviews
+  const reviews = [
+    {
+      id: 1,
+      name: 'Jimmy He',
+      time: '1 hour ago',
+      rating: 4, // out of 5
+      avatar: instructorAvatar, // Use your actual avatar path for Jimmy
+      text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut enim ad minim veniam. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut enim ad minim veniam.',
+    },
+    {
+      id: 2,
+      name: 'Timmy He',
+      time: '1 hour ago',
+      rating: 4, // out of 5
+      avatar: instructorAvatar, // Use your actual avatar path for Timmy
+      text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut enim ad minim veniam. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut enim ad minim veniam.',
+    },
+    // Add more dummy reviews here if you want to see more in the list
+  ];
+
+  // NEW: Data for Rating Distribution
+  const ratingDistribution = [
+    { stars: 5, percentage: 70 },
+    { stars: 4, percentage: 55 },
+    { stars: 3, percentage: 42 },
+    { stars: 2, percentage: 30 },
+    { stars: 1, percentage: 10 },
+  ];
+
+  const renderStars = (rating) => {
+    const totalStars = 5;
+    let stars = [];
+    for (let i = 1; i <= totalStars; i++) {
+      stars.push(
+        <span key={i} className={i <= rating ? 'star-filled' : 'star-empty'}>
+          ★
+        </span>
+      );
+    }
+    return stars;
+  };
 
   return (
     <>
@@ -140,7 +183,60 @@ export default function CourseAbout() {
           </div>
         )}
 
-        {/* You can add a similar block for 'Reviews' tab later if needed */}
+        {/* NEW: Reviews Tab Content */}
+        {activeTab === 'Reviews' && (
+          <div className="reviews-section">
+            <div className="overall-rating-section">
+              <div className="overall-rating-summary">
+                <p className="overall-rating-number">4.8</p>
+                <div className="star-rating-display">
+                  {renderStars(4.8)} {/* Assuming 4.8 is the average, pass it here */}
+                </div>
+              </div>
+              <div className="rating-distribution">
+                {ratingDistribution.map((dist) => (
+                  <div key={dist.stars} className="rating-bar-row">
+                    <span className="rating-label">{dist.stars}</span>
+                    <div className="rating-bar-bg">
+                      <div
+                        className="rating-bar-fill"
+                        style={{ width: `${dist.percentage}%` }}
+                      ></div>
+                    </div>
+                    <span className="rating-percentage">{dist.percentage}%</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="reviews-header">
+              <p className="reviews-count">Reviews ({reviews.length})</p>
+              <button className="write-review-button">Write Review</button>
+            </div>
+
+            <div className="individual-reviews-list">
+              {reviews.map((review) => (
+                <div key={review.id} className="review-card">
+                  <div className="reviewer-info">
+                    <img
+                      src={review.avatar}
+                      alt={review.name}
+                      className="reviewer-avatar"
+                    />
+                    <div className="reviewer-details">
+                      <p className="reviewer-name">{review.name}</p>
+                      <p className="review-time">{review.time}</p>
+                    </div>
+                    <p className="individual-review-rating">
+                      {renderStars(review.rating)} {review.rating}/5
+                    </p>
+                  </div>
+                  <p className="review-text">{review.text}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
 
       <footer>

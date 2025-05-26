@@ -1,71 +1,64 @@
-/* General Page Layout */
-body {
-  background-color: #f0f2f5; /* Light grey background from the screenshot */
-  margin: 0;
-  font-family: sans-serif;
-}
-
+/* General page container styling */
 .course-about-page-container {
-  max-width: 800px; /* Adjust as needed for your overall layout */
-  margin: 0 auto; /* Center the container */
+  max-width: 800px; /* Adjust as needed */
+  margin: 0 auto;
   padding: 20px;
-  background-color: #f0f2f5; /* Match body background */
+  background-color: #f0f2f5; /* Light grey background for the whole page section */
+  font-family: Arial, sans-serif;
 }
 
-/* Header Image Section */
+/* Course Banner Section */
 .course-banner-container {
   position: relative;
   width: 100%;
-  border-radius: 15px; /* Rounded corners for the image container */
-  overflow: hidden; /* Ensures image corners are also rounded */
+  height: 200px; /* Adjust height as needed */
+  overflow: hidden;
+  border-radius: 10px;
   margin-bottom: 20px;
 }
 
 .course-banner-image {
   width: 100%;
-  height: 200px; /* Adjust height as needed */
-  object-fit: cover; /* Ensures image covers the area without distortion */
-  display: block; /* Removes extra space below image */
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
 .course-free-tag {
   position: absolute;
   top: 15px;
-  right: 15px;
-  background-color: #72a37e; /* Green color from screenshot */
+  left: 15px;
+  background-color: #587e5f; /* Green tag color */
   color: white;
   padding: 5px 15px;
-  border-radius: 20px; /* Highly rounded */
-  font-size: 0.9em;
+  border-radius: 5px;
   font-weight: bold;
+  font-size: 0.9em;
 }
 
 /* Course Main Info */
 .course-main-info {
-  padding: 0 10px; /* Slight horizontal padding */
+  padding: 0 10px; /* Add some horizontal padding */
 }
 
 .course-title {
   font-size: 1.8em;
-  font-weight: bold;
   color: #333;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
 }
 
 .course-rating {
   font-size: 0.9em;
   color: #777;
-  margin-bottom: 25px;
-  display: flex;
-  align-items: center;
+  margin-bottom: 20px;
 }
 
-.star-icon {
-  color: #f7d242; /* Yellow star color */
+.course-rating .star-icon {
+  color: gold; /* Yellow star */
   margin-right: 5px;
 }
 
-/* Info Cards Container */
+/* Info Cards */
 .info-cards-container {
   display: flex;
   justify-content: space-between;
@@ -102,124 +95,137 @@ body {
 /* Navigation Tabs */
 .course-tabs-container {
   display: flex;
-  justify-content: space-around; /* Distribute tabs evenly */
-  border-bottom: 1px solid #ddd; /* Light grey separator line */
-  margin-bottom: 25px;
-  padding: 0 10px;
+  justify-content: space-around;
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 20px;
 }
 
 .course-tab {
-  padding: 10px 15px;
-  color: #777;
-  font-weight: bold;
+  padding: 15px 0;
   cursor: pointer;
-  position: relative;
-  transition: color 0.3s ease;
-  flex-grow: 1; /* Allow tabs to grow and fill space */
-  text-align: center; /* Center text within tab */
+  color: #555;
+  font-weight: bold;
+  flex-grow: 1; /* Make tabs take equal width */
+  text-align: center;
+  border-bottom: 3px solid transparent;
+  transition: color 0.3s, border-bottom-color 0.3s;
 }
 
 .course-tab.active {
-  color: #587e5f; /* Active tab text color */
-}
-
-.course-tab.active::after {
-  content: '';
-  position: absolute;
-  bottom: -1px; /* Position it on the border line */
-  left: 0;
-  width: 100%;
-  height: 3px; /* Thickness of the underline */
-  background-color: #587e5f; /* Active tab underline color */
-  border-radius: 2px;
+  color: #587e5f; /* Active tab color */
+  border-bottom-color: #587e5f; /* Active tab underline */
 }
 
 /* Instructor Section */
 .instructor-section {
   display: flex;
   align-items: center;
-  margin-bottom: 30px;
-  background-color: white; /* White background for this section */
-  border-radius: 15px;
+  gap: 15px;
+  background-color: white;
   padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
 }
 
 .instructor-avatar {
-  width: 70px; /* Size of the avatar */
-  height: 70px;
-  border-radius: 50%; /* Circular avatar */
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
   object-fit: cover;
-  margin-right: 15px;
 }
 
 .instructor-details {
-  display: flex;
-  flex-direction: column;
+  flex-grow: 1;
 }
 
 .instructor-name {
-  font-size: 1.2em;
   font-weight: bold;
   color: #333;
-  margin-bottom: 2px;
+  margin-bottom: 5px;
 }
 
 .instructor-role {
-  font-size: 0.9em;
   color: #777;
+  font-size: 0.9em;
 }
 
 /* About Course Content */
 .about-course-content {
-  background-color: white; /* White background for this section */
-  border-radius: 15px;
+  background-color: white;
   padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
 }
 
 .section-title {
   font-size: 1.5em;
-  font-weight: bold;
   color: #333;
   margin-bottom: 15px;
 }
 
 .course-description {
-  font-size: 1em;
   color: #555;
   line-height: 1.6;
+  margin-bottom: 20px;
 }
 
+.enroll-button {
+  display: block;
+  width: 100%;
+  padding: 15px;
+  background-color: #587e5f; /* Green button */
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1em;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
 
-/* --- Lessons List Styles --- */
+.enroll-button:hover {
+  background-color: #4a6a51; /* Darker green on hover */
+}
+
+/* Lessons List */
 .lessons-list-container {
-  padding: 0 10px; /* Consistent padding */
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  margin-bottom: 20px;
 }
 
 .lesson-item {
   display: flex;
   align-items: center;
-  background-color: white; /* White background for each lesson item */
-  border-radius: 15px;
-  padding: 15px;
-  margin-bottom: 15px; /* Space between lesson items */
-  box-shadow: 0 2px 5px rgba(0,0,0,0.05); /* Subtle shadow */
+  gap: 15px;
+  padding: 15px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.lesson-item:last-child {
+  border-bottom: none;
 }
 
 .lesson-icon-container {
-  width: 80px; /* Fixed width for the icon/thumbnail area */
-  height: 80px;
-  border-radius: 10px; /* Rounded corners for the icon container */
+  position: relative;
+  width: 70px;
+  height: 70px;
+  border-radius: 8px;
   overflow: hidden;
-  position: relative; /* For play button overlay */
-  margin-right: 15px;
-  flex-shrink: 0; /* Prevent shrinking */
+  flex-shrink: 0;
+  background-color: #f0f0f0; /* Default background for generic icons */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2em; /* For generic icons */
 }
 
 .video-thumbnail {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  display: block;
 }
 
 .play-button-overlay {
@@ -228,77 +234,232 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.4); /* Semi-transparent overlay */
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
   font-size: 2em;
-  border-radius: 10px; /* Match container border-radius */
   cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
-.generic-lesson-icon {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 2.5em; /* Size of document, quiz, survey icons */
-  border-radius: 10px; /* Match container border-radius */
-  color: white; /* White icon color */
-  background-color: #587e5f; /* Green background for generic icons */
+.lesson-icon-container:hover .play-button-overlay {
+  opacity: 1;
 }
 
 .lesson-details {
-  flex-grow: 1; /* Allows details to take remaining space */
+  flex-grow: 1;
 }
 
 .lesson-title {
-  font-size: 1.1em;
   font-weight: bold;
   color: #333;
   margin-bottom: 5px;
 }
 
 .lesson-duration {
-  font-size: 0.85em;
   color: #777;
+  font-size: 0.9em;
 }
 
 .lesson-checkbox {
-  width: 25px; /* Size of the checkbox area */
+  width: 25px;
   height: 25px;
-  border: 2px solid #ccc; /* Light grey border for unchecked */
-  border-radius: 5px;
+  border: 2px solid #ccc;
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
+  color: transparent; /* Checkmark is transparent by default */
   font-size: 1.2em;
-  color: white; /* Checkmark color */
-  margin-left: 15px;
-  flex-shrink: 0;
+  font-weight: bold;
 }
 
 .lesson-checkbox.completed {
-  background-color: #72a37e; /* Green background when completed */
-  border-color: #72a37e; /* Green border when completed */
+  background-color: #587e5f; /* Green for completed */
+  border-color: #587e5f;
+  color: white; /* White checkmark */
 }
 
-.enroll-button {
-  width: 100%; /* Full width */
-  padding: 15px 20px;
-  background-color: #6a8c6f; /* Green button color */
-  color: white;
-  border: none;
-  border-radius: 30px; /* Highly rounded */
-  font-size: 1.1em;
+
+/* --- NEW: Reviews Section Styles --- */
+.reviews-section {
+  background-color: #f0f2f5; /* Match page background */
+  padding: 0px; /* No padding on the main container itself, its children will have it */
+  margin-bottom: 20px;
+}
+
+.overall-rating-section {
+  background-color: white; /* White background for this whole block */
+  border-radius: 10px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 30px; /* Space between the number/stars and the bars */
+  margin-bottom: 20px;
+}
+
+.overall-rating-summary {
+  flex-shrink: 0; /* Don't shrink */
+  text-align: center;
+}
+
+.overall-rating-number {
+  font-size: 3.5em; /* Large number */
   font-weight: bold;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  margin-top: 20px; /* Space above button */
+  color: #333;
+  line-height: 1; /* Adjust line height */
+  margin-bottom: 5px;
 }
 
-.enroll-button:hover {
-  background-color: #5d7e63; /* Darker green on hover */
+.star-rating-display .star-filled {
+  color: gold; /* Filled star color */
+  font-size: 1.5em;
+  margin-right: 2px;
+}
+
+.star-rating-display .star-empty {
+  color: #ccc; /* Empty star color */
+  font-size: 1.5em;
+  margin-right: 2px;
+}
+
+.rating-distribution {
+  flex-grow: 1; /* Take up remaining space */
+}
+
+.rating-bar-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 5px; /* Space between rows */
+}
+
+.rating-label {
+  font-size: 0.9em;
+  color: #555;
+  width: 15px; /* Fixed width for star label */
+  text-align: right;
+}
+
+.rating-bar-bg {
+  flex-grow: 1;
+  height: 8px;
+  background-color: #e0e0e0; /* Grey background for the bar */
+  border-radius: 4px;
+  overflow: hidden; /* Ensure fill stays within bounds */
+}
+
+.rating-bar-fill {
+  height: 100%;
+  background-color: #587e5f; /* Green fill color */
+  border-radius: 4px;
+}
+
+.rating-percentage {
+  font-size: 0.85em;
+  color: #555;
+  width: 35px; /* Fixed width for percentage text */
+  text-align: right;
+}
+
+.reviews-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding: 0 10px; /* Padding to align with other content */
+}
+
+.reviews-count {
+  font-weight: bold;
+  color: #333;
+  font-size: 1.1em;
+}
+
+.write-review-button {
+  background-color: #587e5f; /* Green button */
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 20px; /* More rounded */
+  cursor: pointer;
+  font-size: 0.9em;
+  transition: background-color 0.3s ease;
+}
+
+.write-review-button:hover {
+  background-color: #4a6a51;
+}
+
+.individual-reviews-list {
+  background-color: white;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.review-card {
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #eee;
+}
+
+.review-card:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.reviewer-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.reviewer-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.reviewer-details {
+  flex-grow: 1;
+}
+
+.reviewer-name {
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 2px;
+}
+
+.review-time {
+  color: #777;
+  font-size: 0.8em;
+}
+
+.individual-review-rating {
+  font-size: 0.9em;
+  color: #777;
+  display: flex; /* To align stars and text */
+  align-items: center;
+  gap: 5px;
+}
+
+/* Re-using star-filled and star-empty for individual ratings too */
+.individual-review-rating .star-filled {
+  color: gold;
+}
+.individual-review-rating .star-empty {
+  color: #ccc;
+}
+
+.review-text {
+  color: #555;
+  line-height: 1.6;
 }
