@@ -22,7 +22,7 @@ export default function CourseMv2() {
         {/* Progress card */}
           <ProgressSummary
             percentage={80}
-            course="Introduction to Park Guide"
+            course="Introduction to Park Guide!"
             message="Hurry up! Keep making progress."
             onContinue={handleContinue}
           />

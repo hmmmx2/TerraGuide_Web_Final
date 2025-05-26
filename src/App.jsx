@@ -42,6 +42,7 @@ import GlobalNotificationListener from './components/GlobalNotificationListener'
 import CourseMv2 from "./Pages/CourseMv2.jsx";
 import TimetableManagement from './Pages/TimetableManagement';
 import CourseAbout from "./Pages/CourseAbout";
+import ExamPage from "./Pages/ExamPage";
 
 // More efficient ProtectedRoute using Outlet
 function ProtectedRoutes() {
@@ -194,6 +195,7 @@ function App() {
               <Route path="/blogs3" element={<Blogs3 />} />
               <Route path="/testc" element={<CourseMv2 />} />
               <Route path="/courseabout" element={<CourseAbout />} />
+              <Route path="/exampage" element={<ExamPage />} />
             </Route>
 
             {/* Protected routes accessible only to non-guest authenticated users */}
