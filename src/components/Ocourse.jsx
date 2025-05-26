@@ -16,7 +16,7 @@ const COURSE_DATA = [
     count: '7,983 Students',
     instructor: 'Jason Lee',
     category: 'Park Guide',
-    badge: 'Free'
+    badge: 'Free',
     link: ''
   },
   {
