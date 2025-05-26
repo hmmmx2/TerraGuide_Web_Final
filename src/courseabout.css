@@ -1,0 +1,188 @@
+/* General Page Layout */
+body {
+  background-color: #f0f2f5; /* Light grey background from the screenshot */
+  margin: 0;
+  font-family: sans-serif;
+}
+
+.course-about-page-container {
+  max-width: 800px; /* Adjust as needed for your overall layout */
+  margin: 0 auto; /* Center the container */
+  padding: 20px;
+  background-color: #f0f2f5; /* Match body background */
+}
+
+/* Header Image Section */
+.course-banner-container {
+  position: relative;
+  width: 100%;
+  border-radius: 15px; /* Rounded corners for the image container */
+  overflow: hidden; /* Ensures image corners are also rounded */
+  margin-bottom: 20px;
+}
+
+.course-banner-image {
+  width: 100%;
+  height: 200px; /* Adjust height as needed */
+  object-fit: cover; /* Ensures image covers the area without distortion */
+  display: block; /* Removes extra space below image */
+}
+
+.course-free-tag {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background-color: #72a37e; /* Green color from screenshot */
+  color: white;
+  padding: 5px 15px;
+  border-radius: 20px; /* Highly rounded */
+  font-size: 0.9em;
+  font-weight: bold;
+}
+
+/* Course Main Info */
+.course-main-info {
+  padding: 0 10px; /* Slight horizontal padding */
+}
+
+.course-title {
+  font-size: 1.8em;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+.course-rating {
+  font-size: 0.9em;
+  color: #777;
+  margin-bottom: 25px;
+  display: flex;
+  align-items: center;
+}
+
+.star-icon {
+  color: #f7d242; /* Yellow star color */
+  margin-right: 5px;
+}
+
+/* Info Cards Container */
+.info-cards-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px; /* Space between cards */
+  margin-bottom: 30px;
+  padding: 0 5px; /* Adjust padding if needed */
+}
+
+.info-card {
+  background-color: #e6e9e0; /* Light beige/greenish background for cards */
+  border-radius: 15px;
+  padding: 15px;
+  text-align: center;
+  flex: 1; /* Distribute space evenly */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 90px; /* Ensure a consistent height */
+}
+
+.info-icon {
+  font-size: 2em; /* Size of the icon */
+  color: #587e5f; /* Darker green for icons */
+  margin-bottom: 5px;
+}
+
+.info-text {
+  font-size: 0.9em;
+  color: #555;
+  margin: 0;
+}
+
+/* Navigation Tabs */
+.course-tabs-container {
+  display: flex;
+  justify-content: space-around; /* Distribute tabs evenly */
+  border-bottom: 1px solid #ddd; /* Light grey separator line */
+  margin-bottom: 25px;
+  padding: 0 10px;
+}
+
+.course-tab {
+  padding: 10px 15px;
+  color: #777;
+  font-weight: bold;
+  cursor: pointer;
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+.course-tab.active {
+  color: #587e5f; /* Active tab text color */
+}
+
+.course-tab.active::after {
+  content: '';
+  position: absolute;
+  bottom: -1px; /* Position it on the border line */
+  left: 0;
+  width: 100%;
+  height: 3px; /* Thickness of the underline */
+  background-color: #587e5f; /* Active tab underline color */
+  border-radius: 2px;
+}
+
+/* Instructor Section */
+.instructor-section {
+  display: flex;
+  align-items: center;
+  margin-bottom: 30px;
+  background-color: white; /* White background for this section */
+  border-radius: 15px;
+  padding: 20px;
+}
+
+.instructor-avatar {
+  width: 70px; /* Size of the avatar */
+  height: 70px;
+  border-radius: 50%; /* Circular avatar */
+  object-fit: cover;
+  margin-right: 15px;
+}
+
+.instructor-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.instructor-name {
+  font-size: 1.2em;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 2px;
+}
+
+.instructor-role {
+  font-size: 0.9em;
+  color: #777;
+}
+
+/* About Course Content */
+.about-course-content {
+  background-color: white; /* White background for this section */
+  border-radius: 15px;
+  padding: 20px;
+}
+
+.section-title {
+  font-size: 1.5em;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+.course-description {
+  font-size: 1em;
+  color: #555;
+  line-height: 1.6;
+}
