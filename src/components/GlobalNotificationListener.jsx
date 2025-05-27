@@ -1,11 +1,26 @@
 import { useEffect } from 'react';
 import { supabase } from '../supabase/supabase';
 import { useNotification } from '../contexts/NotificationContext';
+import { useAuth } from '../contexts/authContext/supabaseAuthContext';
+import { useLocation } from 'react-router-dom';
 
 const GlobalNotificationListener = () => {
   const { showIntruderAlert } = useNotification();
+  const { userRole } = useAuth();
+  const location = useLocation();
 
   useEffect(() => {
+    // Only set up the listener if user is admin/controller and on dashboard page
+    const isAdmin = userRole === 'admin' || userRole === 'controller';
+    const isOnDashboard = location.pathname === '/dashboard';
+    
+    if (!isAdmin || !isOnDashboard) {
+      console.log('Intruder alerts disabled: User not admin or not on dashboard');
+      return;
+    }
+
+    console.log('Intruder alert notifications activated for admin on dashboard');
+    
     // Set up real-time subscription for intruder detection events
     const subscription = supabase
       .channel('global-intruder-events')
@@ -35,14 +50,12 @@ const GlobalNotificationListener = () => {
       )
       .subscribe();
 
-    console.log('Global notification listener activated');
-
-    // Cleanup subscription on component unmount
+    // Cleanup subscription on component unmount or when conditions change
     return () => {
       console.log('Cleaning up global notification subscription');
       subscription.unsubscribe();
     };
-  }, [showIntruderAlert]);
+  }, [showIntruderAlert, userRole, location.pathname]);
 
   // This component doesn't render anything
   return null;
