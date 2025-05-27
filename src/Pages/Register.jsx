@@ -1,27 +1,28 @@
-import React, { useState } from 'react'
+import React, { useState, useLayoutEffect } from 'react';
 import Footer1 from "../components/Footer1";
 import Top from "../components/Top";
 import "../styles.css";
 import registrationImage from "../assets/registrationv2-img.png";
-// Updated to use Supabase authentication
 import { useAuth } from "../contexts/authContext/supabaseAuthContext";
 import { doCreateUserWithEmailAndPassword } from "../supabase/auth";
-import { supabase } from "../supabase/supabase"; // Add this import
-import { Link, Navigate, useNavigate } from "react-router-dom";
-import { v4 as uuidv4 } from 'uuid'; // Import UUID for generating unique guest IDs
-import ConfirmationPopup from "../components/ConfirmationPopup"; // Import the popup component
+import { supabase } from "../supabase/supabase";
+import { Link, Navigate, useNavigate, useLocation } from "react-router-dom";
+import { v4 as uuidv4 } from 'uuid';
+
+// Terra-Guide theme color
+const terraGreen = "#4E6E4E";
 
 const Register = () => {
   const navigate = useNavigate();
-  const { userLoggedIn, setEmailVerificationSent, enableGuestMode } = useAuth();
+  const location = useLocation();
+  const { userLoggedIn, setEmailVerificationSent, enableGuestMode, setUserLoggedIn } = useAuth();
 
-  // Existing state variables
+  // State variables
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  // Changed: Set default role to "parkguide" without selection option
   const [userRole] = useState("parkguide");
   const [isRegistering, setIsRegistering] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -34,11 +35,98 @@ const Register = () => {
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [confirmPasswordError, setConfirmPasswordError] = useState("");
-  // Removed userRoleError since we no longer need it
-  const [userRoleError, setUserRoleError] = useState("");
   
-  // Add state for the confirmation popup
-  const [showConfirmationPopup, setShowConfirmationPopup] = useState(false);
+  // States for email verification and payment
+  const [showEmailVerificationPopup, setShowEmailVerificationPopup] = useState(false);
+  const [isEmailVerified, setIsEmailVerified] = useState(false);
+  const [registeredUser, setRegisteredUser] = useState(null);
+  const [showPaymentPopup, setShowPaymentPopup] = useState(false);
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("");
+  const [paymentStatus, setPaymentStatus] = useState("");
+  const [pendingTransactionId, setPendingTransactionId] = useState(null);
+
+  // Clear session on component mount to prevent automatic login
+  useLayoutEffect(() => {
+    const clearSession = async () => {
+      await supabase.auth.signOut();
+      setUserLoggedIn(false);
+    };
+    clearSession();
+  }, [setUserLoggedIn]);
+
+  // Handle email confirmation redirect after payment
+  useLayoutEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const type = params.get('type');
+
+    const handleConfirmation = async () => {
+      if (type === 'email_confirmation') {
+        const { data: userData } = await supabase.auth.getUser();
+        if (userData.user && userData.user.email_confirmed_at) {
+          setRegisteredUser(userData.user);
+          setFirstName(userData.user.user_metadata.first_name || '');
+          setLastName(userData.user.user_metadata.last_name || '');
+          setEmail(userData.user.email || '');
+          setIsEmailVerified(true);
+          setShowEmailVerificationPopup(false);
+
+          // Finalize user setup (upsert park_guides table)
+          const updatedUser = userData.user;
+          const { data: userRecord, error: userError } = await supabase
+            .from('users')
+            .select('id')
+            .eq('supabase_uid', updatedUser.id)
+            .single();
+
+          if (userError || !userRecord) {
+            console.error('Error fetching user record:', userError);
+            setErrorMessage('Failed to fetch user record for park guide association.');
+            return;
+          }
+
+          const username = `${firstName} ${lastName}`;
+          const authId = updatedUser.id;
+
+          // Update the pending transaction with the supabase_uid
+          if (pendingTransactionId) {
+            const { error: updateError } = await supabase
+              .from('transaction_history')
+              .update({
+                supabase_uid: authId,
+                status: 'completed'
+              })
+              .eq('id', pendingTransactionId);
+
+            if (updateError) {
+              console.error('Error updating transaction:', updateError);
+              setErrorMessage('Failed to finalize transaction after email confirmation.');
+            }
+          }
+
+          const { error: parkGuideError } = await supabase
+            .from('park_guides')
+            .upsert({
+              user_id: userRecord.id,
+              supabase_uid: authId,
+              username: username,
+              designation: userRole
+            }, { onConflict: 'supabase_uid' });
+
+          if (parkGuideError) {
+            console.error('Park guide upsert error:', parkGuideError);
+            setErrorMessage(`Failed to save park guide: ${parkGuideError.message}`);
+          }
+
+          await supabase.auth.signOut();
+          setUserLoggedIn(false);
+          navigate('/'); // Redirect to login page after confirmation
+        } else {
+          setErrorMessage("Email confirmation failed or user not found.");
+        }
+      }
+    };
+    handleConfirmation();
+  }, [location, setUserLoggedIn, firstName, lastName, userRole, navigate, pendingTransactionId]);
 
   const validatePassword = (password) => {
     const minLength = 8;
@@ -65,10 +153,46 @@ const Register = () => {
     return "";
   };
 
+  const saveTransaction = async (authId, username) => {
+    try {
+      if (!username) {
+        throw new Error('Username is required');
+      }
+
+      const transactionData = {
+        supabase_uid: authId || null, // Allow null for pending transactions
+        username: username,
+        transaction_type: "Registration Fee",
+        amount_rm: 100,
+        transaction_dt: new Date().toISOString(),
+        status: authId ? 'completed' : 'pending'
+      };
+
+      const { data, error } = await supabase
+        .from('transaction_history')
+        .insert(transactionData)
+        .select()
+        .single();
+
+      if (error) {
+        console.error('Error saving transaction:', error);
+        throw error;
+      }
+
+      return data.id; // Return the transaction ID for later updating
+    } catch (error) {
+      console.error('Detailed transaction error:', {
+        message: error.message,
+        code: error.code,
+        details: error.details
+      });
+      throw new Error('Failed to save transaction');
+    }
+  };
+
   const onSubmit = async (e) => {
     e.preventDefault();
     
-    // Reset all error states
     setFirstNameError("");
     setLastNameError("");
     setEmailError("");
@@ -78,7 +202,6 @@ const Register = () => {
     
     let hasError = false;
 
-    // Validate required fields
     if (!firstName.trim()) {
       setFirstNameError("First name is required");
       hasError = true;
@@ -89,7 +212,12 @@ const Register = () => {
       hasError = true;
     }
 
-    // Validate password requirements
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      setEmailError("Please enter a valid email address.");
+      hasError = true;
+    }
+
     const passwordValidationError = validatePassword(password);
     if (passwordValidationError) {
       setPasswordError(passwordValidationError);
@@ -104,104 +232,100 @@ const Register = () => {
     if (hasError) {
       return;
     }
-    
+
     setIsRegistering(true);
-    
+
     try {
-      // First check if the email exists
-      const { data, error } = await supabase.auth.signInWithOtp({
-        email: email,
-        options: {
-          shouldCreateUser: false // This ensures we only check if the user exists
-        }
-      });
-      
-      // If no error is thrown when shouldCreateUser is false, it means the user exists
-      if (!error) {
-        setEmailError("This email is already registered. Please use a different email address.");
-        setIsRegistering(false);
-        return;
-      }
-      
-      // If the error is not about user existence, it's another type of error
-      if (error && !error.message.includes("Email not confirmed")) {
-        // If the error is not about email confirmation, proceed with registration
-        // Pass the userRole, firstName and lastName to the registration function
-        const result = await doCreateUserWithEmailAndPassword(email, password, firstName, lastName, userRole);
-        
-        // Show confirmation popup instead of navigating immediately
-        setShowConfirmationPopup(true);
+      const authData = await doCreateUserWithEmailAndPassword(email, password, firstName, lastName, userRole, `${firstName} ${lastName}`);
+      if (!authData.user || !authData.user.id) {
+        console.warn('User creation initiated, waiting for email confirmation:', authData);
+        setRegisteredUser({ id: null, email });
       } else {
-        // If the error is about email confirmation, it means the user exists but hasn't confirmed email
-        setEmailError("This email is already registered but not confirmed. Please check your inbox for confirmation email.");
-        setIsRegistering(false);
-        return;
+        setRegisteredUser(authData.user);
       }
+      setShowPaymentPopup(true);
     } catch (error) {
-      // Enhanced error logging
-      console.error("Registration error details:", error);
-      
-      // Handle specific error for duplicate email from Supabase
-      if (error.message.includes("already registered") || 
-          error.message.includes("already in use") || 
-          error.message.includes("User already exists") ||
-          error.code === "23505") {
+      console.error("Registration error:", error);
+      if (error.message.includes("already registered")) {
         setEmailError("This email is already registered. Please use a different email address.");
       } else {
-        // Show more detailed error message
-        setErrorMessage(`Database error: ${error.message || "Unknown error occurred during registration"}`);
+        setErrorMessage(`Error: ${error.message || "Unknown error occurred during registration"}`);
       }
     } finally {
       setIsRegistering(false);
     }
   };
 
-  // Function to handle guest sign-in - stateless approach without database interaction
+  const proceedToEmailVerification = () => {
+    setShowPaymentPopup(false);
+    setEmailVerificationSent(true);
+    setShowEmailVerificationPopup(true);
+  };
+
+  const handlePaymentSubmit = async () => {
+    if (!selectedPaymentMethod) {
+      setErrorMessage("Please select a payment method");
+      return;
+    }
+
+    setPaymentStatus("pending");
+
+    try {
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      setPaymentStatus("successful");
+
+      const username = `${firstName} ${lastName}`;
+      const authId = registeredUser?.id || null;
+
+      const transactionId = await saveTransaction(authId, username);
+      setPendingTransactionId(transactionId);
+
+      // Automatically proceed to email verification after a 2-second delay
+      setTimeout(() => {
+        proceedToEmailVerification();
+      }, 2000);
+    } catch (error) {
+      console.error("Payment error:", error);
+      setErrorMessage(`Error: ${error.message || "Unknown error occurred during payment"}`);
+      setPaymentStatus("");
+    }
+  };
+
+  const handleClosePaymentPopup = () => {
+    setShowPaymentPopup(false);
+    setSelectedPaymentMethod("");
+    setPaymentStatus("");
+    setErrorMessage("Payment is required to proceed. Please complete the payment.");
+  };
+
+  const handleCloseEmailVerificationPopup = () => {
+    setShowEmailVerificationPopup(false);
+    setIsRegistering(false);
+  };
+
   const handleGuestSignIn = () => {
     setIsRegistering(true);
     setErrorMessage("");
     
     try {
-      console.log("Setting up stateless guest access");
-      
-      // Use the enableGuestMode function from AuthContext
-      // This properly sets up guest mode state in the context
       enableGuestMode();
-      
-      // Skip email verification for guest access
       setEmailVerificationSent(false);
-      
-      console.log("Guest access enabled - redirecting to index");
-      
-      // Navigate to index page
       navigate('/index');
     } catch (error) {
       console.error("Guest access error:", error);
-      // Show a generic error message
       setErrorMessage("Failed to enable guest access. Please try again.");
     } finally {
       setIsRegistering(false);
     }
   };
-  
-  // Function to handle popup close
-  const handleClosePopup = () => {
-    setShowConfirmationPopup(false);
-    navigate("/index"); // Navigate after closing the popup
-  };
 
-  if (userLoggedIn) {
-    return <Navigate to="/index" replace />;
+  if (userLoggedIn && paymentStatus !== "successful" && !isEmailVerified) {
+    return <Navigate to="/register" replace />;
   }
 
   return (
     <>
-      <Top/>
-
-      {/* <div> */}
-      {/* <div className="mt-4 text-box-registration">
-        <h1 className="text-title-registration">REGISTRATION FORM</h1>
-      </div> */}
+      <Top />
 
       <div className="mt-5 registration-height-container">
         <div className="registration-svg-form">
@@ -295,32 +419,6 @@ const Register = () => {
                 </div>
               </div>
 
-              {/* User Role Selection Dropdown removed - all normal registrations are now "parkguide" role */}
-              {/* <div className="registration-input-container">
-                <label htmlFor="userRole" className="registration-input-label">User Role:</label>
-                <div className={`registration-input-text ${userRoleError ? 'is-invalid' : ''}`}>
-                  <span className="registration-icon"><i className="fa-solid fa-user-tag"></i></span>
-                  <select
-                    id="userRole"
-                    className={`registration-input ${userRoleError ? 'is-invalid' : ''}`}
-                    value={userRole}
-                    onChange={(e) => {
-                      setUserRole(e.target.value);
-                      if (userRoleError) setUserRoleError("");
-                    }}
-                    required
-                  >
-                    <option value="guide">Park Guide</option>
-                    <option value="visitor">Visitor</option>
-                  </select>
-                  {userRoleError && (
-                    <div className="invalid-feedback" style={{ display: 'block', color: '#dc3545', fontSize: '0.875em', marginTop: '0.25rem' }}>
-                      {userRoleError}
-                    </div>
-                  )}
-                </div>
-              </div> */}
-
               <div className="registration-input-container">
                 <label htmlFor="password" className="registration-input-label">Password (25 characters max):</label>
                 <div className={`registration-input-text ${passwordError ? 'is-invalid' : ''}`} style={{ position: 'relative' }}>
@@ -411,19 +509,19 @@ const Register = () => {
                 </ul>
               </div>
 
-              <button type="submit" className="register-btn" disabled={isRegistering}>{isRegistering ? "Registering..." : "Register Now"}</button>
+              <button type="submit" className="register-btn" disabled={isRegistering}>
+                {isRegistering ? "Registering..." : "Register Now"}
+              </button>
               <div className="registration-alry-acc">
                 <p className="registration-input-label">Already have an account? <Link to="/" className="registration-custom-login-text">Login</Link></p>
               </div>
               
-              {/* Or separator */}
               <div style={{ display: 'flex', alignItems: 'center', margin: '20px 0' }}>
                 <div style={{ flex: 1, height: '1px', backgroundColor: '#ccc' }}></div>
                 <p style={{ margin: '0 10px', color: '#F6EFDC' }}>or</p>
                 <div style={{ flex: 1, height: '1px', backgroundColor: '#ccc' }}></div>
               </div>
               
-              {/* Guest sign-in button */}
               <button type="button" className="register-btn bg-light text-success" onClick={handleGuestSignIn}>
                 Sign in as Guest
               </button>
@@ -431,16 +529,235 @@ const Register = () => {
           </div>
         </div>
       </div>
-    {/* </div> */}
 
-      <>
-        <ConfirmationPopup 
-          show={showConfirmationPopup}
-          onClose={handleClosePopup}
-          title="Registration Successful"
-          message="A confirmation email has been sent to your email address. Please check your inbox and follow the instructions to verify your account."
-        />
-      </>
+      {showEmailVerificationPopup && (
+        <div className="modal-backdrop" style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          backgroundColor: 'rgba(0, 0, 0, 0.5)',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          zIndex: 1050
+        }}>
+          <div className="modal-content" style={{
+            backgroundColor: '#f0f0e8',
+            padding: '2rem',
+            borderRadius: '15px',
+            width: '90%',
+            maxWidth: '500px',
+            boxShadow: '0 5px 15px rgba(0, 0, 0, 0.3)',
+            border: `2px solid ${terraGreen}`
+          }}>
+            <div className="d-flex justify-content-between align-items-center mb-4">
+              <h3 className="mb-0">Verify Your Email</h3>
+              <button
+                onClick={handleCloseEmailVerificationPopup}
+                style={{ background: 'none', border: 'none', fontSize: '1.5rem', color: terraGreen }}
+              >
+                ×
+              </button>
+            </div>
+            <div className="text-center">
+              <p>A confirmation email has been sent to {email}. Please check your inbox (and spam/junk folder) and click the link to verify your account.</p>
+              <p>Waiting for verification...</p>
+              <div className="spinner-border mt-3" style={{ color: terraGreen }} role="status">
+                <span className="visually-hidden">Loading...</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {showPaymentPopup && (
+        <div className="modal-backdrop" style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          backgroundColor: 'rgba(0, 0, 0, 0.6)',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          zIndex: 1050
+        }}>
+          <div className="modal-content" style={{
+            backgroundColor: '#ffffff',
+            padding: '2.5rem',
+            borderRadius: '20px',
+            width: '90%',
+            maxWidth: '550px',
+            boxShadow: '0 10px 30px rgba(0, 0, 0, 0.2)',
+            border: 'none',
+            position: 'relative',
+            overflow: 'hidden'
+          }}>
+            {paymentStatus === "successful" ? (
+              <div className="text-center" style={{ position: 'relative' }}>
+                <div style={{
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  width: '100%',
+                  height: '100%',
+                  background: 'linear-gradient(45deg, rgba(78, 110, 78, 0.1), rgba(255, 255, 255, 0))',
+                  animation: 'confetti 2s infinite'
+                }}></div>
+                <div style={{ fontSize: '3rem', color: terraGreen, marginBottom: '1rem' }}>🎉</div>
+                <h2 style={{ fontSize: '2rem', fontWeight: '700', color: '#333', marginBottom: '0.5rem' }}>
+                  Payment Successful!
+                </h2>
+                <p style={{ color: '#666', fontSize: '1.1rem', marginBottom: '1.5rem' }}>
+                  Your registration fee of RM 100 has been processed.
+                </p>
+                <button
+                  className="btn mt-3 px-5 py-3 rounded-full shadow text-white"
+                  style={{
+                    backgroundColor: terraGreen,
+                    fontSize: '1.1rem',
+                    fontWeight: '600',
+                    transition: 'all 0.3s ease'
+                  }}
+                  onClick={proceedToEmailVerification}
+                >
+                  Proceed to Email Verification
+                </button>
+                <style>{`
+                  @keyframes confetti {
+                    0% { transform: translateY(-100%); opacity: 0; }
+                    50% { opacity: 1; }
+                    100% { transform: translateY(100%); opacity: 0; }
+                  }
+                `}</style>
+              </div>
+            ) : (
+              <>
+                <div className="d-flex justify-content-between align-items-center mb-4">
+                  <div>
+                    <h2 style={{
+                      fontSize: '1.8rem',
+                      fontWeight: '700',
+                      color: '#333',
+                      marginBottom: '0.3rem'
+                    }}>
+                      Complete Your Payment
+                    </h2>
+                    <p style={{ color: '#666', fontSize: '1rem' }}>
+                      Next step: Verify your email to activate your account.
+                    </p>
+                  </div>
+                  <button
+                    onClick={handleClosePaymentPopup}
+                    style={{
+                      background: 'none',
+                      border: 'none',
+                      fontSize: '1.8rem',
+                      color: '#999',
+                      transition: 'color 0.3s ease'
+                    }}
+                    onMouseEnter={(e) => e.target.style.color = terraGreen}
+                    onMouseLeave={(e) => e.target.style.color = '#999'}
+                  >
+                    ×
+                  </button>
+                </div>
+                <div className="mb-4 text-center" style={{
+                  backgroundColor: '#f5f5f5',
+                  padding: '1rem',
+                  borderRadius: '10px'
+                }}>
+                  <p style={{ fontSize: '1.2rem', fontWeight: '600', color: '#333' }}>
+                    Registration Fee: <span style={{ color: terraGreen }}>RM 100</span>
+                  </p>
+                </div>
+                <div className="mb-4">
+                  <label style={{
+                    fontSize: '1.1rem',
+                    fontWeight: '600',
+                    color: '#333',
+                    marginBottom: '1rem',
+                    display: 'block'
+                  }}>
+                    Choose a Payment Method
+                  </label>
+                  <div className="d-flex flex-column gap-3">
+                    {['DuitNow', 'PayPal'].map(method => (
+                      <button
+                        key={method}
+                        type="button"
+                        className="d-flex align-items-center gap-3 p-3 rounded-lg"
+                        style={{
+                          backgroundColor: selectedPaymentMethod === method ? '#e8f5e9' : '#f8f9fa',
+                          border: `2px solid ${selectedPaymentMethod === method ? terraGreen : '#ddd'}`,
+                          transition: 'all 0.3s ease',
+                          cursor: 'pointer',
+                          boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)'
+                        }}
+                        onClick={() => setSelectedPaymentMethod(method)}
+                      >
+                        <img
+                          src={method === 'DuitNow' ? 'https://images.seeklogo.com/logo-png/37/1/duit-now-logo-png_seeklogo-374361.png' : 'https://www.paypalobjects.com/webstatic/mktg/Logo/pp-logo-150px.png'}
+                          alt={`${method} logo`}
+                          style={{ width: '30px', height: 'auto' }}
+                        />
+                        <div className="flex-grow-1 text-left">
+                          <p style={{ fontSize: '1.1rem', fontWeight: '500', color: '#333', margin: 0 }}>
+                            {method} {method === 'DuitNow' ? 'Online Banking' : ''}
+                          </p>
+                          <p style={{ fontSize: '0.9rem', color: '#666', margin: 0 }}>
+                            Takes a minute
+                          </p>
+                        </div>
+                        {selectedPaymentMethod === method && (
+                          <span style={{ color: terraGreen, fontSize: '1.2rem' }}>
+                            ✓
+                          </span>
+                        )}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+                {errorMessage && (
+                  <p style={{ color: '#dc3545', fontSize: '0.9rem', marginBottom: '1rem', textAlign: 'center' }}>
+                    {errorMessage}
+                  </p>
+                )}
+                <div className="text-center">
+                  <button
+                    className="btn px-5 py-3 rounded-full shadow text-white"
+                    style={{
+                      backgroundColor: terraGreen,
+                      fontSize: '1.1rem',
+                      fontWeight: '600',
+                      width: '100%',
+                      transition: 'all 0.3s ease',
+                      opacity: paymentStatus === "pending" || !selectedPaymentMethod ? 0.6 : 1
+                    }}
+                    onClick={handlePaymentSubmit}
+                    disabled={paymentStatus === "pending" || !selectedPaymentMethod}
+                  >
+                    {paymentStatus === "pending" ? (
+                      <div className="d-flex align-items-center justify-content-center">
+                        <div className="spinner-border spinner-border-sm me-2" style={{ color: '#fff' }} role="status">
+                          <span className="visually-hidden">Processing...</span>
+                        </div>
+                        Processing...
+                      </div>
+                    ) : (
+                      "Pay Now"
+                    )}
+                  </button>
+                </div>
+              </>
+            )}
+          </div>
+        </div>
+      )}
+
       <Footer1 />
     </>
   );
