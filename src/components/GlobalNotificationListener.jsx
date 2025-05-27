@@ -10,16 +10,22 @@ const GlobalNotificationListener = () => {
   const location = useLocation();
 
   useEffect(() => {
-    // Only set up the listener if user is admin/controller and on dashboard page
+    // Only set up the listener if user is admin/controller and on admin-accessible pages
     const isAdmin = userRole === 'admin' || userRole === 'controller';
-    const isOnDashboard = location.pathname === '/dashboard';
     
-    if (!isAdmin || !isOnDashboard) {
-      console.log('Intruder alerts disabled: User not admin or not on dashboard');
+    // Get current path without the leading slash
+    const currentPath = location.pathname.replace(/^\//, '');
+    
+    // Exclude login and register pages
+    const excludedPages = ['', '/', 'signup', 'register', 'login'];
+    const isOnExcludedPage = excludedPages.includes(currentPath);
+    
+    if (!isAdmin || isOnExcludedPage) {
+      console.log('Intruder alerts disabled: User not admin or on excluded page');
       return;
     }
 
-    console.log('Intruder alert notifications activated for admin on dashboard');
+    console.log('Intruder alert notifications activated for admin on page:', currentPath);
     
     // Set up real-time subscription for intruder detection events
     const subscription = supabase
