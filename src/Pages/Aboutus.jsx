@@ -86,6 +86,7 @@ export default function AboutUs() {
             </div>
             <div className="profile-description">
               <h3>Wei Chien CHIN</h3>
+              <p><strong>Student ID:</strong>104401173</p>
               <p><strong>Hobby:</strong> Cooking</p>
               <p><strong>Dream:</strong> Traveling Abroad</p>
               <p><strong>Zodiac:</strong> Leo</p>
