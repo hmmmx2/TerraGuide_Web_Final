@@ -9,7 +9,8 @@ const LICENSE_DATA = [
     title: 'License Park Guides',
     instructor: 'Organized by Sarawak Forestry',
     category: 'Exam Based',
-    badge: 'Free'
+    badge: 'Free',
+    link: '/exampage'
   }
 ]
 

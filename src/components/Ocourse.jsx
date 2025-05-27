@@ -27,7 +27,8 @@ const COURSE_DATA = [
     count: '7,761 Students',
     instructor: 'Nur Natasha',
     category: 'Park Guide',
-    badge: 'Free'
+    badge: 'Free',
+    link: '/courseabout'
   },
   {
     id: 3,
@@ -37,7 +38,8 @@ const COURSE_DATA = [
     count: '6,383 Students',
     instructor: 'Jason Lee',
     category: 'Park Guide',
-    badge: 'Free'
+    badge: 'Free',
+    link: '/courseabout'
   },
   {
     id: 4,
