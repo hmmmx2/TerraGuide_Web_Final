@@ -3,21 +3,12 @@ import { useState, useEffect } from 'react';
 import { supabase } from '../supabase/supabase';
 import { useNotification } from '../contexts/NotificationContext';
 import { createClient } from '@supabase/supabase-js';
+import { supabaseAdmin } from '../supabase/admin-client';
 
-// Attempt to create admin client if environment variables are available
-let serviceRoleClient = null;
+// Use the imported admin client for service role operations
+let serviceRoleClient = supabaseAdmin;
 
-try {
-  if (process.env.REACT_APP_SUPABASE_URL && process.env.REACT_APP_SUPABASE_SERVICE_ROLE_KEY) {
-    serviceRoleClient = createClient(
-      process.env.REACT_APP_SUPABASE_URL,
-      process.env.REACT_APP_SUPABASE_SERVICE_ROLE_KEY
-    );
-    console.log("Service role client initialized for admin operations");
-  }
-} catch (e) {
-  console.log("Could not initialize service role client:", e);
-}
+console.log("Service role client initialized from admin-client.js");
 
 // Function to bypass RLS using service role if available
 export const bypassRlsInsert = async (table, data) => {
@@ -27,7 +18,7 @@ export const bypassRlsInsert = async (table, data) => {
       const { data: result, error } = await serviceRoleClient
         .from(table)
         .insert(data)
-        .select();
+        .select({ returning: 'minimal' });
         
       if (error) {
         console.error(`Admin insert to ${table} failed:`, error);
@@ -41,7 +32,7 @@ export const bypassRlsInsert = async (table, data) => {
       const { data: result, error } = await supabase
         .from(table)
         .insert(data)
-        .select();
+        .select({ returning: 'minimal' });
         
       if (error) {
         console.error(`Standard insert to ${table} failed:`, error);
@@ -282,18 +273,34 @@ export const createBooking = async (bookingData) => {
     // Generate a unique booking ID
     const bookingId = `BK-${Date.now().toString(36)}-${Math.random().toString(36).substr(2, 5)}`.toUpperCase();
     
-    const { data, error } = await supabase
-      .from('guide_bookings')
-      .insert([{ 
-        booking_id: bookingId,
-        ...bookingData,
-        status: 'pending',
-        created_at: new Date().toISOString()
-      }])
-      .select();
+    // Prepare booking data
+    const bookingPayload = { 
+      booking_id: bookingId,
+      ...bookingData,
+      status: 'pending',
+      created_at: new Date().toISOString()
+    };
+    
+    console.log('Attempting to create booking with payload:', bookingPayload);
+    
+    // Try to use bypassRlsInsert function first
+    try {
+      await bypassRlsInsert('guide_bookings', [bookingPayload]);
+      console.log('Successfully created booking using bypassRlsInsert');
+      return { booking_id: bookingId, ...bookingData, status: 'pending' };
+    } catch (bypassError) {
+      console.error('bypassRlsInsert failed:', bypassError);
       
-    if (error) throw error;
-    return data[0];
+      // Fall back to standard insert if bypass fails
+      console.log('Falling back to standard insert');
+      const { data, error } = await supabase
+        .from('guide_bookings')
+        .insert([bookingPayload], { returning: 'minimal' });
+        
+      if (error) throw error;
+      console.log('Successfully created booking using standard insert');
+      return { booking_id: bookingId, ...bookingData, status: 'pending' };
+    }
   } catch (err) {
     console.error('Error creating booking:', err);
     throw err;
@@ -313,7 +320,7 @@ export const updateBookingStatus = async (bookingId, status) => {
         updated_at: new Date().toISOString() 
       })
       .eq('booking_id', bookingId)
-      .select();
+      .select({ returning: 'minimal' });
       
     if (error) {
       console.error(`Standard update failed: ${error.message}`);
@@ -337,7 +344,8 @@ export const updateBookingStatus = async (bookingId, status) => {
               status, 
               updated_at: new Date().toISOString() 
             })
-            .eq('booking_id', bookingId);
+            .eq('booking_id', bookingId)
+            .select({ returning: 'minimal' });
             
           if (adminError) {
             console.error(`Admin client update failed: ${adminError.message}`);
@@ -349,16 +357,16 @@ export const updateBookingStatus = async (bookingId, status) => {
         } else {
           throw new Error(`Could not update booking status: ${rpcError.message}`);
         }
-      } else {
-        console.log("Update succeeded with RPC");
-        return { booking_id: bookingId, status };
       }
+      
+      console.log("Update succeeded with RPC");
+      return { booking_id: bookingId, status };
     }
     
-    console.log("Update succeeded with standard method");
-    return data ? data[0] : { booking_id: bookingId, status };
+    console.log("Update succeeded with standard update");
+    return { booking_id: bookingId, status };
   } catch (err) {
-    console.error(`Error updating booking status to ${status}:`, err);
+    console.error('Error updating booking status:', err);
     throw err;
   }
 };
@@ -986,4 +994,4 @@ export const initializeBookingSystem = async () => {
     console.error("Error initializing booking system:", err);
     return false;
   }
-}; 
+};

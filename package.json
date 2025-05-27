@@ -4,10 +4,10 @@
   "description": "Plant identification and care guide application",
   "main": "index.js",
   "scripts": {
-    "start": "if not exist backend\\plant_api\\identify_plant.pth (npm run install-model) else (npm run start-backend && npx vite)",
+    "start": "if not exist backend\\plant_api\\identify_plant.pth (npm run install-model) else (npm run start-backend && npx vite --force)",
     "start-backend": "start cmd /c start_backend.bat",
     "install-model": "install_and_run.bat",
-    "dev": "vite",
+    "dev": "vite --force",
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
@@ -34,6 +34,7 @@
     "react-router-dom": "^7.5.0",
     "react-toastify": "^11.0.5",
     "recharts": "^2.15.3",
+    "sass": "^1.89.0",
     "uuid": "^11.1.0"
   },
   "devDependencies": {
