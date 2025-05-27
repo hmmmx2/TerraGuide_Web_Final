@@ -1,70 +1,50 @@
-import { useEffect } from 'react';
-import { supabase } from '../supabase/supabase';
-import { useNotification } from '../contexts/NotificationContext';
+import React, { useEffect } from 'react';
 import { useAuth } from '../contexts/authContext/supabaseAuthContext';
-import { useLocation } from 'react-router-dom';
+import { useNotification } from '../contexts/NotificationContext';
+import { supabase } from '../supabase/supabase';
+import { useBookingNotifications } from '../data/bookingData';
 
 const GlobalNotificationListener = () => {
-  const { showIntruderAlert } = useNotification();
-  const { userRole } = useAuth();
-  const location = useLocation();
-
+  const { currentUser, userRole } = useAuth();
+  const { showNotification } = useNotification();
+  
+  // Use the booking notifications hook for park guides
+  const { hasNewBookings } = useBookingNotifications(
+    userRole === 'parkguide' ? currentUser?.id : null
+  );
+  
+  // Listen for global notifications
   useEffect(() => {
-    // Only set up the listener if user is admin/controller and on admin-accessible pages
-    const isAdmin = userRole === 'admin' || userRole === 'controller';
+    if (!currentUser) return;
     
-    // Get current path without the leading slash
-    const currentPath = location.pathname.replace(/^\//, '');
-    
-    // Exclude login and register pages
-    const excludedPages = ['', '/', 'signup', 'register', 'login'];
-    const isOnExcludedPage = excludedPages.includes(currentPath);
-    
-    if (!isAdmin || isOnExcludedPage) {
-      console.log('Intruder alerts disabled: User not admin or on excluded page');
-      return;
-    }
-
-    console.log('Intruder alert notifications activated for admin on page:', currentPath);
-    
-    // Set up real-time subscription for intruder detection events
-    const subscription = supabase
-      .channel('global-intruder-events')
-      .on('postgres_changes', 
-        { 
-          event: 'INSERT', 
-          schema: 'public', 
-          table: 'intruder_detection_events'
-        }, 
-        (payload) => {
-          // When a new intruder is detected, show a global notification
-          const area = payload.new.area || 'Restricted Area';
-          const time = new Date(payload.new.detection_time).toLocaleString();
-          
-          // Format the alert data to match our enhanced alert format
-          const alertData = {
-            message: 'Intruder Approaching To The Restricted Area',
-            area: area,
-            time: time,
-            image_url: payload.new.image_url,
-            distance_cm: payload.new.distance_cm
-          };
-          
-          // Use the notification context to show a global alert with the enhanced data
-          showIntruderAlert(alertData);
+    // Set up a channel for global notifications
+    const channel = supabase
+      .channel('global-notifications')
+      .on('broadcast', { event: 'notification' }, (payload) => {
+        if (payload.payload) {
+          const { message, type, duration } = payload.payload;
+          showNotification(message, type || 'info', duration || 5000);
         }
-      )
+      })
       .subscribe();
-
-    // Cleanup subscription on component unmount or when conditions change
+    
     return () => {
-      console.log('Cleaning up global notification subscription');
-      subscription.unsubscribe();
+      supabase.removeChannel(channel);
     };
-  }, [showIntruderAlert, userRole, location.pathname]);
-
-  // This component doesn't render anything
-  return null;
+  }, [currentUser, showNotification]);
+  
+  // Show notification for new bookings
+  useEffect(() => {
+    if (hasNewBookings) {
+      showNotification(
+        'You have new booking requests! Check your bookings page.',
+        'info',
+        10000
+      );
+    }
+  }, [hasNewBookings, showNotification]);
+  
+  return null; // This component doesn't render anything
 };
 
 export default GlobalNotificationListener;

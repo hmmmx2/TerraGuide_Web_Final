@@ -43,6 +43,9 @@ import CourseMv2 from "./Pages/CourseMv2.jsx";
 import TimetableManagement from './Pages/TimetableManagement';
 import CourseAbout from "./Pages/CourseAbout";
 import ExamPage from "./Pages/ExamPage";
+import BookGuide from './Pages/Booking/BookGuide';
+import GuideBookings from './Pages/Booking/GuideBookings';
+import { initializeBookingSystem } from './data/bookingData';
 
 // More efficient ProtectedRoute using Outlet
 function ProtectedRoutes() {
@@ -66,6 +69,18 @@ function ProtectedNonGuestRoutes() {
 
   // Allow access only if user is logged in and not in guest mode
   return userLoggedIn && !isGuestMode ? <Outlet /> : <Navigate to="/index" replace />;
+}
+
+// New GuideRoutes component for park guide only pages
+function GuideRoutes() {
+  const { currentUser, loading, userLoggedIn, userRole } = useAuth();
+
+  if (loading) {
+    return <div>Loading...</div>; // Show loading state while checking auth
+  }
+
+  // Allow access only if user is logged in and has the park guide role
+  return userLoggedIn && userRole === 'parkguide' ? <Outlet /> : <Navigate to="/index" replace />;
 }
 
 // New AdminRoutes component for admin/controller only pages
@@ -149,6 +164,16 @@ function IndexRedirect() {
 }
 
 function App() {
+  // Initialize booking system on app load
+  useEffect(() => {
+    const setupBookings = async () => {
+      console.log("Initializing booking system...");
+      await initializeBookingSystem();
+    };
+
+    setupBookings();
+  }, []);
+
   return (
     <AuthProvider>
       <NotificationProvider>
@@ -174,6 +199,11 @@ function App() {
               <Route path="/settings" element={<SettingsPage />} />
               <Route path="/timetable-management" element={<TimetableManagement />} />
               {/* Add other user management routes as needed */}
+            </Route>
+            
+            {/* Park Guide only routes */}
+            <Route element={<GuideRoutes />}>
+              <Route path="/my-bookings" element={<GuideBookings />} />
             </Route>
 
             {/* Protected routes accessible to all authenticated users (including guests) */}

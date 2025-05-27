@@ -49,5 +49,31 @@ npm install -g supabase
 Or follow the official Supabase CLI Installation Guide
 
 
+## Park Guide Booking System
+
+The park guide booking system allows visitors to book tours with park guides. This feature includes:
+
+1. Viewing park guides on the homepage and dedicated guides page
+2. Booking a specific guide on a specific date
+3. Guide notification system for new bookings
+4. Guide booking management interface
+
+### Database Setup
+
+To set up the booking system database, run the following SQL script in the Supabase SQL editor:
+
+```sql
+-- Execute the setup_booking_system.sql script in the Supabase SQL editor
+```
+
+### Usage
+
+- Visitors can view park guides on the homepage or the guides page
+- Click "Book this Guide" to book a specific guide
+- Fill in the booking form with name, contact number, date, and optional message
+- Park guides can view and manage their bookings in the "My Bookings" section
+- Guides receive notifications when new bookings are made
+
+
 
 

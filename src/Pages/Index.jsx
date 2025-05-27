@@ -5,11 +5,10 @@ import Footer1 from '../components/Footer1';
 import SlideshowMap from '../components/SlideshowMap';
 import Slideshow2 from '../components/Slideshow2';
 import Screenshot from "../components/Screenshot";
-import ExampleImage from "../assets/parkguide_example.jpg";
-import ExampleImage4 from "../assets/jz.jpg";
-import ExampleImage3 from "../assets/des1.jpg";
+import defaultImage from "../assets/parkguide_example.jpg";
 import { useEffect, useState } from 'react';
-import { getHomepageTimetableData, useTimetableData } from '../data/timetableData';
+import { getHomepageTimetableData } from '../data/timetableData';
+import { getHomepageParkGuides } from '../data/parkGuideData';
 
 export default function Index() {
   const [alert, setAlert] = useState({
@@ -21,6 +20,11 @@ export default function Index() {
   const [timetables, setTimetables] = useState([]);
   const [loadingTimetable, setLoadingTimetable] = useState(true);
   const [timetableError, setTimetableError] = useState(null);
+  
+  // State for park guides
+  const [guides, setGuides] = useState([]);
+  const [loadingGuides, setLoadingGuides] = useState(true);
+  const [guidesError, setGuidesError] = useState(null);
   
   useEffect(() => {
     const loginSuccess = sessionStorage.getItem('loginSuccess');
@@ -71,6 +75,24 @@ export default function Index() {
     fetchTimetableData();
   }, []);
   
+  // Fetch park guides from database
+  useEffect(() => {
+    const fetchParkGuides = async () => {
+      try {
+        setLoadingGuides(true);
+        const data = await getHomepageParkGuides();
+        setGuides(data);
+      } catch (error) {
+        console.error("Error fetching park guides:", error);
+        setGuidesError(error.message);
+      } finally {
+        setLoadingGuides(false);
+      }
+    };
+
+    fetchParkGuides();
+  }, []);
+
   return (
     <>
       <Top />
@@ -184,35 +206,50 @@ export default function Index() {
           </div>
           
           <div className="row g-4">
-            <div className="col-md-4">
-              <div className="p-5 shadow-sm" style={{ backgroundColor: '#fff', borderRadius: '10px', height: '100%' }}>
-                <div className="overflow-hidden" style={{ height: '250px' }}>
-                  <img src={ExampleImage} alt="Aeron Liu" className="img-fluid w-100 h-100 object-fit-cover rounded-3" />
+            {loadingGuides ? (
+              <div className="col-12 text-center">
+                <div className="spinner-border text-success" role="status">
+                  <span className="visually-hidden">Loading...</span>
                 </div>
-                <h4 className="text-dark mt-4 mb-3 fs-3" style={{ color: '#333' }}>Aeron Liu</h4>
-                <p className="text-muted mb-0 fs-5" style={{ color: '#666' }}>Entomologist with a passion for Borneo's insect diversity. Leads specialized tours focusing on the fascinating world of tropical insects.</p>
               </div>
-            </div>
-            
-            <div className="col-md-4">
-              <div className="p-5 shadow-sm" style={{ backgroundColor: '#fff', borderRadius: '10px', height: '100%' }}>
-                <div className="overflow-hidden" style={{ height: '250px' }}>
-                  <img src={ExampleImage4} alt="Jun Zhen" className="img-fluid w-100 h-100 object-fit-cover rounded-3" />
+            ) : guidesError ? (
+              <div className="col-12">
+                <div className="alert alert-danger" role="alert">
+                  Error loading guides: {guidesError}
                 </div>
-                <h4 className="text-dark mt-4 mb-3 fs-3" style={{ color: '#333' }}>Jun Zhen</h4>
-                <p className="text-muted mb-0 fs-5" style={{ color: '#666' }}>Botanist specializing in Borneo's unique plant species. Offers tours focused on medicinal plants and traditional uses of rainforest flora.</p>
               </div>
-            </div>
-            
-            <div className="col-md-4">
-              <div className="p-5 shadow-sm" style={{ backgroundColor: '#fff', borderRadius: '10px', height: '100%' }}>
-                <div className="overflow-hidden" style={{ height: '250px' }}>
-                  <img src={ExampleImage3} alt="Desmond Li" className="img-fluid w-100 h-100 object-fit-cover rounded-3" />
+            ) : guides.length === 0 ? (
+              <div className="col-12">
+                <div className="alert alert-info text-center">
+                  No park guides available at the moment.
                 </div>
-                <h4 className="text-dark mt-4 mb-3 fs-3" style={{ color: '#333' }}>Desmond Li</h4>
-                <p className="text-muted mb-0 fs-5" style={{ color: '#666' }}>Former park ranger with extensive knowledge of Semenggoh's trails and wildlife habitats. Specializes in night safari experiences at 3 a.m.</p>
               </div>
-            </div>
+            ) : (
+              guides.map((guide) => (
+                <div key={guide.id} className="col-md-4">
+                  <div className="card h-100 shadow-sm border-0">
+                    <div className="card-img-top overflow-hidden" style={{ height: "200px" }}>
+                      <img 
+                        src={guide.avatar_url || defaultImage} 
+                        alt={guide.username}
+                        className="img-fluid w-100 h-100 object-fit-cover"
+                        onError={(e) => {
+                          e.target.onerror = null;
+                          e.target.src = defaultImage;
+                        }}
+                      />
+                    </div>
+                    <div className="card-body">
+                      <h4 className="card-title">{guide.username}</h4>
+                      <p className="card-text text-muted">{guide.bio || guide.designation}</p>
+                      <Link to={`/book-guide/${guide.id}`} state={{ guide }} className="btn btn-success mt-2">
+                        Book this Guide
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              ))
+            )}
           </div>
         </div>
       </div>

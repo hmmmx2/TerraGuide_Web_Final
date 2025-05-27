@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useAuth } from '../contexts/authContext/supabaseAuthContext';
-import { useNavigate, Link, useLocation } from 'react-router-dom';
+import { useNavigate, Link, useLocation, NavLink } from 'react-router-dom';
 import '../top.css';
 import terraguideLogo from '../assets/TerraGuide_Logo.png';
 import guest_avatar from '../assets/guest_user.jpeg';
@@ -8,7 +8,7 @@ import { doSignOut } from '../supabase/auth.js';
 import { supabase } from '../supabase/supabase';
 
 function Top() {
-  const { currentUser, userLoggedIn, isGuestMode, exitGuestMode } = useAuth();
+  const { currentUser, userLoggedIn, isGuestMode, exitGuestMode, userRole } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -379,6 +379,15 @@ function Top() {
                           >
                             Profile
                           </Link>
+                          {userRole === 'parkguide' && (
+                            <Link 
+                              to="/my-bookings" 
+                              className="dropdown-item" 
+                              onClick={() => setDropdownOpen(false)}
+                            >
+                              My Bookings
+                            </Link>
+                          )}
                           <Link 
                             to="/settings" 
                             className="dropdown-item" 
