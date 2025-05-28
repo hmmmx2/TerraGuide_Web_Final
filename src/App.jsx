@@ -1,10 +1,8 @@
 import { HashRouter as Router, Routes, Route, Navigate, Outlet } from "react-router-dom";
 // Updated to use Supabase authentication instead of Firebase
 import { AuthProvider, useAuth } from "./contexts/authContext/supabaseAuthContext";
-// Import custom SCSS instead of Bootstrap CSS
+// Import custom SCSS which already includes Bootstrap
 import './custom.scss';
-// Import Bootstrap CSS
-import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 // Import Bootstrap JS (required for dropdown functionality)
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';

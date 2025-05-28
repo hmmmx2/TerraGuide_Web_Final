@@ -1317,7 +1317,8 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   position: relative;
   min-height: 400px;
-  max-width: 280px;
+  max-width: 320px; /* was 400px, now a bit narrower */
+  width: 100%;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -1361,6 +1362,10 @@
   .parkguide-container {
     grid-template-columns: repeat(2, 1fr);
   }
+
+  .parkguide-box {
+    max-width: 80vw;
+  }
 }
 
 @media (max-width: 768px) {
@@ -1369,6 +1374,7 @@
   }
 
   .parkguide-box {
+    max-width: 96vw;
     min-height: 180px;
   }
 }
