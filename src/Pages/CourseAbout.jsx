@@ -3,21 +3,42 @@ import { Link } from 'react-router-dom';
 import Top from '../components/Top';
 import Footer1 from '../components/Footer1';
 import "../courseabout.css"; // Ensure this path is correct
+
 import courseBanner from "../assets/onlineC1.png";
 import instructorAvatar from "../assets/ang.jpg";
 import videoThumbnail1 from "../assets/onlineC2.png";
 import videoThumbnail2 from "../assets/onlineC3.png";
 
+// Replace these with the actual paths to your video files
+import basicsVideo from "../assets/basicsOfParkGuiding.mp4";
+import environmentVideo from "../assets/understandingEnvironment.mp4";
+
 export default function CourseAbout() {
   const [activeTab, setActiveTab] = useState('About');
 
-  // Lessons data
+  // Lessons data with videoSrc for actual video lessons
   const lessons = [
-    { id: 1, type: 'video',    title: 'Basics of Park Guiding',     duration: '45 mins', thumbnail: videoThumbnail1, completed: true },
-    { id: 2, type: 'video',    title: 'Understanding the Environ...', duration: '45 mins', thumbnail: videoThumbnail2, completed: true },
-    { id: 3, type: 'exercise', title: 'Exercise',                    duration: '15 mins', completed: true },
-    { id: 4, type: 'quiz',     title: 'Quiz',                        duration: '45 mins', completed: true },
-    { id: 5, type: 'survey',   title: 'Survey',                      duration: '45 mins', completed: false },
+    {
+      id: 1,
+      type: 'video',
+      title: 'Basics of Park Guiding',
+      duration: '45 mins',
+      thumbnail: videoThumbnail1,
+      videoSrc: basicsVideo,
+      completed: true
+    },
+    {
+      id: 2,
+      type: 'video',
+      title: 'Understanding the Environment',
+      duration: '45 mins',
+      thumbnail: videoThumbnail2,
+      videoSrc: environmentVideo,
+      completed: true
+    },
+    { id: 3, type: 'exercise', title: 'Exercise', duration: '15 mins', completed: true },
+    { id: 4, type: 'quiz',     title: 'Quiz',     duration: '45 mins', completed: true },
+    { id: 5, type: 'survey',   title: 'Survey',   duration: '45 mins', completed: false },
   ];
 
   // Reviews data
@@ -68,7 +89,6 @@ export default function CourseAbout() {
     switch (lesson.type) {
       case 'exercise': return '/course1';
       case 'quiz':     return '/course2';
-      // you can add video/survey routes here if needed
       default:         return '#';
     }
   };
@@ -151,37 +171,35 @@ export default function CourseAbout() {
         {activeTab === 'Lessons' && (
           <div className="lessons-list-container">
             {lessons.map(lesson => (
-              <Link
-                key={lesson.id}
-                to={getLessonLink(lesson)}
-                className="lesson-item"
-              >
+              <div key={lesson.id} className="lesson-item">
                 <div className="lesson-icon-container">
                   {lesson.type === 'video' ? (
-                    <>
-                      <img
-                        src={lesson.thumbnail}
-                        alt={lesson.title}
-                        className="video-thumbnail"
-                      />
-                      <div className="play-button-overlay">▶</div>
-                    </>
+                    // Embedded video player instead of thumbnail
+                    <video
+                      src={lesson.videoSrc}
+                      controls
+                      className="lesson-video-player"
+                    />
                   ) : (
-                    <div className={`generic-lesson-icon ${lesson.type}-icon`}>
-                      {lesson.type === 'exercise' && '📄'}
-                      {lesson.type === 'quiz'     && '📝'}
-                      {lesson.type === 'survey'   && '📋'}
-                    </div>
+                    <Link to={getLessonLink(lesson)} className="generic-lesson-icon-link">
+                      <div className={`generic-lesson-icon ${lesson.type}-icon`}>
+                        {lesson.type === 'exercise' && '📄'}
+                        {lesson.type === 'quiz'     && '📝'}
+                        {lesson.type === 'survey'   && '📋'}
+                      </div>
+                    </Link>
                   )}
                 </div>
+
                 <div className="lesson-details">
                   <p className="lesson-title">{lesson.title}</p>
                   <p className="lesson-duration">{lesson.duration}</p>
                 </div>
+
                 {lesson.completed && (
                   <div className="lesson-checkbox completed">✔</div>
                 )}
-              </Link>
+              </div>
             ))}
             <button className="enroll-button">Enroll For Free</button>
           </div>
@@ -194,7 +212,7 @@ export default function CourseAbout() {
               <div className="overall-rating-summary">
                 <p className="overall-rating-number">4.8</p>
                 <div className="star-rating-display">
-                  {renderStars(5)} {/* show 5 filled stars here */}
+                  {renderStars(5)}
                 </div>
               </div>
               <div className="rating-distribution">
