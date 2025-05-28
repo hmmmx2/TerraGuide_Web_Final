@@ -1,4 +1,4 @@
-import React, { useState, useLayoutEffect } from 'react';
+import React, { useState, useLayoutEffect, useRef } from 'react';
 import Footer1 from "../components/Footer1";
 import Top from "../components/Top";
 import "../styles.css";
@@ -8,6 +8,8 @@ import { doCreateUserWithEmailAndPassword } from "../supabase/auth";
 import { supabase } from "../supabase/supabase";
 import { Link, Navigate, useNavigate, useLocation } from "react-router-dom";
 import { v4 as uuidv4 } from 'uuid';
+import ReCAPTCHA from "react-google-recaptcha";
+import { verifyRecaptcha } from '../supabase/recaptcha';
 
 // Terra-Guide theme color
 const terraGreen = "#4E6E4E";
@@ -16,6 +18,8 @@ const Register = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { userLoggedIn, setEmailVerificationSent, enableGuestMode, setUserLoggedIn } = useAuth();
+  const [recaptchaToken, setRecaptchaToken] = useState(null);
+  const recaptchaRef = useRef();
 
   // State variables
   const [firstName, setFirstName] = useState("");
@@ -202,6 +206,19 @@ const Register = () => {
     
     let hasError = false;
 
+     // Add reCAPTCHA validation
+    // Verify reCAPTCHA first
+   if (!recaptchaToken) {
+    setErrorMessage("Please complete the CAPTCHA");
+    return;
+  }
+
+  const isHuman = await verifyRecaptcha(recaptchaToken);
+  if (!isHuman) {
+    setErrorMessage("CAPTCHA verification failed");
+    recaptchaRef.current.reset();
+    return;
+  }
     if (!firstName.trim()) {
       setFirstNameError("First name is required");
       hasError = true;
@@ -253,6 +270,13 @@ const Register = () => {
       }
     } finally {
       setIsRegistering(false);
+    }
+  };
+
+    const onRecaptchaChange = (token) => {
+    setRecaptchaToken(token);
+    if (errorMessage === "Please complete the reCAPTCHA verification") {
+      setErrorMessage("");
     }
   };
 
@@ -509,9 +533,18 @@ const Register = () => {
                 </ul>
               </div>
 
-              <button type="submit" className="register-btn" disabled={isRegistering}>
-                {isRegistering ? "Registering..." : "Register Now"}
-              </button>
+           
+      <button type="submit" className="register-btn" disabled={isRegistering}>
+      {isRegistering ? "Registering..." : "Register Now"}
+    </button>
+      <div className="mb-3">
+        <ReCAPTCHA
+    ref={recaptchaRef}
+    sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}
+    onChange={(token) => setRecaptchaToken(token)}
+    onExpired={() => setRecaptchaToken(null)}
+  />
+</div>
               <div className="registration-alry-acc">
                 <p className="registration-input-label">Already have an account? <Link to="/" className="registration-custom-login-text">Login</Link></p>
               </div>

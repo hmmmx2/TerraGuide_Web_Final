@@ -23,6 +23,8 @@ node_modules/
 *.njsproj 
 *.sln 
 *.sw? 
+.env
+*.env*
  
 # Python virtual environments 
 venv/ 
