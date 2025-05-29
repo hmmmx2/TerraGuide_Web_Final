@@ -594,7 +594,7 @@ const Register = () => {
             borderRadius: '15px',
             width: '90%',
             maxWidth: '500px',
-            boxShadow: '0 5px 15px rgba(0, 0, 0, 0.3)',
+            boxShadow: '0 5px 15px rgba(75, 53, 53, 0.3)',
             border: `2px solid ${terraGreen}`
           }}>
             <div className="d-flex justify-content-between align-items-center mb-4">
