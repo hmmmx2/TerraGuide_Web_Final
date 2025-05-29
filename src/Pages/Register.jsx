@@ -7,9 +7,8 @@ import { useAuth } from "../contexts/authContext/supabaseAuthContext";
 import { doCreateUserWithEmailAndPassword } from "../supabase/auth";
 import { supabase } from "../supabase/supabase";
 import { Link, Navigate, useNavigate, useLocation } from "react-router-dom";
-import { v4 as uuidv4 } from 'uuid';
 import ReCAPTCHA from "react-google-recaptcha";
-import { verifyRecaptcha } from '../supabase/recaptcha';
+import { verifyRecaptcha } from '../supabase/recaptcha'; // Assuming this function exists and works as expected
 
 // Terra-Guide theme color
 const terraGreen = "#4E6E4E";
@@ -18,7 +17,8 @@ const Register = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { userLoggedIn, setEmailVerificationSent, enableGuestMode, setUserLoggedIn } = useAuth();
-  const [recaptchaToken, setRecaptchaToken] = useState(null);
+  // Initialize recaptchaToken to null, to control button disabled state
+  const [recaptchaToken, setRecaptchaToken] = useState(null); 
   const recaptchaRef = useRef();
 
   // State variables
@@ -32,14 +32,14 @@ const Register = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  
+
   // Field error states
   const [firstNameError, setFirstNameError] = useState("");
   const [lastNameError, setLastNameError] = useState("");
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [confirmPasswordError, setConfirmPasswordError] = useState("");
-  
+
   // States for email verification and payment
   const [showEmailVerificationPopup, setShowEmailVerificationPopup] = useState(false);
   const [isEmailVerified, setIsEmailVerified] = useState(false);
@@ -196,34 +196,37 @@ const Register = () => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    
+
     setFirstNameError("");
     setLastNameError("");
     setEmailError("");
     setPasswordError("");
     setConfirmPasswordError("");
     setErrorMessage("");
-    
+
     let hasError = false;
 
-     // Add reCAPTCHA validation
-    // Verify reCAPTCHA first
-   if (!recaptchaToken) {
-    setErrorMessage("Please complete the CAPTCHA");
-    return;
-  }
+    // CAPTCHA verification should still happen on submit, but the button enabling is controlled by `recaptchaToken` state
+    if (!recaptchaToken) {
+      setErrorMessage("Please complete the CAPTCHA");
+      // Don't return here if the button was already disabled.
+      // This message will appear if somehow they bypass the disabled button.
+    } else {
+      const isHuman = await verifyRecaptcha(recaptchaToken);
+      if (!isHuman) {
+        setErrorMessage("CAPTCHA verification failed");
+        recaptchaRef.current.reset();
+        setRecaptchaToken(null); // Reset token to disable button again
+        hasError = true; // Mark as error to prevent submission
+      }
+    }
 
-  const isHuman = await verifyRecaptcha(recaptchaToken);
-  if (!isHuman) {
-    setErrorMessage("CAPTCHA verification failed");
-    recaptchaRef.current.reset();
-    return;
-  }
+
     if (!firstName.trim()) {
       setFirstNameError("First name is required");
       hasError = true;
     }
-    
+
     if (!lastName.trim()) {
       setLastNameError("Last name is required");
       hasError = true;
@@ -245,7 +248,7 @@ const Register = () => {
       setConfirmPasswordError("Passwords don't match");
       hasError = true;
     }
-    
+
     if (hasError) {
       return;
     }
@@ -273,9 +276,10 @@ const Register = () => {
     }
   };
 
-    const onRecaptchaChange = (token) => {
+  const onRecaptchaChange = (token) => {
     setRecaptchaToken(token);
-    if (errorMessage === "Please complete the reCAPTCHA verification") {
+    // Clear the CAPTCHA error message if it was previously displayed
+    if (errorMessage === "Please complete the CAPTCHA" || errorMessage === "CAPTCHA verification failed") {
       setErrorMessage("");
     }
   };
@@ -330,7 +334,7 @@ const Register = () => {
   const handleGuestSignIn = () => {
     setIsRegistering(true);
     setErrorMessage("");
-    
+
     try {
       enableGuestMode();
       setEmailVerificationSent(false);
@@ -460,13 +464,13 @@ const Register = () => {
                     minLength="8"
                     maxLength="25"
                   />
-                  <span 
+                  <span
                     onClick={() => setShowPassword(!showPassword)}
-                    style={{ 
-                      position: 'absolute', 
-                      right: '10px', 
-                      top: '50%', 
-                      transform: 'translateY(-50%)', 
+                    style={{
+                      position: 'absolute',
+                      right: '10px',
+                      top: '50%',
+                      transform: 'translateY(-50%)',
                       cursor: 'pointer',
                       zIndex: 10
                     }}
@@ -498,13 +502,13 @@ const Register = () => {
                     minLength="8"
                     maxLength="25"
                   />
-                  <span 
+                  <span
                     onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                    style={{ 
-                      position: 'absolute', 
-                      right: '10px', 
-                      top: '50%', 
-                      transform: 'translateY(-50%)', 
+                    style={{
+                      position: 'absolute',
+                      right: '10px',
+                      top: '50%',
+                      transform: 'translateY(-50%)',
                       cursor: 'pointer',
                       zIndex: 10
                     }}
@@ -533,28 +537,36 @@ const Register = () => {
                 </ul>
               </div>
 
-           
-      <button type="submit" className="register-btn" disabled={isRegistering}>
-      {isRegistering ? "Registering..." : "Register Now"}
-    </button>
-      <div className="mb-3">
-        <ReCAPTCHA
-    ref={recaptchaRef}
-    sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}
-    onChange={(token) => setRecaptchaToken(token)}
-    onExpired={() => setRecaptchaToken(null)}
-  />
-</div>
+              {/* ReCAPTCHA component */}
+              <div className="mb-3">
+                <ReCAPTCHA
+                  ref={recaptchaRef}
+                  sitekey="6LfQBE4rAAAAAAzGIKpCgIGkGh_Ee7CKIXXoJ6J3"
+                  onChange={onRecaptchaChange} // Use the modified onChange handler
+                  onExpired={() => setRecaptchaToken(null)} // Reset token when expired
+                />
+              </div>
+
+              {/* Submit button controlled by isRegistering and recaptchaToken */}
+              <button
+                type="submit"
+                className="register-btn"
+                // Button is disabled if registering OR if recaptchaToken is null (not checked)
+                disabled={isRegistering || !recaptchaToken}
+              >
+                {isRegistering ? "Registering..." : "Register Now"}
+              </button>
+
               <div className="registration-alry-acc">
                 <p className="registration-input-label">Already have an account? <Link to="/" className="registration-custom-login-text">Login</Link></p>
               </div>
-              
+
               <div style={{ display: 'flex', alignItems: 'center', margin: '20px 0' }}>
                 <div style={{ flex: 1, height: '1px', backgroundColor: '#ccc' }}></div>
                 <p style={{ margin: '0 10px', color: '#F6EFDC' }}>or</p>
                 <div style={{ flex: 1, height: '1px', backgroundColor: '#ccc' }}></div>
               </div>
-              
+
               <button type="button" className="register-btn bg-light text-success" onClick={handleGuestSignIn}>
                 Sign in as Guest
               </button>
