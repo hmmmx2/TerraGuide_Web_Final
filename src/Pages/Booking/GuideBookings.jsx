@@ -658,6 +658,7 @@ export default function GuideBookings() {
                     <th>Booking ID</th>
                     <th>Guest Name</th>
                     <th>Date</th>
+                    <th>Message</th>
                     <th>Status</th>
                   </tr>
                 </thead>
@@ -667,6 +668,7 @@ export default function GuideBookings() {
                       <td>{booking.booking_id}</td>
                       <td>{booking.guest_name}</td>
                       <td>{formatDate(booking.booking_date)}</td>
+                      <td>{booking.message ? booking.message : '-'}</td>
                       <td>
                         <span className={`badge ${getStatusBadgeClass(booking.status)}`}>
                           {booking.status ? booking.status.charAt(0).toUpperCase() + booking.status.slice(1) : 'Pending'}
@@ -739,6 +741,7 @@ export default function GuideBookings() {
                       <th>Guest Name</th>
                       <th>Contact</th>
                       <th>Date</th>
+                      <th>Message</th>
                       <th className="text-center">Status</th>
                       <th className="text-center">Actions</th>
                     </tr>
@@ -750,6 +753,7 @@ export default function GuideBookings() {
                         <td>{booking.guest_name}</td>
                         <td>{booking.contact_number}</td>
                         <td>{formatDate(booking.booking_date)}</td>
+                        <td>{booking.message ? booking.message : '-'}</td>
                         <td className="text-center">
                           <span className={`badge ${getStatusBadgeClass(booking.status)} px-3 py-2`}>
                             {booking.status ? booking.status.charAt(0).toUpperCase() + booking.status.slice(1) : 'Unknown'}
